@@ -1,5 +1,5 @@
 # TileMatchingGame
-Tile Matching Game inspired by Puyo Puyo
+Tile Matching Game inspired by [Puyo Puyo](https://www.youtube.com/watch?v=YJjRJ_4gcUw)
 
 ### 0th iteration: 1 estimated day (last day: 20th of May)
 * [x] schedule and task list

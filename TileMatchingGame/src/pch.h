@@ -4,8 +4,14 @@
 #include <SDL.h>
 #include <SDL_image.h>
 
-// STL
+// STL containers
 #include <memory>
+#include <vector>
+#include <map>
 
 // I/O
 #include <iostream>
+
+// others
+#include <functional>
+#include <algorithm>

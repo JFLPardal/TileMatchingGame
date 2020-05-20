@@ -1,22 +1,39 @@
 #include "pch.h"
 
-bool Init();
-std::unique_ptr<SDL_Surface, decltype(&SDL_FreeSurface)> LoadImage();
-void Close();
+#include "EventHandler.h"
+#include "Enums.h"
 
 std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)>	window(nullptr, SDL_DestroyWindow);
-std::unique_ptr<SDL_Surface, decltype(&SDL_FreeSurface)>	imageSurface(nullptr, SDL_FreeSurface);
 SDL_Surface* screenSurface = nullptr;
 
+bool Init();
+void Close();
+
+struct EventData
+{
+	int x = 2, y = 3;
+};
+
+void Print(void* a, void* b)
+{
+	printf("event triggered %d \n", static_cast<EventData*>(a)->x);
+}
 
 int main(int argc, char* args[])
 {
-	if (Init())
+	Init();
+	EventHandler eventHandler;
+	eventHandler.SubscribeToEvent(UserEventType::testType, &Print);
+	
+	SDL_Event customEvent;
+	customEvent.type = SDL_USEREVENT;
+	customEvent.user.code = (Sint32) UserEventType::testType;
+	EventData data;
+	customEvent.user.data1 = &data;
+	SDL_PushEvent(&customEvent);
+	while (true)
 	{
-		imageSurface = LoadImage();
-		SDL_BlitSurface(imageSurface.get(), NULL, screenSurface, NULL);
-		SDL_UpdateWindowSurface(window.get());
-		SDL_Delay(2000);
+		eventHandler.ProcessEvents();
 	}
 	Close();
 	return 0;
@@ -40,7 +57,6 @@ bool Init()
 			SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 100, 0, 200));
 			SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 100, 0, 200));
 			SDL_UpdateWindowSurface(window.get());
-			//SDL_Delay(2000);
 		}
 		else
 		{
@@ -51,25 +67,6 @@ bool Init()
 	return success;
 }
 
-std::unique_ptr<SDL_Surface, decltype(&SDL_FreeSurface)> LoadImage()
-{
-	std::unique_ptr<SDL_Surface, decltype(&SDL_FreeSurface)> optimizedSurface(nullptr, SDL_FreeSurface);
-
-	imageSurface.reset(IMG_Load("player_sheet.png"));
-
-	if (imageSurface == nullptr)
-	{
-		printf("no image %s\n", SDL_GetError());
-	}
-	else
-	{
-		optimizedSurface.reset(SDL_ConvertSurface(imageSurface.get(), screenSurface->format, 0));
-		if (optimizedSurface == nullptr)
-			printf("Unable to optimize image. SDL Error: %s", SDL_GetError());
-	}
-
-	return std::move(optimizedSurface);
-}
 
 void Close()
 {

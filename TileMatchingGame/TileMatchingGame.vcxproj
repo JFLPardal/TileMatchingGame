@@ -166,6 +166,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Rect.cpp" />
+    <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\EventHandler.cpp" />
     <ClCompile Include="src\EventTest.cpp" />
     <ClCompile Include="src\Game.cpp" />
@@ -180,6 +182,8 @@
     <ClCompile Include="src\Piece.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Rect.h" />
+    <ClInclude Include="src\Renderer.h" />
     <ClInclude Include="src\Constants.h" />
     <ClInclude Include="src\Enums.h" />
     <ClInclude Include="src\EventCallback.h" />

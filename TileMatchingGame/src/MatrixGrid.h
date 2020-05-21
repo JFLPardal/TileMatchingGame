@@ -14,6 +14,8 @@ class MatrixGrid : public IGridRepresentation
 public:
 	MatrixGrid();
 	~MatrixGrid();
+
+	void Draw(Renderer* renderer) override;
 private:
 	void InitGrid();
 

@@ -6,9 +6,9 @@ Tile Matching Game inspired by [Puyo Puyo](https://www.youtube.com/watch?v=YJjRJ
 * [x] gitHub
 * [x] project settings
 * [x] precompiled header
-* [ ] cap framerate
-* [ ] time count
-* [ ] event system
+* [x] cap framerate
+* [x] time count
+* [x] event system
 
 ### 1st iteration: 1 estimated day (last day: 21st of May)
 * [ ] grid 8 * 16 is created
@@ -42,7 +42,7 @@ Tile Matching Game inspired by [Puyo Puyo](https://www.youtube.com/watch?v=YJjRJ
 * [ ] show what the next pair will be
 * [ ] display victory and lose text (lessons 16)
 * [ ] use particles when a group is destroyed (lesson 38)
-* [ ] sounds for group, pair spawned, pair placed
+* [ ] sounds for group, pair spawned, pair placed (lesson 21)
 * [ ] make menu with start game and exit buttons
 * [ ] if the player loses, send him to the menu
 * [ ] display combo counter

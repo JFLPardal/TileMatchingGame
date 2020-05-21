@@ -2,38 +2,32 @@
 
 #include "EventHandler.h"
 #include "Enums.h"
+#include "EventTest.h" // TODO delete this include
 
-std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)>	window(nullptr, SDL_DestroyWindow);
+std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)> window(nullptr, SDL_DestroyWindow);
 SDL_Surface* screenSurface = nullptr;
 
 bool Init();
 void Close();
 
-struct EventData
-{
-	int x = 2, y = 3;
-};
-
-void Print(void* a, void* b)
-{
-	printf("event triggered %d \n", static_cast<EventData*>(a)->x);
-}
-
 int main(int argc, char* args[])
 {
 	Init();
-	EventHandler eventHandler;
-	eventHandler.SubscribeToEvent(UserEventType::testType, &Print);
 	
+	EventTest eventTest;
+	EventTest eventTest2;
+
 	SDL_Event customEvent;
 	customEvent.type = SDL_USEREVENT;
 	customEvent.user.code = (Sint32) UserEventType::testType;
 	EventData data;
 	customEvent.user.data1 = &data;
 	SDL_PushEvent(&customEvent);
+
+
 	while (true)
 	{
-		eventHandler.ProcessEvents();
+		EventHandler::ProcessEvents();
 	}
 	Close();
 	return 0;

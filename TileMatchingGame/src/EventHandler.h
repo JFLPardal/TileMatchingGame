@@ -1,22 +1,33 @@
 #pragma once
 #include "Enums.h"
-/*
-	EventHandler is responsible for dispatching events to
-	the entities that will take care of them.
+#include "EventCallback.h"
 
-	It provides a way for any class to subscribe to a given event
-	by informing the EventHandler of what function should be called
-	when that event is triggered.
+/*
+	EventHandler is responsible for storing the callbacks for each type 
+	of event that is processed by the game, wheter that is a SDL event or 
+	a user defined event.
+
+	When an event is processed and there are callbacks for that event,
+	those callbacks are triggered.
 */
 
 class EventHandler
 {
 public:
-	void SubscribeToEvent(SDL_EventType EventType, std::function<void(void*, void*)> callbackFunction);
-	void SubscribeToEvent(UserEventType EventType, std::function<void(void*, void*)> callbackFunction);
+	static void SubscribeToEvent(SDL_EventType EventType, std::function<void(void*, void*)> callbackFunction);
+	static void SubscribeToEvent(UserEventType userEventType, std::function<void(void*, void*)> callbackFunction);
+	static void ProcessEvents();
 
-	void ProcessEvents();
+	EventHandler(const EventHandler&) = delete;
+	EventHandler& operator=(const EventHandler&) = delete;
 private:
-	std::map<UserEventType, std::unique_ptr<std::vector<std::function<void(void*, void*)>>>> m_TriggerUserEvent;
-	std::map<SDL_EventType, std::unique_ptr<std::vector<std::function<void(void*, void*)>>>> m_TriggerEvent;
+	EventHandler() {};
+	static EventHandler& Get();
+
+	void SubscribeToEventImpl(SDL_EventType EventType, std::function<void(void*, void*)> callbackFunction);
+	void SubscribeToEventImpl(UserEventType userEventType, std::function<void(void*, void*)> callbackFunction);
+	void ProcessEventsImpl();
+
+	EventCallback<UserEventType> m_TriggerUserEvent;
+	EventCallback<SDL_EventType> m_TriggerEvent;
 };

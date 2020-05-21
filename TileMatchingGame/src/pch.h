@@ -7,6 +7,7 @@
 // STL containers
 #include <memory>
 #include <vector>
+#include <array>
 #include <map>
 
 // I/O

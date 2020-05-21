@@ -32,8 +32,9 @@ void EventHandler::ProcessEventsImpl()
 		}
 		else if (eventToProcess.type == SDL_QUIT)
 		{
-			m_TriggerEvent.TriggerEvent(eventToProcess);
+			SDL_Quit(); // TODO change this to call QuitGame on Game
 		}
+		//m_TriggerEvent.TriggerEvent(eventToProcess);
 	}
 }
 

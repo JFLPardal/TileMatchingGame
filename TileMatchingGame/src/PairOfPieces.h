@@ -19,11 +19,11 @@ public:
 	void Update(Uint32 msSinceLastUpdate);
 	void Draw(Renderer* renderer);
 
-	inline const Vector2& GetScreenPos() { return m_ScreenPosition; }
+	inline const Vector2& GetScreenPos() { return m_screenPositions.at(0); }
 
 	std::unique_ptr<Piece> AddFirstPieceToBoard();
 	std::unique_ptr<Piece> AddSecondPieceToBoard();
 private:
 	std::array<std::unique_ptr<Piece>, 2> m_pair;
-	Vector2 m_ScreenPosition{ Consts::PAIR_INIT_X, Consts::PAIR_INIT_Y };
+	std::array<Vector2, 2> m_screenPositions;
 };

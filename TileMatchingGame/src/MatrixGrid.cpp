@@ -23,6 +23,8 @@ void MatrixGrid::InitGrid()
 
 void MatrixGrid::Update(std::unique_ptr<PairOfPieces> pieceToAdd)
 {
+	// this requires that the piece movement is done by piece and not by pair
+	// if availability of both column is different, continue to update the piece with lowest y
 	m_columnAvailability->UpdateColumnAvailability(ScreenToGridPosition(pieceToAdd->GetScreenPos()));
 	AddPieceToGrid(std::move(pieceToAdd));
 }

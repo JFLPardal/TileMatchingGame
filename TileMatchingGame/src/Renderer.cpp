@@ -1,8 +1,9 @@
 #include "pch.h"
 #include "Renderer.h"
-
 #include "Constants.h"
+
 #include "Rect.h"
+#include "Vector2.h"
 
 auto Renderer::LoadTexture(const std::string& aTexturePath)
 {
@@ -39,12 +40,16 @@ void Renderer::Display()
 	SDL_RenderPresent(m_renderer.get());
 }
 
-
 void Renderer::Draw(Rect* aTextureRect, int aScreenPosX, int aScreenPosY)
 {
 	SDL_Rect screenPosAndSize{ aScreenPosX, aScreenPosY, Consts::PIECE_W,Consts::PIECE_H };
-	SDL_Rect dsa = aTextureRect->GetAsSDLRect();
-	SDL_RenderCopy(m_renderer.get(), m_texture.get(), &dsa, &screenPosAndSize);
+	SDL_Rect spriteSheetTexture = aTextureRect->GetAsSDLRect();
+	SDL_RenderCopy(m_renderer.get(), m_texture.get(), &spriteSheetTexture, &screenPosAndSize);
+}
+
+void Renderer::Draw(Rect* textureRect, const Vector2& screenPos)
+{
+	Draw(textureRect, screenPos.X(), screenPos.Y());
 }
 
 void Renderer::InitRenderer(SDL_Window* const aWindow)

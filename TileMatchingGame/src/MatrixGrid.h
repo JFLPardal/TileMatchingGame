@@ -7,7 +7,7 @@
 	MatrixGrid represents the grid as a matrix (array of arrays)
 */
 
-class Piece;
+class PairOfPieces;
 
 class MatrixGrid : public IGridRepresentation
 {
@@ -16,6 +16,9 @@ public:
 	~MatrixGrid();
 
 	void Draw(Renderer* renderer) override;
+
+	//void AddPieceToGrid(std::unique_ptr<PairOfPieces> pieceToAdd, PieceToAccess pieceToAccess) override;
+	void AddPieceToGrid(std::unique_ptr<PairOfPieces> pieceToAdd) override;
 private:
 	void InitGrid();
 

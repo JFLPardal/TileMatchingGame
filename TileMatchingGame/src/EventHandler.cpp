@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "EventHandler.h"
-
 #include "Enums.h"
 
 EventHandler& EventHandler::Get()

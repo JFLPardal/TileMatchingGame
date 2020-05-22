@@ -1,11 +1,12 @@
 #include "pch.h"
 #include "Game.h"
-
-#include "EventTest.h"
 #include "Enums.h"
 #include "Constants.h"
+
+#include "EventTest.h"
 #include "MatrixGrid.h"
 #include "Renderer.h"
+#include "PairOfPieces.h"
 
 void EventTesting();
 
@@ -37,15 +38,34 @@ void Game::InitRenderer()
 	m_renderer = std::make_unique<Renderer>(m_window.get());
 }
 
+void Game::SpawnPairOfPieces()
+{
+	// TODO change this to get a pair in a more sophisticated way
+	m_currenPair = std::make_unique<PairOfPieces>();
+}
+
 void Game::Update(Uint32 msSinceLastUpdate)
 {
+	// spawn a pair
+	if(m_currenPair == nullptr)
+		SpawnPairOfPieces();
+	else
+	{
+		// update position of current pair until if reachs the bottom
+		if (m_currenPair->GetScreenPos().Y() < Consts::GRID_BOTTOM_POS - Consts::PIECE_H)
+			m_currenPair->Update(msSinceLastUpdate);
+		// when it does, move ownership of the pieces from the pair to the grid
+		else
+			m_grid->AddPieceToGrid(std::move(m_currenPair));
+	}
 }
 
 void Game::Draw()
 {
-	m_renderer.get()->ClearScreen();
+	m_renderer->ClearScreen();
 	m_grid->Draw(m_renderer.get());
-	m_renderer.get()->Display();
+	if(m_currenPair != nullptr) m_currenPair->Draw(m_renderer.get());
+	m_renderer->Display();
 }
 
 Game::~Game()

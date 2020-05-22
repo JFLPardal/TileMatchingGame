@@ -1,5 +1,4 @@
 #pragma once
-
 /*
 	Renderer is responsible for wrapping the rendering provided
 	by SDL as well as rendering the game
@@ -7,6 +6,7 @@
 
 class IGridRepresentation;
 class Rect;
+class Vector2;
 
 class Renderer
 {
@@ -14,7 +14,8 @@ public:
 	Renderer(SDL_Window* const window);
 
 	void ClearScreen();
-	void Draw(Rect* aTextureRect, int aScreenPosX, int aScreenPosY);
+	void Draw(Rect* textureRect, int screenPosX, int screenPosY);
+	void Draw(Rect* textureRect, const Vector2& screenPos);
 	void Display();
 
 	Renderer(const Renderer&) = delete;

@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Piece.h"
-
 #include "Constants.h"
+
 #include "Rect.h"
 
 Piece::Piece()

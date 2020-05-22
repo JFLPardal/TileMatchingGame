@@ -11,14 +11,15 @@ Tile Matching Game inspired by [Puyo Puyo](https://www.youtube.com/watch?v=YJjRJ
 * [x] event system
 
 ### 1st iteration: 1 estimated day (last day: 21st of May)
-* [ ] grid 8 * 16 is created
-* [ ] pieces/grid are being drawn
-* [ ] pairs are being spawned when another pair is placed
-* [ ] pairs go down the screen and they stop when they reach the bottom
-* [ ] pieces are visually in the right grid position
+* [x] grid 8 * 16 is created
+* [x] pieces/grid are being drawn
+* [x] pairs go down the screen and they stop when they reach the bottom
+* [x] pieces are visually in the right grid position
+* [x] pairs are being spawned when another pair is placed
+* [ ] pairs stack
 * [ ] player can move pairs with keyboard (lessons 4 and 18)
 * [ ] movement of pair is restricted by board boundaries
-* [ ] pieces stack, pairs can split
+* [ ] pairs can split
 
 ### 2nd iteration: 3 estimated days (last day: 24th of May)
 * [ ] 4 different pieces

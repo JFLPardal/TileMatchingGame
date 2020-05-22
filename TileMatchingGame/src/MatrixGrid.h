@@ -8,6 +8,7 @@
 */
 
 class PairOfPieces;
+class ColumnAvailability;
 
 class MatrixGrid : public IGridRepresentation
 {
@@ -15,12 +16,15 @@ public:
 	MatrixGrid();
 	~MatrixGrid();
 
-	void Draw(Renderer* renderer) override;
+	void Draw(Renderer* renderer) const override;
+	void Update(std::unique_ptr<PairOfPieces> pieceToAdd) override;
 
-	//void AddPieceToGrid(std::unique_ptr<PairOfPieces> pieceToAdd, PieceToAccess pieceToAccess) override;
-	void AddPieceToGrid(std::unique_ptr<PairOfPieces> pieceToAdd) override;
+	bool IsFreeInPosition(const Vector2& screenPos) const override;
 private:
 	void InitGrid();
 
-	std::array<std::array<std::unique_ptr<Piece>, Consts::GRID_H>, Consts::GRID_W> m_grid;
+	void AddPieceToGrid(std::unique_ptr<PairOfPieces> pieceToAdd) override;
+
+	std::array<std::array<std::unique_ptr<Piece>, Consts::NUM_PIECES_H>, Consts::NUM_PIECES_W> m_grid;
+	std::unique_ptr<ColumnAvailability> m_columnAvailability;
 };

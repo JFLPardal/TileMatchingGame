@@ -46,17 +46,14 @@ void Game::SpawnPairOfPieces()
 
 void Game::Update(Uint32 msSinceLastUpdate)
 {
-	// spawn a pair
 	if(m_currenPair == nullptr)
 		SpawnPairOfPieces();
 	else
 	{
-		// update position of current pair until if reachs the bottom
-		if (m_currenPair->GetScreenPos().Y() < Consts::GRID_BOTTOM_POS - Consts::PIECE_H)
+		if(m_grid->IsFreeInPosition(m_currenPair->GetScreenPos()))
 			m_currenPair->Update(msSinceLastUpdate);
-		// when it does, move ownership of the pieces from the pair to the grid
 		else
-			m_grid->AddPieceToGrid(std::move(m_currenPair));
+			m_grid->Update(std::move(m_currenPair));
 	}
 }
 

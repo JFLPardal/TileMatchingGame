@@ -166,6 +166,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\ColumnAvailability.cpp" />
     <ClCompile Include="src\PairOfPieces.cpp" />
     <ClCompile Include="src\Rect.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
@@ -181,9 +182,11 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\Piece.cpp" />
+    <ClCompile Include="src\Utils.cpp" />
     <ClCompile Include="src\Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\ColumnAvailability.h" />
     <ClInclude Include="src\PairOfPieces.h" />
     <ClInclude Include="src\Rect.h" />
     <ClInclude Include="src\Renderer.h" />

@@ -11,3 +11,9 @@ enum class PieceToAccess
 	second, 
 	both
 };
+
+enum class CoordToConvert
+{
+	x, 
+	y
+};

@@ -19,18 +19,18 @@ namespace Consts
 	constexpr int WINDOW_W = 768;
 	constexpr int WINDOW_H = 1024;
 
-	// grid dimensions
-	constexpr int GRID_W = 8;
-	constexpr int GRID_H = 16;
+	// number of pieces that the grid has
+	constexpr int NUM_PIECES_W = 8;
+	constexpr int NUM_PIECES_H = 16;
 	
 	// grid starting pos
-	constexpr int GRID_INIT_X = WINDOW_W * 0.5f - PIECE_W * (GRID_W * 0.5f);
+	constexpr int GRID_INIT_X = WINDOW_W * 0.5f - PIECE_W * (NUM_PIECES_W * 0.5f);
 	constexpr int GRID_INIT_Y = WINDOW_H * 0.15f;
 
 	//grid additional
-	constexpr int GRID_BOTTOM_POS = GRID_H * PIECE_H + GRID_INIT_Y;
+	constexpr int GRID_BOTTOM_POS = NUM_PIECES_H * PIECE_H + GRID_INIT_Y;
 	
-	constexpr int PAIR_INIT_X = GRID_INIT_X + (GRID_W * 0.5f - 1)* PIECE_W;
+	constexpr int PAIR_INIT_X = GRID_INIT_X + (NUM_PIECES_W * 0.5f - 1)* PIECE_W;
 	constexpr int PAIR_INIT_Y = GRID_INIT_Y;
 	
 	// framerate

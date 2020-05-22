@@ -10,9 +10,6 @@ PairOfPieces::PairOfPieces()
 		piece = std::make_unique<Piece>();
 }
 
-// needed on the cpp because of the forward decl of Piece
-PairOfPieces::~PairOfPieces() = default;
-
 void PairOfPieces::Update(Uint32 aMsSinceLastUpdate)
 {
 	m_ScreenPosition.UpdateY(.25f * aMsSinceLastUpdate);
@@ -33,3 +30,6 @@ std::unique_ptr<Piece> PairOfPieces::AddSecondPieceToBoard()
 {
 	return std::move(m_pair.at(1));
 }
+
+// needed on the cpp because of the forward decl of Piece
+PairOfPieces::~PairOfPieces() = default;

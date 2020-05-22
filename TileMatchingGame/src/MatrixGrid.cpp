@@ -5,10 +5,13 @@
 #include "Renderer.h"
 #include "PairOfPieces.h"
 #include "Utils.h"
+#include "ColumnAvailability.h"
 
 MatrixGrid::MatrixGrid()
+	: m_columnAvailability(std::make_unique< ColumnAvailability>())
 {
 	InitGrid();
+	m_columnAvailability->InitColumnAvailability(m_grid.at(0).size() - 1);
 }
 
 void MatrixGrid::InitGrid()
@@ -16,7 +19,17 @@ void MatrixGrid::InitGrid()
 	for (auto& column : m_grid)
 		for (auto& piece : column)
 			piece = nullptr; //std::make_unique<Piece>();//nullptr;
+}
 
+void MatrixGrid::Update(std::unique_ptr<PairOfPieces> pieceToAdd)
+{
+	m_columnAvailability->UpdateColumnAvailability(ScreenToGridPosition(pieceToAdd->GetScreenPos()));
+	AddPieceToGrid(std::move(pieceToAdd));
+}
+
+bool MatrixGrid::IsFreeInPosition(const Vector2& aScreenPos) const
+{
+	return aScreenPos.Y() < m_columnAvailability->AvailableLineForColumn(aScreenPos.X());
 }
 
 void MatrixGrid::AddPieceToGrid(std::unique_ptr<PairOfPieces> pieceToAdd)
@@ -27,7 +40,7 @@ void MatrixGrid::AddPieceToGrid(std::unique_ptr<PairOfPieces> pieceToAdd)
 	m_grid.at(pieceGridPosition.X() + 1).at(pieceGridPosition.Y()) = pieceToAdd->AddSecondPieceToBoard();
 }
 
-void MatrixGrid::Draw(Renderer* renderer)
+void MatrixGrid::Draw(Renderer* renderer) const
 {
 	for (auto x = 0; x < m_grid.size(); x++)
 	{

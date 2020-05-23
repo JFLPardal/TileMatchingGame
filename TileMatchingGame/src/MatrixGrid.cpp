@@ -40,6 +40,7 @@ bool MatrixGrid::IsFreeInPosition(const PairPosition& aScreenPos) const
 void MatrixGrid::TransferPairOwnershipToGrid(std::unique_ptr<PairOfPieces> pieceToAdd)
 {
 	m_lastPairAddedToGrid = std::move(pieceToAdd);
+	m_lastPairAddedToGrid->DisableInput();
 }
 
 void MatrixGrid::Draw(Renderer* aRenderer) const

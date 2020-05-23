@@ -3,6 +3,7 @@
 
 #include "Piece.h"
 #include "Renderer.h"
+#include "EventHandler.h"
 
 PairOfPieces::PairOfPieces()
 	:m_pairPosition(PairPosition(*m_pair.at(0), *m_pair.at(1)))
@@ -27,6 +28,8 @@ PairOfPieces::PairOfPieces()
 	/////////////////////////////////////
 
 	m_pairPosition = PairPosition(*m_pair.at(0), *m_pair.at(1));
+	EventHandler::SubscribeToEvent(SDL_KEYDOWN, 
+				std::function<void(void*, void*)>(std::bind(&PairOfPieces::MovePairToTheSide, this, std::placeholders::_1, std::placeholders::_2)));
 }
 
 void PairOfPieces::Update(Uint32 aMsSinceLastUpdate, PairAcessPiece aPieceToUpdate)
@@ -75,6 +78,24 @@ std::unique_ptr<Piece> PairOfPieces::AddFirstPieceToBoard()
 std::unique_ptr<Piece> PairOfPieces::AddSecondPieceToBoard()
 {
 	return std::move(m_pair.at(1));
+}
+
+void PairOfPieces::MovePairToTheSide(void* a, void* b)
+{
+	if (m_inputEnabled)
+	{
+		auto keyPressed = static_cast<SDL_KeyCode*>(a);
+		if (*keyPressed == SDL_KeyCode::SDLK_a)
+		{
+			for (auto& piece : m_pair)
+				piece->UpdateX(-Consts::PIECE_W);
+		}
+		else if (*keyPressed == SDL_KeyCode::SDLK_d)
+		{
+			for (auto& piece : m_pair)
+				piece->UpdateX(Consts::PIECE_W);
+		}
+	}
 }
 
 // needed on the cpp because of the forward decl of Piece

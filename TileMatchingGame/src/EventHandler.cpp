@@ -33,6 +33,13 @@ void EventHandler::ProcessEventsImpl()
 		{
 			SDL_Quit(); // TODO change this to call QuitGame on Game
 		}
+		else if (eventToProcess.type == SDL_KEYDOWN)
+		{
+			if (eventToProcess.key.keysym.sym == SDLK_a || eventToProcess.key.keysym.sym == SDLK_d)
+			{
+				m_TriggerEvent.TriggerEvent(eventToProcess);
+			}
+		}
 		//m_TriggerEvent.TriggerEvent(eventToProcess);
 	}
 }

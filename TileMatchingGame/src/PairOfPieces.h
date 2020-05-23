@@ -27,7 +27,12 @@ public:
 
 	std::unique_ptr<Piece> AddFirstPieceToBoard();
 	std::unique_ptr<Piece> AddSecondPieceToBoard();
+
+	void DisableInput() { m_inputEnabled = false; }
 private:
+	void MovePairToTheSide(void* a, void* b);
+	bool m_inputEnabled = true;
+
 	std::array<std::unique_ptr<Piece>, 2> m_pair;
 	PairPosition m_pairPosition;
 };

@@ -15,7 +15,7 @@ Game::Game()
 {
 	InitWindow();
 	InitRenderer();
-	EventTesting();
+	//EventTesting();
 	SpawnPairOfPieces();
 }
 

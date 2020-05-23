@@ -19,5 +19,9 @@ int ColumnAvailability::AvailableLineForColumn(int aXInScreenPos)
 void ColumnAvailability::UpdateColumnAvailability(const Vector2& columnToUpdate)
 {
 	m_columnAvailability.at(columnToUpdate.X())--;
-	m_columnAvailability.at(columnToUpdate.X() + 1)--;
+}
+
+bool ColumnAvailability::CheckIfPieceReachedColumnTop(const Vector2& aPieceScreenPosition)
+{
+	return aPieceScreenPosition.Y() >= AvailableLineForColumn(aPieceScreenPosition.X());
 }

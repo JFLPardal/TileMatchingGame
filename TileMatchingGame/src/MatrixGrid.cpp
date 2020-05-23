@@ -21,28 +21,28 @@ void MatrixGrid::InitGrid()
 			piece = nullptr; //std::make_unique<Piece>();//nullptr;
 }
 
-void MatrixGrid::Update(std::unique_ptr<PairOfPieces> pieceToAdd)
+bool MatrixGrid::LastPairHasBeenPlacedInGrid()
 {
-	// this requires that the piece movement is done by piece and not by pair
-	// if availability of both column is different, continue to update the piece with lowest y
-	m_columnAvailability->UpdateColumnAvailability(ScreenToGridPosition(pieceToAdd->GetScreenPos()));
-	AddPieceToGrid(std::move(pieceToAdd));
+	if (m_lastPairHasBeenPlaced)
+	{
+		m_lastPairHasBeenPlaced = false;
+		return true;
+	}
+	return false;
 }
 
-bool MatrixGrid::IsFreeInPosition(const Vector2& aScreenPos) const
+bool MatrixGrid::IsFreeInPosition(const PairPosition& aScreenPos) const
 {
-	return aScreenPos.Y() < m_columnAvailability->AvailableLineForColumn(aScreenPos.X());
+	return aScreenPos.FirstPiecePos().Y() < m_columnAvailability->AvailableLineForColumn(aScreenPos.FirstPiecePos().X()) 
+		&& aScreenPos.SecondPiecePos().Y() < m_columnAvailability->AvailableLineForColumn(aScreenPos.SecondPiecePos().X());
 }
 
-void MatrixGrid::AddPieceToGrid(std::unique_ptr<PairOfPieces> pieceToAdd)
+void MatrixGrid::TransferPairOwnershipToGrid(std::unique_ptr<PairOfPieces> pieceToAdd)
 {
-	// calculate grid position based on screen position (?) use another more efficient way that was implemented
-	Vector2 pieceGridPosition = ScreenToGridPosition(pieceToAdd->GetScreenPos());
-	m_grid.at(pieceGridPosition.X()).at(pieceGridPosition.Y()) = pieceToAdd->AddFirstPieceToBoard();
-	m_grid.at(pieceGridPosition.X() + 1).at(pieceGridPosition.Y()) = pieceToAdd->AddSecondPieceToBoard();
+	m_lastPairAddedToGrid = std::move(pieceToAdd);
 }
 
-void MatrixGrid::Draw(Renderer* renderer) const
+void MatrixGrid::Draw(Renderer* aRenderer) const
 {
 	for (auto x = 0; x < m_grid.size(); x++)
 	{
@@ -50,12 +50,62 @@ void MatrixGrid::Draw(Renderer* renderer) const
 		{
 			if (m_grid.at(x).at(y) != nullptr)
 			{
-				renderer->Draw(m_grid.at(x).at(y)->GetTextureRect(),
+				aRenderer->Draw(m_grid.at(x).at(y)->GetTextureRect(),
 					m_visualStartingPoint.X() + x * Consts::PIECE_W,
 					m_visualStartingPoint.Y() + y * Consts::PIECE_H);
 			}
 		}
 	}
+	if (m_lastPairAddedToGrid != nullptr) m_lastPairAddedToGrid->Draw(aRenderer);
+}
+
+void MatrixGrid::Update(int msSinceLastUpdate)
+{
+	static bool firstPieceReachedColumnTop = true, secondPieceReachedColumnTop = true;
+
+	firstPieceReachedColumnTop = m_columnAvailability->CheckIfPieceReachedColumnTop(m_lastPairAddedToGrid->GetFirstPiecePos());
+	secondPieceReachedColumnTop = m_columnAvailability->CheckIfPieceReachedColumnTop(m_lastPairAddedToGrid->GetSecondPiecePos());
+	
+	if (firstPieceReachedColumnTop && secondPieceReachedColumnTop)
+	{
+		UpdateGridAndColumnAvailability();
+		m_lastPairHasBeenPlaced = true;
+		m_lastPairAddedToGrid = nullptr;
+	}
+	else if (firstPieceReachedColumnTop) //update second piece
+	{
+		m_lastPairAddedToGrid->Update(msSinceLastUpdate, PairAcessPiece::second);
+		if (m_columnAvailability->CheckIfPieceReachedColumnTop(m_lastPairAddedToGrid->GetSecondPiecePos()))
+		{
+			UpdateGridAndColumnAvailability();
+			m_lastPairHasBeenPlaced = true;
+			m_lastPairAddedToGrid = nullptr;
+		}
+	}
+	else // update first piece
+	{
+		m_lastPairAddedToGrid->Update(msSinceLastUpdate, PairAcessPiece::first);
+		if (m_columnAvailability->CheckIfPieceReachedColumnTop(m_lastPairAddedToGrid->GetFirstPiecePos()))
+		{
+			UpdateGridAndColumnAvailability();
+			m_lastPairHasBeenPlaced = true;
+			m_lastPairAddedToGrid = nullptr;
+		}
+	}
+}
+
+void MatrixGrid::UpdateGridAndColumnAvailability()
+{
+	const auto firstPiecePositionInGrid  = ScreenToGridPosition(m_lastPairAddedToGrid->GetFirstPiecePos());
+	const auto secondPiecePositionInGrid = ScreenToGridPosition(m_lastPairAddedToGrid->GetSecondPiecePos());
+
+	// add pieces the grid
+	m_grid.at(firstPiecePositionInGrid.X()).at(firstPiecePositionInGrid.Y())   = m_lastPairAddedToGrid->AddFirstPieceToBoard();
+	m_grid.at(secondPiecePositionInGrid.X()).at(secondPiecePositionInGrid.Y()) = m_lastPairAddedToGrid->AddSecondPieceToBoard();
+	
+	// updated column availability
+	m_columnAvailability->UpdateColumnAvailability(firstPiecePositionInGrid);
+	m_columnAvailability->UpdateColumnAvailability(secondPiecePositionInGrid);
 }
 
 // needed on the cpp because of the forward decl of Piece

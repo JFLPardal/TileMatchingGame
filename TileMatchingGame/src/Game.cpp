@@ -16,6 +16,7 @@ Game::Game()
 	InitWindow();
 	InitRenderer();
 	EventTesting();
+	SpawnPairOfPieces();
 }
 
 void Game::InitWindow()
@@ -46,14 +47,19 @@ void Game::SpawnPairOfPieces()
 
 void Game::Update(Uint32 msSinceLastUpdate)
 {
-	if(m_currenPair == nullptr)
+	if(m_currenPair == nullptr && m_grid->LastPairHasBeenPlacedInGrid())
 		SpawnPairOfPieces();
 	else
 	{
-		if(m_grid->IsFreeInPosition(m_currenPair->GetScreenPos()))
+		if (m_currenPair != nullptr && m_grid->IsFreeInPosition(m_currenPair->GetScreenPos()))
 			m_currenPair->Update(msSinceLastUpdate);
-		else
-			m_grid->Update(std::move(m_currenPair));
+		else // one of the pieces of the pair reached the bottom of the column
+		{
+			if (m_currenPair != nullptr)
+				m_grid->TransferPairOwnershipToGrid(std::move(m_currenPair));
+			else // update the piece that can move 
+				m_grid->Update(msSinceLastUpdate);
+		}
 	}
 }
 

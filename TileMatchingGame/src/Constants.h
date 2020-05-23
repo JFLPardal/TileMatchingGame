@@ -30,7 +30,9 @@ namespace Consts
 	//grid additional
 	constexpr int GRID_BOTTOM_POS = NUM_PIECES_H * PIECE_H + GRID_INIT_Y;
 	
+	// pair starting pos
 	constexpr int PAIR_INIT_X = GRID_INIT_X + (NUM_PIECES_W * 0.5f - 1)* PIECE_W;
+	//constexpr int PAIR_INIT_X = GRID_INIT_X + (NUM_PIECES_W * 0.5f - 3)* PIECE_W;
 	constexpr int PAIR_INIT_Y = GRID_INIT_Y;
 	
 	// framerate

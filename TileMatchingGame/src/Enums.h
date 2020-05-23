@@ -5,15 +5,15 @@ enum class UserEventType : Sint32
 	testType
 };
 
-enum class PieceToAccess
-{
-	first, 
-	second, 
-	both
-};
-
 enum class CoordToConvert
 {
 	x, 
 	y
+};
+
+enum class PairAcessPiece
+{
+	first,
+	second,
+	both
 };

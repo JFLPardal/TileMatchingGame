@@ -5,31 +5,66 @@
 #include "Renderer.h"
 
 PairOfPieces::PairOfPieces()
+	:m_pairPosition(PairPosition(*m_pair.at(0), *m_pair.at(1)))
 {
 	for (auto& piece : m_pair)
 		piece = std::make_unique<Piece>();
-	for (auto i = 0; i < m_screenPositions.size(); i++)
-		m_screenPositions.at(i) = Vector2(Consts::PAIR_INIT_X + i * Consts::PIECE_W, Consts::PAIR_INIT_Y);
-	
-	static int spawned = 0;
-	if (spawned <= 2)
+	m_pair.at(1)->SetAsSecondInPair();
+
+	// TODO add the const to Piece::GetScreenPos()
+	static int pairsSpawned = 0;
+	if (pairsSpawned <= 2)
 	{
-		for (auto i = 0; i < m_screenPositions.size(); i++)
-			m_screenPositions.at(i).UpdateX(spawned * Consts::PIECE_W);
-		spawned++;
+		m_pair.at(0)->UpdateX(Consts::PIECE_W * pairsSpawned);
+		m_pair.at(1)->UpdateX(Consts::PIECE_W * pairsSpawned);
 	}
+	else if(pairsSpawned <= 4)
+	{
+		m_pair.at(0)->UpdateX(-Consts::PIECE_W* (pairsSpawned-3));
+		m_pair.at(1)->UpdateX(-Consts::PIECE_W* (pairsSpawned-3));
+	}
+	pairsSpawned++;
+	/////////////////////////////////////
+
+	m_pairPosition = PairPosition(*m_pair.at(0), *m_pair.at(1));
 }
 
-void PairOfPieces::Update(Uint32 aMsSinceLastUpdate)
+void PairOfPieces::Update(Uint32 aMsSinceLastUpdate, PairAcessPiece aPieceToUpdate)
 {
-	for (auto i = 0; i < m_screenPositions.size(); i++)
-		m_screenPositions.at(i).UpdateY(.25f * aMsSinceLastUpdate);
+	switch (aPieceToUpdate)
+	{
+	case PairAcessPiece::first:
+		m_pair.at(0)->Update(aMsSinceLastUpdate);
+		break;
+	case PairAcessPiece::second:
+		m_pair.at(1)->Update(aMsSinceLastUpdate);
+		break;
+	case PairAcessPiece::both:
+		for (auto& piece : m_pair)
+			piece->Update(aMsSinceLastUpdate);
+		break;
+	}
 }
 
 void PairOfPieces::Draw(Renderer* aRenderer)
 {
-	for (auto i = 0; i < m_screenPositions.size(); i++)
-		aRenderer->Draw(m_pair.at(i)->GetTextureRect(), m_screenPositions.at(i));
+	for (auto& piece : m_pair)
+		piece->Draw(aRenderer);
+}
+
+const Vector2& PairOfPieces::GetFirstPiecePos() const
+{
+	return m_pairPosition.FirstPiecePos();
+}
+
+const Vector2& PairOfPieces::GetSecondPiecePos() const
+{
+	return m_pairPosition.SecondPiecePos();
+}
+
+const PairPosition& PairOfPieces::GetScreenPos() const
+{
+	return m_pairPosition;
 }
 
 std::unique_ptr<Piece> PairOfPieces::AddFirstPieceToBoard()

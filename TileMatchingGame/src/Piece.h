@@ -1,5 +1,6 @@
 #pragma once
 #include "Vector2.h"
+#include "Enums.h"
 
 /*
 	Piece represents (...)
@@ -16,8 +17,7 @@ public:
 	void Update(int msSinceLastUpdate);
 	void Draw(Renderer* aRenderer);
 
-	// TODO delete this after 'automatic' positions in spawner is removed
-	void UpdateX(int increment) { m_screenPosition.UpdateX(increment); }
+	void Move(MoveDirection directionToMove);
 
 	const Vector2& GetScreenPos() const { return m_screenPosition; }
 	Rect* GetTextureRect() const { return m_textureRect.get(); }

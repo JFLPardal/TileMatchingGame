@@ -23,16 +23,19 @@ namespace Consts
 	constexpr int NUM_PIECES_W = 8;
 	constexpr int NUM_PIECES_H = 16;
 	
+	// pair move increment
+	constexpr int MOVE_INCREMENT = PIECE_W;
+
 	// grid starting pos
 	constexpr int GRID_INIT_X = WINDOW_W * 0.5f - PIECE_W * (NUM_PIECES_W * 0.5f);
 	constexpr int GRID_INIT_Y = WINDOW_H * 0.15f;
 
-	//grid additional
+	//grid final pos
+	constexpr int GRID_FINAL_X = GRID_INIT_X + NUM_PIECES_W * PIECE_W;
 	constexpr int GRID_BOTTOM_POS = NUM_PIECES_H * PIECE_H + GRID_INIT_Y;
 	
 	// pair starting pos
 	constexpr int PAIR_INIT_X = GRID_INIT_X + (NUM_PIECES_W * 0.5f - 1)* PIECE_W;
-	//constexpr int PAIR_INIT_X = GRID_INIT_X + (NUM_PIECES_W * 0.5f - 3)* PIECE_W;
 	constexpr int PAIR_INIT_Y = GRID_INIT_Y;
 	
 	// framerate

@@ -30,7 +30,9 @@ public:
 
 	void DisableInput() { m_inputEnabled = false; }
 private:
-	void MovePairToTheSide(void* a, void* b);
+	void MovePairToTheSide(SDL_Event& event);
+	bool CanMoveLeft() const;
+	bool CanMoveRight() const;
 	bool m_inputEnabled = true;
 
 	std::array<std::unique_ptr<Piece>, 2> m_pair;

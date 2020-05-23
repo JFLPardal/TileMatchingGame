@@ -21,6 +21,12 @@ void Piece::Draw(Renderer* aRenderer)
 	aRenderer->Draw(GetTextureRect(), m_screenPosition);
 }
 
+void Piece::Move(MoveDirection directionToMove)
+{
+	if(directionToMove == MoveDirection::left)  m_screenPosition.UpdateX(-Consts::MOVE_INCREMENT);
+	if(directionToMove == MoveDirection::right) m_screenPosition.UpdateX(Consts::MOVE_INCREMENT);
+}
+
 void Piece::SetAsSecondInPair()
 {
 	// this increments the second piece's x one piece to the right side

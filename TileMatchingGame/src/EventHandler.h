@@ -14,8 +14,8 @@
 class EventHandler
 {
 public:
-	static void SubscribeToEvent(SDL_EventType EventType, std::function<void(void*, void*)> callbackFunction);
-	static void SubscribeToEvent(UserEventType userEventType, std::function<void(void*, void*)> callbackFunction);
+	static void SubscribeToEvent(SDL_EventType EventType, std::function<void(SDL_Event&)> callbackFunction);
+	static void SubscribeToEvent(UserEventType userEventType, std::function<void(SDL_Event&)> callbackFunction);
 	static void ProcessEvents();
 
 	EventHandler(const EventHandler&) = delete;
@@ -24,8 +24,8 @@ private:
 	EventHandler() {};
 	static EventHandler& Get();
 
-	void SubscribeToEventImpl(SDL_EventType EventType, std::function<void(void*, void*)> callbackFunction);
-	void SubscribeToEventImpl(UserEventType userEventType, std::function<void(void*, void*)> callbackFunction);
+	void SubscribeToEventImpl(SDL_EventType EventType, std::function<void(SDL_Event&)> callbackFunction);
+	void SubscribeToEventImpl(UserEventType userEventType, std::function<void(SDL_Event&)> callbackFunction);
 	void ProcessEventsImpl();
 
 	EventCallback<UserEventType> m_TriggerUserEvent;

@@ -3,7 +3,6 @@
 #include "Enums.h"
 #include "Constants.h"
 
-#include "EventTest.h"
 #include "MatrixGrid.h"
 #include "Renderer.h"
 #include "PairOfPieces.h"
@@ -15,7 +14,6 @@ Game::Game()
 {
 	InitWindow();
 	InitRenderer();
-	//EventTesting();
 	SpawnPairOfPieces();
 }
 
@@ -75,19 +73,3 @@ Game::~Game()
 {
 	SDL_Quit();
 }
-
-void EventTesting()
-{
-	EventTest eventTest;
-	EventTest eventTest2;
-
-	// data is deleted when the function returns, so it never reachs the callback
-	// try to use RAII?
-	SDL_Event customEvent;
-	customEvent.type = SDL_USEREVENT;
-	customEvent.user.code = (Sint32)UserEventType::testType;
-	EventData data;
-	customEvent.user.data1 = &data;
-	SDL_PushEvent(&customEvent);
-}
-

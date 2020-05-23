@@ -11,6 +11,7 @@ class Piece;
 class PairPosition
 {
 public:
+	PairPosition();
 	PairPosition( Piece& piece1,  Piece& piece2);
 
 	const Vector2& FirstPiecePos() const { return *m_pairPosition.at(0); }

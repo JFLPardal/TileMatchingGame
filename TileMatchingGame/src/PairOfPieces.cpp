@@ -4,32 +4,18 @@
 #include "Piece.h"
 #include "Renderer.h"
 #include "EventHandler.h"
+#include "PairPosition.h"
 
 PairOfPieces::PairOfPieces()
-	:m_pairPosition(PairPosition(*m_pair.at(0), *m_pair.at(1)))
 {
 	for (auto& piece : m_pair)
 		piece = std::make_unique<Piece>();
+
 	m_pair.at(1)->SetAsSecondInPair();
-
-	// TODO add the const to Piece::GetScreenPos()
-	static int pairsSpawned = 0;
-	if (pairsSpawned <= 2)
-	{
-		m_pair.at(0)->UpdateX(Consts::PIECE_W * pairsSpawned);
-		m_pair.at(1)->UpdateX(Consts::PIECE_W * pairsSpawned);
-	}
-	else if(pairsSpawned <= 4)
-	{
-		m_pair.at(0)->UpdateX(-Consts::PIECE_W* (pairsSpawned-3));
-		m_pair.at(1)->UpdateX(-Consts::PIECE_W* (pairsSpawned-3));
-	}
-	pairsSpawned++;
-	/////////////////////////////////////
-
 	m_pairPosition = PairPosition(*m_pair.at(0), *m_pair.at(1));
+
 	EventHandler::SubscribeToEvent(SDL_KEYDOWN, 
-				std::function<void(void*, void*)>(std::bind(&PairOfPieces::MovePairToTheSide, this, std::placeholders::_1, std::placeholders::_2)));
+				std::function<void(SDL_Event&)>(std::bind(&PairOfPieces::MovePairToTheSide, this, std::placeholders::_1)));
 }
 
 void PairOfPieces::Update(Uint32 aMsSinceLastUpdate, PairAcessPiece aPieceToUpdate)
@@ -80,22 +66,40 @@ std::unique_ptr<Piece> PairOfPieces::AddSecondPieceToBoard()
 	return std::move(m_pair.at(1));
 }
 
-void PairOfPieces::MovePairToTheSide(void* a, void* b)
+void PairOfPieces::MovePairToTheSide(SDL_Event& aEvent)
 {
 	if (m_inputEnabled)
 	{
-		auto keyPressed = static_cast<SDL_KeyCode*>(a);
-		if (*keyPressed == SDL_KeyCode::SDLK_a)
+		auto keyPressed = aEvent.key.keysym.sym;
+		if (keyPressed == SDL_KeyCode::SDLK_a)
 		{
-			for (auto& piece : m_pair)
-				piece->UpdateX(-Consts::PIECE_W);
+			if (CanMoveLeft())
+				for (auto& piece : m_pair)
+					piece->Move(MoveDirection::left);// UpdateX(-Consts::PIECE_W);
 		}
-		else if (*keyPressed == SDL_KeyCode::SDLK_d)
+		else if (keyPressed == SDL_KeyCode::SDLK_d)
 		{
-			for (auto& piece : m_pair)
-				piece->UpdateX(Consts::PIECE_W);
+			if(CanMoveRight())
+				for (auto& piece : m_pair)
+					piece->Move(MoveDirection::right);
 		}
 	}
+}
+
+bool PairOfPieces::CanMoveRight() const
+{
+	const auto rightMostPieceX = (m_pairPosition.FirstPiecePos().X() > m_pairPosition.SecondPiecePos().X()) ?
+								m_pairPosition.FirstPiecePos().X() :
+								m_pairPosition.SecondPiecePos().X();
+	return (rightMostPieceX + Consts::PIECE_W < Consts::GRID_FINAL_X);
+}
+
+bool PairOfPieces::CanMoveLeft() const
+{
+	const auto leftMostPieceX = (m_pairPosition.FirstPiecePos().X() > m_pairPosition.SecondPiecePos().X()) ? 
+								m_pairPosition.SecondPiecePos().X() :
+								m_pairPosition.FirstPiecePos().X();
+	return (leftMostPieceX - Consts::PIECE_W >= Consts::GRID_INIT_X);
 }
 
 // needed on the cpp because of the forward decl of Piece

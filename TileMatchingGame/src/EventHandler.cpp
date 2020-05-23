@@ -8,13 +8,13 @@ EventHandler& EventHandler::Get()
 	return instance;
 }
 
-void EventHandler::SubscribeToEventImpl(SDL_EventType aEventType, std::function<void(void*, void*)> aCallbackFunction)
+void EventHandler::SubscribeToEventImpl(SDL_EventType aEventType, std::function<void(SDL_Event&)> aCallbackFunction)
 {
 	printf("subscribed to regular event\n");
 	m_TriggerEvent.SubscribeToEvent(aEventType, aCallbackFunction);
 }
 
-void EventHandler::SubscribeToEventImpl(UserEventType aEventType, std::function<void(void*, void*)> aCallbackFunction)
+void EventHandler::SubscribeToEventImpl(UserEventType aEventType, std::function<void(SDL_Event&)> aCallbackFunction)
 {
 	printf("subscribed to user type event\n");
 	m_TriggerUserEvent.SubscribeToEvent(aEventType, aCallbackFunction);
@@ -44,12 +44,12 @@ void EventHandler::ProcessEventsImpl()
 	}
 }
 
-void EventHandler::SubscribeToEvent(SDL_EventType aEventType, std::function<void(void*, void*)> aCallbackFunction)
+void EventHandler::SubscribeToEvent(SDL_EventType aEventType, std::function<void(SDL_Event&)> aCallbackFunction)
 {
 	Get().SubscribeToEventImpl(aEventType, aCallbackFunction);
 }
 
-void EventHandler::SubscribeToEvent(UserEventType userEventType, std::function<void(void*, void*)> aCallbackFunction)
+void EventHandler::SubscribeToEvent(UserEventType userEventType, std::function<void(SDL_Event&)> aCallbackFunction)
 {
 	Get().SubscribeToEventImpl(userEventType, aCallbackFunction);
 }

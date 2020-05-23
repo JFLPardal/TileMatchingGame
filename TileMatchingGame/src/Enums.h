@@ -17,3 +17,9 @@ enum class PairAcessPiece
 	second,
 	both
 };
+
+enum class MoveDirection
+{
+	left,
+	right
+};

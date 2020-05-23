@@ -172,7 +172,6 @@
     <ClCompile Include="src\Rect.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\EventHandler.cpp" />
-    <ClCompile Include="src\EventTest.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MatrixGrid.cpp" />
@@ -196,7 +195,6 @@
     <ClInclude Include="src\Enums.h" />
     <ClInclude Include="src\EventCallback.h" />
     <ClInclude Include="src\EventHandler.h" />
-    <ClInclude Include="src\EventTest.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\IGridRepresentation.h" />
     <ClInclude Include="src\MatrixGrid.h" />

@@ -12,7 +12,7 @@ int main(int argc, char* args[])
 	auto game = std::make_unique<Game>();
 	Uint32 frameStart = 0;
 	Uint32 lastUpdate = 0;
-
+	srand(time(NULL));
 	while (game->IsRunning())
 	{
 		frameStart = SDL_GetTicks();

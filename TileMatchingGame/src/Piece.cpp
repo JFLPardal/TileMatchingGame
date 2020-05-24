@@ -1,14 +1,24 @@
 #include "pch.h"
 #include "Piece.h"
 #include "Constants.h"
+#include "Utils.h"
 
 #include "Rect.h"
 #include "Renderer.h"
+#include "TextureMapper.h"
 
 Piece::Piece()
-	:m_textureRect(std::make_unique<Rect>(64, 0, Consts::TEX_TILE_W, Consts::TEX_TILE_H))
 {
 	m_screenPosition = Vector2(Consts::PAIR_INIT_X, Consts::PAIR_INIT_Y);
+	AssignColorAndTexture();
+}
+
+void Piece::AssignColorAndTexture()
+{
+	m_color = static_cast<PieceColor>(rand() % Consts::NUM_PIECE_COLORS);
+	const auto textureCoords = colorToTextureCoords.at(m_color);
+	m_textureRect = std::make_unique<Rect>(textureCoords.X(), textureCoords.Y(),
+											Consts::TEX_TILE_W, Consts::TEX_TILE_H);
 }
 
 void Piece::Update(int aMsSinceLastUpdate)

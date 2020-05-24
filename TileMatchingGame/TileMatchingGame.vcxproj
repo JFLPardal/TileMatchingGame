@@ -200,6 +200,7 @@
     <ClInclude Include="src\MatrixGrid.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\Piece.h" />
+    <ClInclude Include="src\TextureMapper.h" />
     <ClInclude Include="src\Vector2.h" />
     <ClInclude Include="src\Utils.h" />
   </ItemGroup>

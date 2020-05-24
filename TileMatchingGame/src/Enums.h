@@ -23,3 +23,11 @@ enum class MoveDirection
 	left,
 	right
 };
+
+enum class PieceColor
+{
+	brown,
+	red,
+	blue,
+	green
+};

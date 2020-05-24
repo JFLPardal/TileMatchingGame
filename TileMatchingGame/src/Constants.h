@@ -10,6 +10,17 @@ namespace Consts
 	constexpr int TEX_TILE_W = 64;
 	constexpr int TEX_TILE_H = 64;
 
+	// texture coordenates for each piece color
+	constexpr int NUM_PIECE_COLORS = 4;
+	constexpr int TEX_BROWN_W = 64;
+	constexpr int TEX_BROWN_H = 0;
+	constexpr int TEX_RED_W = 128;
+	constexpr int TEX_RED_H = 0;
+	constexpr int TEX_BLUE_W = 192;
+	constexpr int TEX_BLUE_H = 0;
+	constexpr int TEX_GREEN_W = 256;
+	constexpr int TEX_GREEN_H = 0;
+
 	// these values avoid division at runtime when converting from screenPosition to gridIndex
 	constexpr float STOG_W = 1 / static_cast<float>(PIECE_W);
 	constexpr float STOG_H = 1 / static_cast<float>(PIECE_H);

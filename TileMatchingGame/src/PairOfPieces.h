@@ -11,11 +11,12 @@
 */
 class Piece;
 class Renderer; 
+class ColumnAvailability;
 
 class PairOfPieces
 {
 public:
-	PairOfPieces();
+	PairOfPieces(const ColumnAvailability* columnAvailability);
 	~PairOfPieces();
 
 	void Update(Uint32 msSinceLastUpdate, PairAcessPiece pieceToUpdate = PairAcessPiece::both);
@@ -32,9 +33,11 @@ public:
 private:
 	void MovePairToTheSide(SDL_Event& event);
 	bool CanMoveLeft() const;
+	bool CanMoveToColumnToTheSide(const Vector2& leftMostPiece, MoveDirection newColumn) const;
 	bool CanMoveRight() const;
 	bool m_inputEnabled = true;
 
+	const ColumnAvailability* m_columnAvailability{ nullptr };
 	std::array<std::unique_ptr<Piece>, 2> m_pair;
 	PairPosition m_pairPosition;
 };

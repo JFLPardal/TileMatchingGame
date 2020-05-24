@@ -5,8 +5,9 @@
 #include "Renderer.h"
 #include "EventHandler.h"
 #include "PairPosition.h"
+#include "ColumnAvailability.h"
 
-PairOfPieces::PairOfPieces()
+PairOfPieces::PairOfPieces(const ColumnAvailability* columnAvailability)
 {
 	for (auto& piece : m_pair)
 		piece = std::make_unique<Piece>();
@@ -16,6 +17,8 @@ PairOfPieces::PairOfPieces()
 
 	EventHandler::SubscribeToEvent(SDL_KEYDOWN, 
 				std::function<void(SDL_Event&)>(std::bind(&PairOfPieces::MovePairToTheSide, this, std::placeholders::_1)));
+
+	m_columnAvailability = columnAvailability;
 }
 
 void PairOfPieces::Update(Uint32 aMsSinceLastUpdate, PairAcessPiece aPieceToUpdate)
@@ -75,7 +78,7 @@ void PairOfPieces::MovePairToTheSide(SDL_Event& aEvent)
 		{
 			if (CanMoveLeft())
 				for (auto& piece : m_pair)
-					piece->Move(MoveDirection::left);// UpdateX(-Consts::PIECE_W);
+					piece->Move(MoveDirection::left);
 		}
 		else if (keyPressed == SDL_KeyCode::SDLK_d)
 		{
@@ -88,18 +91,46 @@ void PairOfPieces::MovePairToTheSide(SDL_Event& aEvent)
 
 bool PairOfPieces::CanMoveRight() const
 {
-	const auto rightMostPieceX = (m_pairPosition.FirstPiecePos().X() > m_pairPosition.SecondPiecePos().X()) ?
-								m_pairPosition.FirstPiecePos().X() :
-								m_pairPosition.SecondPiecePos().X();
-	return (rightMostPieceX + Consts::PIECE_W < Consts::GRID_FINAL_X);
+	const auto rightMostPiece = (m_pairPosition.FirstPiecePos().X() > m_pairPosition.SecondPiecePos().X()) ?
+								m_pairPosition.FirstPiecePos() :
+								m_pairPosition.SecondPiecePos();
+
+	bool attemptedMoveIsInsideGrid = rightMostPiece.X() + Consts::PIECE_W < Consts::GRID_FINAL_X;
+	if (attemptedMoveIsInsideGrid)
+	{
+		return CanMoveToColumnToTheSide(rightMostPiece, MoveDirection::right);
+	}
+	return false;
 }
 
 bool PairOfPieces::CanMoveLeft() const
 {
-	const auto leftMostPieceX = (m_pairPosition.FirstPiecePos().X() > m_pairPosition.SecondPiecePos().X()) ? 
-								m_pairPosition.SecondPiecePos().X() :
-								m_pairPosition.FirstPiecePos().X();
-	return (leftMostPieceX - Consts::PIECE_W >= Consts::GRID_INIT_X);
+	const auto leftMostPiece = (m_pairPosition.FirstPiecePos().X() > m_pairPosition.SecondPiecePos().X()) ? 
+								m_pairPosition.SecondPiecePos():
+								m_pairPosition.FirstPiecePos() ;
+	
+	bool attemptedMoveIsInsideGrid = leftMostPiece.X() - Consts::PIECE_W >= Consts::GRID_INIT_X;
+	if (attemptedMoveIsInsideGrid)
+	{
+		return CanMoveToColumnToTheSide(leftMostPiece, MoveDirection::left);
+	}
+	return false;
+}
+
+// PieceToCheck is the position of the right or leftmost piece for the pair. 
+// The one to use is the same as the direction of the attempted move
+bool PairOfPieces::CanMoveToColumnToTheSide(const Vector2& aPieceToCheck, MoveDirection aNewColumn) const
+{
+	int availableHeightOfColumnToMoveTo = -1;
+
+	if(aNewColumn == MoveDirection::left)
+		availableHeightOfColumnToMoveTo = m_columnAvailability->AvailableLineForColumn(aPieceToCheck.X() - Consts::PIECE_W);
+	else
+		availableHeightOfColumnToMoveTo = m_columnAvailability->AvailableLineForColumn(aPieceToCheck.X() + Consts::PIECE_W);
+	
+	if (availableHeightOfColumnToMoveTo < aPieceToCheck.Y())
+		return false;
+	return true;
 }
 
 // needed on the cpp because of the forward decl of Piece

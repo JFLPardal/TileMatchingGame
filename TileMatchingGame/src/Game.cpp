@@ -40,7 +40,7 @@ void Game::InitRenderer()
 void Game::SpawnPairOfPieces()
 {
 	// TODO change this to get a pair in a more sophisticated way
-	m_currenPair = std::make_unique<PairOfPieces>();
+	m_currenPair = std::make_unique<PairOfPieces>(m_grid->GetColumnAvailability());
 }
 
 void Game::Update(Uint32 msSinceLastUpdate)

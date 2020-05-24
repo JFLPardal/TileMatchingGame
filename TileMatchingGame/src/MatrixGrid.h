@@ -24,6 +24,7 @@ public:
 
 	void TransferPairOwnershipToGrid(std::unique_ptr<PairOfPieces> pieceToAdd) override;
 	bool IsFreeInPosition(const PairPosition& screenPos) const override;
+	const ColumnAvailability* const GetColumnAvailability() const override { return m_columnAvailability.get(); }
 private:
 	void InitGrid();
 	void UpdateGridAndColumnAvailability();

@@ -10,7 +10,8 @@
 class Renderer;
 class Piece;
 class PairOfPieces;
-class PairPosition;
+class PairPosition; 
+class ColumnAvailability;
 
 class IGridRepresentation
 {
@@ -22,6 +23,7 @@ public:
 
 	virtual bool IsFreeInPosition(const PairPosition& screenPos) const = 0;
 	virtual void TransferPairOwnershipToGrid(std::unique_ptr<PairOfPieces> pieceToAdd) = 0;
+	virtual const ColumnAvailability* const GetColumnAvailability() const = 0;
 
 	virtual ~IGridRepresentation() {};
 protected:

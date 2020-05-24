@@ -10,15 +10,27 @@
 MatrixGrid::MatrixGrid()
 	: m_columnAvailability(std::make_unique< ColumnAvailability>())
 {
-	InitGrid();
 	m_columnAvailability->InitColumnAvailability(m_grid.at(0).size() - 1);
+	InitGrid();
 }
 
 void MatrixGrid::InitGrid()
 {
 	for (auto& column : m_grid)
 		for (auto& piece : column)
-			piece = nullptr; //std::make_unique<Piece>();//nullptr;
+			piece = nullptr;
+	m_grid.at(3).at(15) = std::make_unique<Piece>();
+	m_grid.at(4).at(15) = std::make_unique<Piece>();
+	m_grid.at(3).at(14) = std::make_unique<Piece>();
+	m_grid.at(4).at(14) = std::make_unique<Piece>();
+	m_grid.at(3).at(13) = std::make_unique<Piece>();
+	m_grid.at(4).at(13) = std::make_unique<Piece>();
+	m_columnAvailability->UpdateColumnAvailability(Vector2(3,1));
+	m_columnAvailability->UpdateColumnAvailability(Vector2(3,1));
+	m_columnAvailability->UpdateColumnAvailability(Vector2(3,1));
+	m_columnAvailability->UpdateColumnAvailability(Vector2(4,1));
+	m_columnAvailability->UpdateColumnAvailability(Vector2(4,1));
+	m_columnAvailability->UpdateColumnAvailability(Vector2(4,1));
 }
 
 bool MatrixGrid::LastPairHasBeenPlacedInGrid()

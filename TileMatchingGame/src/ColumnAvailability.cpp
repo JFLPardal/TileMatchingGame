@@ -21,7 +21,7 @@ void ColumnAvailability::UpdateColumnAvailability(const Vector2& columnToUpdate)
 	m_columnAvailability.at(columnToUpdate.X())--;
 }
 
-bool ColumnAvailability::CheckIfPieceReachedColumnTop(const Vector2& aPieceScreenPosition) const
+bool ColumnAvailability::CheckIfPieceHasSettled(const Vector2& aPieceScreenPosition) const
 {
 	return aPieceScreenPosition.Y() >= AvailableLineForColumn(aPieceScreenPosition.X());
 }

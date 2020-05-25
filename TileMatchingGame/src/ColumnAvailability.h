@@ -17,7 +17,7 @@ public:
 	void InitColumnAvailability(unsigned int columnSize);
 	int AvailableLineForColumn(int aXInScreenPos) const;
 	void UpdateColumnAvailability(const Vector2& columnToUpdate);
-	bool CheckIfPieceReachedColumnTop(const Vector2& pieceScreenPosition) const;
+	bool CheckIfPieceHasSettled(const Vector2& pieceScreenPosition) const;
 private:
 	std::array<unsigned short, Consts::NUM_PIECES_W> m_columnAvailability;
 };

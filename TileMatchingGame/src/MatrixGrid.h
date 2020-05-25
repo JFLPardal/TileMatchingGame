@@ -20,7 +20,8 @@ public:
 	void Draw(Renderer* renderer) const override;
 	void Update(int msSinceLastUpdate) override;
 
-	bool LastPairHasBeenPlacedInGrid() override;
+
+	bool IsDoneProcessingGroups() override;
 
 	void TransferPairOwnershipToGrid(std::unique_ptr<PairOfPieces> pieceToAdd) override;
 	bool IsFreeInPosition(const PairPosition& screenPos) const override;
@@ -28,8 +29,10 @@ public:
 private:
 	void InitGrid();
 	void UpdateGridAndColumnAvailability();
+	bool FindGroupsInGrid();
+	void UpdatePiecesUntilSettled(bool& firstPieceHasSettled, bool& secondPieceHasSettled, bool& bothPiecesSettled, int msSinceLastUpdate);
 
-	bool m_lastPairHasBeenPlaced = false;
+	bool m_isDoneProcessingGroups = false;
 	std::unique_ptr<PairOfPieces> m_lastPairAddedToGrid{ nullptr };
 
 	std::array<std::array<std::unique_ptr<Piece>, Consts::NUM_PIECES_H>, Consts::NUM_PIECES_W> m_grid;

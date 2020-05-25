@@ -45,17 +45,17 @@ void Game::SpawnPairOfPieces()
 
 void Game::Update(Uint32 msSinceLastUpdate)
 {
-	if(m_currenPair == nullptr && m_grid->LastPairHasBeenPlacedInGrid())
+	if(m_currenPair == nullptr && m_grid->IsDoneProcessingGroups())
 		SpawnPairOfPieces();
 	else
 	{
 		if (m_currenPair != nullptr && m_grid->IsFreeInPosition(m_currenPair->GetScreenPos()))
 			m_currenPair->Update(msSinceLastUpdate);
-		else // one of the pieces of the pair reached the bottom of the column
+		else // one of the pieces of the pair settled
 		{
 			if (m_currenPair != nullptr)
 				m_grid->TransferPairOwnershipToGrid(std::move(m_currenPair));
-			else // update the piece that can move 
+			else
 				m_grid->Update(msSinceLastUpdate);
 		}
 	}

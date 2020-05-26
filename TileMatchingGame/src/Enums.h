@@ -21,7 +21,8 @@ enum class PairAcessPiece
 enum class MoveDirection
 {
 	left,
-	right
+	right,
+	down
 };
 
 enum class PieceColor
@@ -30,4 +31,10 @@ enum class PieceColor
 	red,
 	blue,
 	green
+};
+
+enum class ColumnHeightModifier
+{
+	increase,
+	decrease
 };

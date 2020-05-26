@@ -2,6 +2,8 @@
 
 namespace Consts
 {
+	constexpr int MIN_NUMBER_OF_PIECES_TO_MAKE_GROUP = 4;
+
 	// piece dimensions
 	constexpr int PIECE_W = 48;
 	constexpr int PIECE_H = 48;

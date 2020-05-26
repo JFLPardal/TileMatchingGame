@@ -16,9 +16,20 @@ int ColumnAvailability::AvailableLineForColumn(int aXInScreenPos) const
 	return Consts::GRID_INIT_Y + Consts::PIECE_H * m_columnAvailability.at(xInGridIndex);
 }
 
-void ColumnAvailability::UpdateColumnAvailability(const Vector2& columnToUpdate)
+void ColumnAvailability::IncreaseColumnHeight(const Vector2& columnToUpdate)
 {
-	m_columnAvailability.at(columnToUpdate.X())--;
+	UpdateColumnAvailability(columnToUpdate, ColumnHeightModifier::increase);
+}
+
+void ColumnAvailability::DecreaseColumnHeight(const Vector2& columnToUpdate)
+{
+	UpdateColumnAvailability(columnToUpdate, ColumnHeightModifier::decrease);
+}
+
+void ColumnAvailability::UpdateColumnAvailability(const Vector2& columnToUpdate, ColumnHeightModifier modifier)
+{
+	if(modifier == ColumnHeightModifier::decrease) m_columnAvailability.at(columnToUpdate.X())++;
+	if(modifier == ColumnHeightModifier::increase) m_columnAvailability.at(columnToUpdate.X())--;
 }
 
 bool ColumnAvailability::CheckIfPieceHasSettled(const Vector2& aPieceScreenPosition) const

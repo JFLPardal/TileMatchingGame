@@ -34,6 +34,8 @@ private:
 	void UpdatePiecesUntilSettled(bool& firstPieceHasSettled, bool& secondPieceHasSettled, bool& bothPiecesSettled, int msSinceLastUpdate);
 	void UpdateGridAndColumnAvailability();
 	
+	void DeleteGroupFromGrid(std::set<Vector2>& solution);
+	void SettleSuspendedPieces();
 	std::vector<Vector2> GetAdjacentPositions(const Vector2& gridPosition) const;
 	const Piece* const GetPieceInIndex(const Vector2& gridIndex) const { return m_grid.at(gridIndex.X()).at(gridIndex.Y()).get(); }
 	const Piece* const GetPieceInIndex(int x, int y) const { return GetPieceInIndex(Vector2(x,y)); }

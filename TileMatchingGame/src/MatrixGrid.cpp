@@ -19,18 +19,18 @@ void MatrixGrid::InitGrid()
 	for (auto& column : m_grid)
 		for (auto& piece : column)
 			piece = nullptr;
-	/*m_grid.at(3).at(15) = std::make_unique<Piece>();
+	m_grid.at(3).at(15) = std::make_unique<Piece>();
 	m_grid.at(4).at(15) = std::make_unique<Piece>();
 	m_grid.at(3).at(14) = std::make_unique<Piece>();
 	m_grid.at(4).at(14) = std::make_unique<Piece>();
 	m_grid.at(3).at(13) = std::make_unique<Piece>();
 	m_grid.at(4).at(13) = std::make_unique<Piece>();
-	m_columnAvailability->UpdateColumnAvailability(Vector2(3,1));
-	m_columnAvailability->UpdateColumnAvailability(Vector2(3,1));
-	m_columnAvailability->UpdateColumnAvailability(Vector2(3,1));
-	m_columnAvailability->UpdateColumnAvailability(Vector2(4,1));
-	m_columnAvailability->UpdateColumnAvailability(Vector2(4,1));
-	m_columnAvailability->UpdateColumnAvailability(Vector2(4,1));*/
+	m_columnAvailability->IncreaseColumnHeight(Vector2(3,1));
+	m_columnAvailability->IncreaseColumnHeight(Vector2(3,1));
+	m_columnAvailability->IncreaseColumnHeight(Vector2(3,1));
+	m_columnAvailability->IncreaseColumnHeight(Vector2(4,1));
+	m_columnAvailability->IncreaseColumnHeight(Vector2(4,1));
+	m_columnAvailability->IncreaseColumnHeight(Vector2(4,1));
 }
 
 bool MatrixGrid::IsDoneProcessingGroups()
@@ -90,6 +90,54 @@ void MatrixGrid::Update(int msSinceLastUpdate)
 	}
 }
 
+bool MatrixGrid::FindGroupsInGrid()
+{
+	for (auto i = 0; i < m_grid.size(); i++)
+	{
+		for (auto j = 0; j < m_grid.at(i).size(); j++)
+		{
+			Vector2 initialPos(i, j);
+			if (GetPieceInIndex(initialPos) != nullptr)
+			{
+
+				std::set<Vector2> solution;
+				std::set<Vector2> seen;
+				std::deque<Vector2> toProcess;
+
+				PieceColor currentColor = GetPieceInIndex(initialPos)->GetColor();
+
+				toProcess.insert(toProcess.end(), initialPos);
+				seen.insert(initialPos);
+
+				while (!toProcess.empty())
+				{
+					Vector2 posBeingProcessed = toProcess.front();
+					if (GetPieceInIndex(posBeingProcessed)->GetColor() == currentColor)
+					{
+						solution.insert(posBeingProcessed);
+						std::vector<Vector2> adjacentPositions = GetAdjacentPositions(posBeingProcessed);
+						for (auto& adjacentPosition : adjacentPositions)
+						{
+							if (seen.find(adjacentPosition) == seen.end())
+							{
+								toProcess.insert(toProcess.end(), adjacentPosition);
+								seen.insert(adjacentPosition);
+							}
+						}
+					}
+					toProcess.pop_front();
+				}
+				if (solution.size() >= Consts::MIN_NUMBER_OF_PIECES_TO_MAKE_GROUP)
+				{
+					DeleteGroupFromGrid(solution);
+					SettleSuspendedPieces();
+				}
+			}
+		}
+	}
+	return true;
+}
+
 void MatrixGrid::UpdatePiecesUntilSettled(bool& firstPieceHasSettled, bool& secondPieceHasSettled, bool& bothPiecesSettled, int msSinceLastUpdate)
 {
 	firstPieceHasSettled = m_columnAvailability->CheckIfPieceHasSettled(m_lastPairAddedToGrid->GetFirstPiecePos());
@@ -123,7 +171,6 @@ void MatrixGrid::UpdatePiecesUntilSettled(bool& firstPieceHasSettled, bool& seco
 	}
 }
 
-// TODO
 void MatrixGrid::UpdateGridAndColumnAvailability()
 {
 	const auto firstPiecePositionInGrid  = ScreenToGridPosition(m_lastPairAddedToGrid->GetFirstPiecePos());
@@ -134,60 +181,41 @@ void MatrixGrid::UpdateGridAndColumnAvailability()
 	m_grid.at(secondPiecePositionInGrid.X()).at(secondPiecePositionInGrid.Y()) = m_lastPairAddedToGrid->AddSecondPieceToBoard();
 	
 	// updated column availability
-	m_columnAvailability->UpdateColumnAvailability(firstPiecePositionInGrid);
-	m_columnAvailability->UpdateColumnAvailability(secondPiecePositionInGrid);
+	m_columnAvailability->IncreaseColumnHeight(firstPiecePositionInGrid);
+	m_columnAvailability->IncreaseColumnHeight(secondPiecePositionInGrid);
 }
 
-bool MatrixGrid::FindGroupsInGrid()
+void MatrixGrid::DeleteGroupFromGrid(std::set<Vector2>& solution)
 {
-	for (auto i = 0; i < m_grid.size(); i++)
+	printf("----solution------\n\n");
+	for (auto& pos : solution)
 	{
-		for (auto j = 0; j < m_grid.at(i).size(); j++)
+		printf("[%d, %d] \n", pos.X(), pos.Y());
+	}
+	printf("----end-----------\n\n");
+	for (auto& position : solution)
+	{
+		m_grid.at(position.X()).at(position.Y()).reset(nullptr);
+		m_columnAvailability->DecreaseColumnHeight(position);
+	}
+}
+
+void MatrixGrid::SettleSuspendedPieces()
+{
+	for(auto x = 0; x < m_grid.size(); x++)
+		for (int y = m_grid.at(x).size() - 2; y >= 0; y--) // processing will be done bottom up, -2 because there is no need to check the bottommost line
 		{
-			Vector2 initialPos(i, j);
-			if (GetPieceInIndex(initialPos) != nullptr)
+			if (GetPieceInIndex(x, y) != nullptr)
 			{
-
-				std::set<Vector2> solution;
-				std::set<Vector2> seen;
-				std::deque<Vector2> toProcess;
-			
-				PieceColor currentColor = GetPieceInIndex(initialPos)->GetColor();
-
-				toProcess.insert(toProcess.end(), initialPos);
-				seen.insert(initialPos);
-
-				while (!toProcess.empty())
+				int yBelow = y + 1;
+				while (yBelow < Consts::NUM_PIECES_H 
+					   && GetPieceInIndex(x, yBelow) == nullptr)
 				{
-					Vector2 posBeingProcessed = toProcess.front();
-					if (GetPieceInIndex(posBeingProcessed)->GetColor() == currentColor)
-					{
-						solution.insert(posBeingProcessed);
-						std::vector<Vector2> adjacentPositions = GetAdjacentPositions(posBeingProcessed);
-						for (auto& adjacentPosition : adjacentPositions)
-						{
-							if (seen.find(adjacentPosition) == seen.end())
-							{
-								toProcess.insert(toProcess.end(), adjacentPosition);
-								seen.insert(adjacentPosition);
-							}
-						}
-					}
-					toProcess.pop_front();
-				}
-				if (solution.size() > 1)
-				{
-					printf("----solution------\n\n");
-					for (auto& pos : solution)
-					{
-						printf("[%d, %d] \n", pos.X(), pos.Y());
-					}
-					printf("----end-----------\n\n");
+					m_grid.at(x).at(yBelow).reset(m_grid.at(x).at(yBelow - 1).release());
+					yBelow++;
 				}
 			}
 		}
-	}
-	return true;
 }
 
 std::vector<Vector2> MatrixGrid::GetAdjacentPositions(const Vector2& gridPosition) const

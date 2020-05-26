@@ -1,5 +1,6 @@
 #pragma once
 #include "Constants.h"
+#include "Enums.h"
 
 /*
 	ColumnAvailability is responsible for keeping
@@ -15,9 +16,14 @@ public:
 	ColumnAvailability() = default;
 
 	void InitColumnAvailability(unsigned int columnSize);
+
 	int AvailableLineForColumn(int aXInScreenPos) const;
-	void UpdateColumnAvailability(const Vector2& columnToUpdate);
 	bool CheckIfPieceHasSettled(const Vector2& pieceScreenPosition) const;
+
+	void IncreaseColumnHeight(const Vector2& columnToUpdate);
+	void DecreaseColumnHeight(const Vector2& columnToUpdate);
 private:
+	void UpdateColumnAvailability(const Vector2& columnToUpdate, ColumnHeightModifier modifier);
+
 	std::array<unsigned short, Consts::NUM_PIECES_W> m_columnAvailability;
 };

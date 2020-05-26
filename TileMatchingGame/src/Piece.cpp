@@ -33,8 +33,9 @@ void Piece::Draw(Renderer* aRenderer)
 
 void Piece::Move(MoveDirection directionToMove)
 {
-	if(directionToMove == MoveDirection::left)  m_screenPosition.UpdateX(-Consts::MOVE_INCREMENT);
-	if(directionToMove == MoveDirection::right) m_screenPosition.UpdateX(Consts::MOVE_INCREMENT);
+	if(directionToMove == MoveDirection::left)		 m_screenPosition.UpdateX(-Consts::MOVE_INCREMENT);
+	else if(directionToMove == MoveDirection::right) m_screenPosition.UpdateX(Consts::MOVE_INCREMENT);
+	else if(directionToMove == MoveDirection::down)  m_screenPosition.UpdateY(Consts::MOVE_INCREMENT);
 }
 
 void Piece::SetAsSecondInPair()

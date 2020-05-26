@@ -11,6 +11,7 @@ public:
 	Vector2();
 	Vector2(int x, int y);
 	Vector2(int singleValue);
+	Vector2(const Vector2& vectorToCopy);
 
 	inline int X() const { return m_x; }
 	inline int Y() const { return m_y; }
@@ -23,6 +24,9 @@ public:
 	inline void SetX(int newX) { m_x = newX; }
 	// this resets the current value of y, to add to it, use UpdateY
 	inline void SetY(int newY) { m_y  = newY; }
+
+	bool operator==(const Vector2& vector) const;
+	friend bool operator<(const Vector2& vector1, const Vector2& vector2);
 private:
 	int m_x, m_y;
 };

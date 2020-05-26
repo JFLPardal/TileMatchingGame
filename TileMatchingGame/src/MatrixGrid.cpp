@@ -19,7 +19,7 @@ void MatrixGrid::InitGrid()
 	for (auto& column : m_grid)
 		for (auto& piece : column)
 			piece = nullptr;
-	m_grid.at(3).at(15) = std::make_unique<Piece>();
+	/*m_grid.at(3).at(15) = std::make_unique<Piece>();
 	m_grid.at(4).at(15) = std::make_unique<Piece>();
 	m_grid.at(3).at(14) = std::make_unique<Piece>();
 	m_grid.at(4).at(14) = std::make_unique<Piece>();
@@ -30,7 +30,7 @@ void MatrixGrid::InitGrid()
 	m_columnAvailability->UpdateColumnAvailability(Vector2(3,1));
 	m_columnAvailability->UpdateColumnAvailability(Vector2(4,1));
 	m_columnAvailability->UpdateColumnAvailability(Vector2(4,1));
-	m_columnAvailability->UpdateColumnAvailability(Vector2(4,1));
+	m_columnAvailability->UpdateColumnAvailability(Vector2(4,1));*/
 }
 
 bool MatrixGrid::IsDoneProcessingGroups()
@@ -61,9 +61,9 @@ void MatrixGrid::Draw(Renderer* aRenderer) const
 	{
 		for (auto y = 0; y < m_grid.at(x).size(); y++)
 		{
-			if (m_grid.at(x).at(y) != nullptr)
+			if (GetPieceInIndex(x,y) != nullptr)
 			{
-				aRenderer->Draw(m_grid.at(x).at(y)->GetTextureRect(),
+				aRenderer->Draw(GetPieceInIndex(x, y)->GetTextureRect(),
 					m_visualStartingPoint.X() + x * Consts::PIECE_W,
 					m_visualStartingPoint.Y() + y * Consts::PIECE_H);
 			}
@@ -123,6 +123,7 @@ void MatrixGrid::UpdatePiecesUntilSettled(bool& firstPieceHasSettled, bool& seco
 	}
 }
 
+// TODO
 void MatrixGrid::UpdateGridAndColumnAvailability()
 {
 	const auto firstPiecePositionInGrid  = ScreenToGridPosition(m_lastPairAddedToGrid->GetFirstPiecePos());
@@ -139,7 +140,95 @@ void MatrixGrid::UpdateGridAndColumnAvailability()
 
 bool MatrixGrid::FindGroupsInGrid()
 {
+	for (auto i = 0; i < m_grid.size(); i++)
+	{
+		for (auto j = 0; j < m_grid.at(i).size(); j++)
+		{
+			Vector2 initialPos(i, j);
+			if (GetPieceInIndex(initialPos) != nullptr)
+			{
+
+				std::set<Vector2> solution;
+				std::set<Vector2> seen;
+				std::deque<Vector2> toProcess;
+			
+				PieceColor currentColor = GetPieceInIndex(initialPos)->GetColor();
+
+				toProcess.insert(toProcess.end(), initialPos);
+				seen.insert(initialPos);
+
+				while (!toProcess.empty())
+				{
+					Vector2 posBeingProcessed = toProcess.front();
+					if (GetPieceInIndex(posBeingProcessed)->GetColor() == currentColor)
+					{
+						solution.insert(posBeingProcessed);
+						std::vector<Vector2> adjacentPositions = GetAdjacentPositions(posBeingProcessed);
+						for (auto& adjacentPosition : adjacentPositions)
+						{
+							if (seen.find(adjacentPosition) == seen.end())
+							{
+								toProcess.insert(toProcess.end(), adjacentPosition);
+								seen.insert(adjacentPosition);
+							}
+						}
+					}
+					toProcess.pop_front();
+				}
+				if (solution.size() > 1)
+				{
+					printf("----solution------\n\n");
+					for (auto& pos : solution)
+					{
+						printf("[%d, %d] \n", pos.X(), pos.Y());
+					}
+					printf("----end-----------\n\n");
+				}
+			}
+		}
+	}
 	return true;
+}
+
+std::vector<Vector2> MatrixGrid::GetAdjacentPositions(const Vector2& gridPosition) const
+{
+	std::vector<Vector2> adjacentPositions;
+
+	// process piece to the right
+	Vector2 positionToTheRight(gridPosition);
+	positionToTheRight.UpdateX(1);
+	bool positionToTheRightIsValid = positionToTheRight.X() < Consts::NUM_PIECES_W
+									 && GetPieceInIndex(positionToTheRight) != nullptr;
+
+	if (positionToTheRightIsValid)
+		adjacentPositions.insert(adjacentPositions.end(), positionToTheRight);
+
+	// process piece to the left
+	Vector2 positionToTheLeft(gridPosition);
+	positionToTheLeft.UpdateX(-1);
+	bool positionToTheLeftIsValid = positionToTheLeft.X() >= 0
+									&& GetPieceInIndex(positionToTheLeft) != nullptr;
+
+	if (positionToTheLeftIsValid)
+		adjacentPositions.insert(adjacentPositions.end(), positionToTheLeft);
+
+	// process piece above
+	Vector2 positionAbove(gridPosition);
+	positionAbove.UpdateY(-1);
+	bool positionAboveIsValid = positionAbove.Y() >= 0
+								&& GetPieceInIndex(positionAbove) != nullptr;
+	if (positionAboveIsValid)
+		adjacentPositions.insert(adjacentPositions.end(), positionAbove);
+
+	// process piece below
+	Vector2 positionBelow(gridPosition);
+	positionBelow.UpdateY(1);
+	bool positionBelowIsValid = positionBelow.Y() < Consts::NUM_PIECES_H
+								&& GetPieceInIndex(positionBelow) != nullptr;
+	if (positionBelowIsValid)
+		adjacentPositions.insert(adjacentPositions.end(), positionBelow);
+
+	return adjacentPositions;
 }
 
 // needed on the cpp because of the forward decl of Piece

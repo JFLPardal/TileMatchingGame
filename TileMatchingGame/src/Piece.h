@@ -22,6 +22,7 @@ public:
 
 	const Vector2& GetScreenPos() const { return m_screenPosition; }
 	Rect* GetTextureRect() const { return m_textureRect.get(); }
+	PieceColor GetColor() const { return m_color;  }
 
 	void SetAsSecondInPair();
 private:

@@ -17,16 +17,16 @@ Tile Matching Game inspired by [Puyo Puyo](https://www.youtube.com/watch?v=YJjRJ
 * [x] pieces are visually in the right grid position
 * [x] pairs are being spawned when another pair is placed
 * [x] pairs stack
+* [x] pairs can split
 * [x] player can move pairs with keyboard (lessons 4 and 18)
 * [x] movement of pair is restricted by board boundaries
-* [x] pairs can split
 
 ### 2nd iteration: 3 estimated days (last day: 24th of May)
-* [ ] 4 different pieces
-* [ ] check for matching groups and delete them
-* [ ] when a group is deleted update the positions of the remaining pieces
-* [ ] rotate pair using mouse
-* [ ] increase pair speed with keyboard
+* [x] 4 different pieces
+* [x] check for matching groups and delete them
+* [x] when a group is deleted update the positions of the remaining pieces
+* [x] rotate pair using mouse
+* [x] increase pair speed with keyboard
 
 ### 3rd iteration: estimated 4 days (last day: 28th of May)
 * [ ] change sprite of pieces that have neighbours of the same color (lessons 10 and 13)

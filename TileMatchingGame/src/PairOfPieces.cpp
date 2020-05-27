@@ -98,50 +98,55 @@ void PairOfPieces::RotatePair(SDL_Event& event)
 	bool secondPieceIsToTheRight = deltaPairPosition.X() > 0;
 	bool secondPieceIsBelow		 = deltaPairPosition.Y() > 0;
 
+	bool rotateClockwise = event.button.button == SDL_BUTTON_LEFT;
+
+	const auto& firstPiece = m_pair.at(0).get();
 	const auto& secondPiece = m_pair.at(1).get();
 
-	if (secondPieceIsBelow && deltaPairPosition.X()== 0)
+	if (deltaPairPosition.X() == 0)
 	{
-		if (secondPiece->GetScreenPos().X() > Consts::GRID_INIT_X 
-			&& (m_columnAvailability->AvailableLineForColumn(secondPiece->GetScreenPos().X() - Consts::PIECE_W))  > secondPiece->GetScreenPos().Y())
+		if (((secondPieceIsBelow && rotateClockwise) || (!secondPieceIsBelow && !rotateClockwise)))
 		{
-			secondPiece->Move(MoveDirection::up);
-			secondPiece->Move(MoveDirection::left);
-			m_isVertical = false;
+			if (secondPiece->GetScreenPos().X() > Consts::GRID_INIT_X 
+				&& (m_columnAvailability->AvailableLineForColumn(secondPiece->GetScreenPos().X() - Consts::PIECE_W))  > secondPiece->GetScreenPos().Y())
+			{
+				secondPiece->MoveTo(Vector2(firstPiece->GetScreenPos().X() - Consts::PIECE_W, firstPiece->GetScreenPos().Y()));
+				m_isVertical = false;
+			}
+			else return;
 		}
-		else return;
+		else if ((!secondPieceIsBelow && rotateClockwise) || (secondPieceIsBelow && !rotateClockwise))
+		{
+			if (secondPiece->GetScreenPos().X() + Consts::PIECE_W < Consts::GRID_RIGHTMOST_X
+				&& (m_columnAvailability->AvailableLineForColumn(secondPiece->GetScreenPos().X() + Consts::PIECE_W)) > m_pair.at(0)->GetScreenPos().Y())
+			{
+				secondPiece->MoveTo(Vector2(firstPiece->GetScreenPos().X() + Consts::PIECE_W, firstPiece->GetScreenPos().Y()));
+				m_isVertical = false;
+			}
+			else return;
+		}
 	}
-	else if (!secondPieceIsBelow && deltaPairPosition.X() == 0)
+	else if (deltaPairPosition.Y() == 0)
 	{
-		if (secondPiece->GetScreenPos().X() + Consts::PIECE_W < Consts::GRID_RIGHTMOST_X
-			&& (m_columnAvailability->AvailableLineForColumn(secondPiece->GetScreenPos().X() + Consts::PIECE_W)) > m_pair.at(0)->GetScreenPos().Y())
+		if ((secondPieceIsToTheRight && rotateClockwise) || (!secondPieceIsToTheRight && !rotateClockwise))
 		{
-			secondPiece->Move(MoveDirection::down);
-			secondPiece->Move(MoveDirection::right);
-			m_isVertical = false;
+			if (secondPiece->GetScreenPos().Y() + Consts::PIECE_H < Consts::GRID_BOTTOMMOST_Y
+				&& (m_columnAvailability->AvailableLineForColumn(secondPiece->GetScreenPos().X()) > secondPiece->GetScreenPos().Y() + Consts::PIECE_H))
+			{
+				secondPiece->MoveTo(Vector2(firstPiece->GetScreenPos().X(), firstPiece->GetScreenPos().Y() + Consts::PIECE_H)); 
+				m_isVertical = true;
+			}
+			else return;
 		}
-		else return;
-	}
-	else if (secondPieceIsToTheRight && deltaPairPosition.Y() == 0)
-	{
-		if (secondPiece->GetScreenPos().Y() + Consts::PIECE_H < Consts::GRID_BOTTOMMOST_Y
-			&& (m_columnAvailability->AvailableLineForColumn(secondPiece->GetScreenPos().X() - Consts::PIECE_W)) > secondPiece->GetScreenPos().Y() + Consts::PIECE_H)
+		else if (deltaPairPosition.Y() == 0 && ((!secondPieceIsToTheRight && rotateClockwise) || (secondPieceIsToTheRight && !rotateClockwise)))
 		{
-			secondPiece->Move(MoveDirection::down);
-			secondPiece->Move(MoveDirection::left);
-			m_isVertical = true;
+			if (secondPiece->GetScreenPos().Y() + Consts::PIECE_H > Consts::GRID_INIT_Y)
+			{
+				secondPiece->MoveTo(Vector2(firstPiece->GetScreenPos().X(), firstPiece->GetScreenPos().Y() - Consts::PIECE_H));
+				m_isVertical = true;
+			}
+			else return;
 		}
-		else return;
-	}
-	else if (!secondPieceIsToTheRight && deltaPairPosition.Y() == 0)
-	{
-		if (secondPiece->GetScreenPos().Y() + Consts::PIECE_H > Consts::GRID_INIT_Y)
-		{
-			secondPiece->Move(MoveDirection::up);
-			secondPiece->Move(MoveDirection::right);
-			m_isVertical = true;
-		}
-		else return;
 	}
 }
 

@@ -39,6 +39,12 @@ void Piece::Move(MoveDirection directionToMove)
 	else if(directionToMove == MoveDirection::up)    m_screenPosition.UpdateY(-Consts::MOVE_INCREMENT);
 }
 
+void Piece::MoveTo(const Vector2& screenPosToMoveTo)
+{
+	m_screenPosition.SetX(screenPosToMoveTo.X());
+	m_screenPosition.SetY(screenPosToMoveTo.Y());
+}
+
 void Piece::SetAsSecondInPair()
 {
 	// this increments the second piece's x one piece to the right side

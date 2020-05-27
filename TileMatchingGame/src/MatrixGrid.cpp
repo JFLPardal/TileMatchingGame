@@ -19,7 +19,7 @@ void MatrixGrid::InitGrid()
 	for (auto& column : m_grid)
 		for (auto& piece : column)
 			piece = nullptr;
-	m_grid.at(3).at(15) = std::make_unique<Piece>();
+	/*m_grid.at(3).at(15) = std::make_unique<Piece>();
 	m_grid.at(4).at(15) = std::make_unique<Piece>();
 	m_grid.at(3).at(14) = std::make_unique<Piece>();
 	m_grid.at(4).at(14) = std::make_unique<Piece>();
@@ -38,7 +38,7 @@ void MatrixGrid::InitGrid()
 	m_columnAvailability->IncreaseColumnHeight(Vector2(4,1));
 	m_columnAvailability->IncreaseColumnHeight(Vector2(4,1));
 	m_columnAvailability->IncreaseColumnHeight(Vector2(4,1));
-	m_columnAvailability->IncreaseColumnHeight(Vector2(4,1));
+	m_columnAvailability->IncreaseColumnHeight(Vector2(4,1));*/
 }
 
 bool MatrixGrid::IsDoneProcessingGroups()

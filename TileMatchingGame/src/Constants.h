@@ -3,6 +3,10 @@
 namespace Consts
 {
 	constexpr int MIN_NUMBER_OF_PIECES_TO_MAKE_GROUP = 4;
+	
+	// pair and piece speed
+	constexpr float PAIR_SPEED_BOOST = 2.5f; // percentage that should be applied to the regular speed of a pair when the speed boost key is pressed
+	constexpr float PIECE_DEFAULT_SPEED = 0.2f;
 
 	// piece dimensions
 	constexpr int PIECE_W = 48;

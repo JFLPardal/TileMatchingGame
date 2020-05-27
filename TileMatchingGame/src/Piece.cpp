@@ -23,7 +23,7 @@ void Piece::AssignColorAndTexture()
 
 void Piece::Update(int aMsSinceLastUpdate)
 {
-	m_screenPosition.UpdateY(.2f * aMsSinceLastUpdate);
+	m_screenPosition.UpdateY(Consts::PIECE_DEFAULT_SPEED * aMsSinceLastUpdate);
 }
 
 void Piece::Draw(Renderer* aRenderer)

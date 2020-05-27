@@ -20,6 +20,7 @@ public:
 	~PairOfPieces();
 
 	void Update(Uint32 msSinceLastUpdate, PairAcessPiece pieceToUpdate = PairAcessPiece::both);
+	void CheckForSpeedBoost();
 	void Draw(Renderer* renderer);
 
 	const PairPosition& GetScreenPos() const;
@@ -41,6 +42,7 @@ private:
 	bool CanMoveRight() const;
 	
 	bool m_inputEnabled = true;
+	float m_pieceSpeedPercentage = 1.f;
 	bool m_isVertical = false;
 	const ColumnAvailability* m_columnAvailability{ nullptr };
 	std::array<std::unique_ptr<Piece>, 2> m_pair;

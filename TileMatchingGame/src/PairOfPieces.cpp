@@ -26,17 +26,19 @@ PairOfPieces::PairOfPieces(const ColumnAvailability* columnAvailability)
 
 void PairOfPieces::Update(Uint32 aMsSinceLastUpdate, PairAcessPiece aPieceToUpdate)
 {
+	CheckForSpeedBoost();
+
 	switch (aPieceToUpdate)
 	{
 	case PairAcessPiece::first:
-		m_pair.at(0)->Update(aMsSinceLastUpdate);
+		m_pair.at(0)->Update(aMsSinceLastUpdate * m_pieceSpeedPercentage);
 		break;
 	case PairAcessPiece::second:
-		m_pair.at(1)->Update(aMsSinceLastUpdate);
+		m_pair.at(1)->Update(aMsSinceLastUpdate * m_pieceSpeedPercentage);
 		break;
 	case PairAcessPiece::both:
 		for (auto& piece : m_pair)
-			piece->Update(aMsSinceLastUpdate);
+			piece->Update(aMsSinceLastUpdate * m_pieceSpeedPercentage);
 		break;
 	}
 }
@@ -192,6 +194,15 @@ bool PairOfPieces::CanMoveToColumnToTheSide(const Vector2& aPieceToCheck, MoveDi
 	if (availableHeightOfColumnToMoveTo < aPieceToCheck.Y())
 		return false;
 	return true;
+}
+
+void PairOfPieces::CheckForSpeedBoost()
+{
+	const Uint8* state = SDL_GetKeyboardState(NULL);
+	if (state[SDL_SCANCODE_S])
+		m_pieceSpeedPercentage = Consts::PAIR_SPEED_BOOST;
+	else
+		m_pieceSpeedPercentage = 1.f;	// set speed back to 100%
 }
 
 // needed on the cpp because of the forward decl of Piece

@@ -27,6 +27,7 @@ public:
 
 	bool operator==(const Vector2& vector) const;
 	friend bool operator<(const Vector2& vector1, const Vector2& vector2);
+	Vector2 operator-(const Vector2& vector1)const;
 private:
 	int m_x, m_y;
 };

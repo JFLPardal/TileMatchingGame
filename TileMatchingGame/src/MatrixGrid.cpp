@@ -25,9 +25,17 @@ void MatrixGrid::InitGrid()
 	m_grid.at(4).at(14) = std::make_unique<Piece>();
 	m_grid.at(3).at(13) = std::make_unique<Piece>();
 	m_grid.at(4).at(13) = std::make_unique<Piece>();
+	m_grid.at(3).at(12) = std::make_unique<Piece>();
+	m_grid.at(4).at(12) = std::make_unique<Piece>();
+	m_grid.at(3).at(11) = std::make_unique<Piece>();
+	m_grid.at(4).at(11) = std::make_unique<Piece>();
 	m_columnAvailability->IncreaseColumnHeight(Vector2(3,1));
 	m_columnAvailability->IncreaseColumnHeight(Vector2(3,1));
 	m_columnAvailability->IncreaseColumnHeight(Vector2(3,1));
+	m_columnAvailability->IncreaseColumnHeight(Vector2(3,1));
+	m_columnAvailability->IncreaseColumnHeight(Vector2(3,1));
+	m_columnAvailability->IncreaseColumnHeight(Vector2(4,1));
+	m_columnAvailability->IncreaseColumnHeight(Vector2(4,1));
 	m_columnAvailability->IncreaseColumnHeight(Vector2(4,1));
 	m_columnAvailability->IncreaseColumnHeight(Vector2(4,1));
 	m_columnAvailability->IncreaseColumnHeight(Vector2(4,1));
@@ -140,33 +148,54 @@ bool MatrixGrid::FindGroupsInGrid()
 
 void MatrixGrid::UpdatePiecesUntilSettled(bool& firstPieceHasSettled, bool& secondPieceHasSettled, bool& bothPiecesSettled, int msSinceLastUpdate)
 {
-	firstPieceHasSettled = m_columnAvailability->CheckIfPieceHasSettled(m_lastPairAddedToGrid->GetFirstPiecePos());
-	secondPieceHasSettled = m_columnAvailability->CheckIfPieceHasSettled(m_lastPairAddedToGrid->GetSecondPiecePos());
+	if (m_lastPairAddedToGrid->IsVertical())
+	{
+		const auto bottomPiece = (m_lastPairAddedToGrid->GetFirstPiecePos().Y() > m_lastPairAddedToGrid->GetSecondPiecePos().Y()) ?
+								m_lastPairAddedToGrid->GetFirstPiecePos() :
+								m_lastPairAddedToGrid->GetSecondPiecePos();
 
-	if (firstPieceHasSettled && secondPieceHasSettled)
-	{
-		UpdateGridAndColumnAvailability();
-		bothPiecesSettled = true;
-		m_lastPairAddedToGrid = nullptr;
-	}
-	else if (firstPieceHasSettled) //update second piece
-	{
-		m_lastPairAddedToGrid->Update(msSinceLastUpdate, PairAcessPiece::second);
-		if (m_columnAvailability->CheckIfPieceHasSettled(m_lastPairAddedToGrid->GetSecondPiecePos()))
+		bool bottomPieceHasSettled = m_columnAvailability->CheckIfPieceHasSettled(bottomPiece);
+		if (bottomPieceHasSettled)
 		{
 			UpdateGridAndColumnAvailability();
 			bothPiecesSettled = true;
 			m_lastPairAddedToGrid = nullptr;
 		}
+		else
+		{
+			m_lastPairAddedToGrid->Update(msSinceLastUpdate, PairAcessPiece::both);
+		}
 	}
-	else if (secondPieceHasSettled) // update first piece
+	else
 	{
-		m_lastPairAddedToGrid->Update(msSinceLastUpdate, PairAcessPiece::first);
-		if (m_columnAvailability->CheckIfPieceHasSettled(m_lastPairAddedToGrid->GetFirstPiecePos()))
+		firstPieceHasSettled = m_columnAvailability->CheckIfPieceHasSettled(m_lastPairAddedToGrid->GetFirstPiecePos());
+		secondPieceHasSettled = m_columnAvailability->CheckIfPieceHasSettled(m_lastPairAddedToGrid->GetSecondPiecePos());
+
+		if (firstPieceHasSettled && secondPieceHasSettled)
 		{
 			UpdateGridAndColumnAvailability();
 			bothPiecesSettled = true;
 			m_lastPairAddedToGrid = nullptr;
+		}
+		else if (firstPieceHasSettled) //update second piece
+		{
+			m_lastPairAddedToGrid->Update(msSinceLastUpdate, PairAcessPiece::second);
+			if (m_columnAvailability->CheckIfPieceHasSettled(m_lastPairAddedToGrid->GetSecondPiecePos()))
+			{
+				UpdateGridAndColumnAvailability();
+				bothPiecesSettled = true;
+				m_lastPairAddedToGrid = nullptr;
+			}
+		}
+		else if (secondPieceHasSettled) // update first piece
+		{
+			m_lastPairAddedToGrid->Update(msSinceLastUpdate, PairAcessPiece::first);
+			if (m_columnAvailability->CheckIfPieceHasSettled(m_lastPairAddedToGrid->GetFirstPiecePos()))
+			{
+				UpdateGridAndColumnAvailability();
+				bothPiecesSettled = true;
+				m_lastPairAddedToGrid = nullptr;
+			}
 		}
 	}
 }

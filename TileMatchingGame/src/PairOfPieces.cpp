@@ -16,7 +16,10 @@ PairOfPieces::PairOfPieces(const ColumnAvailability* columnAvailability)
 	m_pairPosition = PairPosition(*m_pair.at(0), *m_pair.at(1));
 
 	EventHandler::SubscribeToEvent(SDL_KEYDOWN, 
-				std::function<void(SDL_Event&)>(std::bind(&PairOfPieces::MovePairToTheSide, this, std::placeholders::_1)));
+							std::function<void(SDL_Event&)>(std::bind(&PairOfPieces::MovePairToTheSide, this, std::placeholders::_1)));
+
+	EventHandler::SubscribeToEvent(SDL_MOUSEBUTTONDOWN,
+							std::function<void(SDL_Event&)>(std::bind(&PairOfPieces::RotatePair, this, std::placeholders::_1)));
 
 	m_columnAvailability = columnAvailability;
 }
@@ -89,13 +92,66 @@ void PairOfPieces::MovePairToTheSide(SDL_Event& aEvent)
 	}
 }
 
+void PairOfPieces::RotatePair(SDL_Event& event)
+{
+	const auto deltaPairPosition = m_pairPosition.SecondPiecePos() - m_pairPosition.FirstPiecePos();
+	bool secondPieceIsToTheRight = deltaPairPosition.X() > 0;
+	bool secondPieceIsBelow		 = deltaPairPosition.Y() > 0;
+
+	const auto& secondPiece = m_pair.at(1).get();
+
+	if (secondPieceIsBelow && deltaPairPosition.X()== 0)
+	{
+		if (secondPiece->GetScreenPos().X() > Consts::GRID_INIT_X 
+			&& (m_columnAvailability->AvailableLineForColumn(secondPiece->GetScreenPos().X() - Consts::PIECE_W))  > secondPiece->GetScreenPos().Y())
+		{
+			secondPiece->Move(MoveDirection::up);
+			secondPiece->Move(MoveDirection::left);
+			m_isVertical = false;
+		}
+		else return;
+	}
+	else if (!secondPieceIsBelow && deltaPairPosition.X() == 0)
+	{
+		if (secondPiece->GetScreenPos().X() + Consts::PIECE_W < Consts::GRID_RIGHTMOST_X
+			&& (m_columnAvailability->AvailableLineForColumn(secondPiece->GetScreenPos().X() + Consts::PIECE_W)) > m_pair.at(0)->GetScreenPos().Y())
+		{
+			secondPiece->Move(MoveDirection::down);
+			secondPiece->Move(MoveDirection::right);
+			m_isVertical = false;
+		}
+		else return;
+	}
+	else if (secondPieceIsToTheRight && deltaPairPosition.Y() == 0)
+	{
+		if (secondPiece->GetScreenPos().Y() + Consts::PIECE_H < Consts::GRID_BOTTOMMOST_Y
+			&& (m_columnAvailability->AvailableLineForColumn(secondPiece->GetScreenPos().X() - Consts::PIECE_W)) > secondPiece->GetScreenPos().Y() + Consts::PIECE_H)
+		{
+			secondPiece->Move(MoveDirection::down);
+			secondPiece->Move(MoveDirection::left);
+			m_isVertical = true;
+		}
+		else return;
+	}
+	else if (!secondPieceIsToTheRight && deltaPairPosition.Y() == 0)
+	{
+		if (secondPiece->GetScreenPos().Y() + Consts::PIECE_H > Consts::GRID_INIT_Y)
+		{
+			secondPiece->Move(MoveDirection::up);
+			secondPiece->Move(MoveDirection::right);
+			m_isVertical = true;
+		}
+		else return;
+	}
+}
+
 bool PairOfPieces::CanMoveRight() const
 {
 	const auto rightMostPiece = (m_pairPosition.FirstPiecePos().X() > m_pairPosition.SecondPiecePos().X()) ?
 								m_pairPosition.FirstPiecePos() :
 								m_pairPosition.SecondPiecePos();
 
-	bool attemptedMoveIsInsideGrid = rightMostPiece.X() + Consts::PIECE_W < Consts::GRID_FINAL_X;
+	bool attemptedMoveIsInsideGrid = rightMostPiece.X() + Consts::PIECE_W < Consts::GRID_RIGHTMOST_X;
 	if (attemptedMoveIsInsideGrid)
 	{
 		return CanMoveToColumnToTheSide(rightMostPiece, MoveDirection::right);

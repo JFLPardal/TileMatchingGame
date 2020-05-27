@@ -22,7 +22,8 @@ enum class MoveDirection
 {
 	left,
 	right,
-	down
+	down,
+	up
 };
 
 enum class PieceColor

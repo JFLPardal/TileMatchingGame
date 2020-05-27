@@ -25,6 +25,8 @@ public:
 	const PairPosition& GetScreenPos() const;
 	const Vector2& GetFirstPiecePos() const;
 	const Vector2& GetSecondPiecePos() const;
+	// a pair is vertical if the pieces are on top of each other
+	bool IsVertical() const { return m_isVertical; }
 
 	std::unique_ptr<Piece> AddFirstPieceToBoard();
 	std::unique_ptr<Piece> AddSecondPieceToBoard();
@@ -32,11 +34,14 @@ public:
 	void DisableInput() { m_inputEnabled = false; }
 private:
 	void MovePairToTheSide(SDL_Event& event);
+	void RotatePair(SDL_Event& event);
+
 	bool CanMoveLeft() const;
 	bool CanMoveToColumnToTheSide(const Vector2& leftMostPiece, MoveDirection newColumn) const;
 	bool CanMoveRight() const;
+	
 	bool m_inputEnabled = true;
-
+	bool m_isVertical = false;
 	const ColumnAvailability* m_columnAvailability{ nullptr };
 	std::array<std::unique_ptr<Piece>, 2> m_pair;
 	PairPosition m_pairPosition;

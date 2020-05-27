@@ -40,6 +40,10 @@ void EventHandler::ProcessEventsImpl()
 				m_TriggerEvent.TriggerEvent(eventToProcess);
 			}
 		}
+		else if (eventToProcess.type == SDL_MOUSEBUTTONDOWN)
+		{
+			m_TriggerEvent.TriggerEvent(eventToProcess);
+		}
 		//m_TriggerEvent.TriggerEvent(eventToProcess);
 	}
 }

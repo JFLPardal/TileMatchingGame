@@ -4,7 +4,6 @@
 #include "Vector2.h"
 #include "Piece.h"
 
-
 PairPosition::PairPosition()
 {
 	m_pairPosition.at(0) = nullptr;

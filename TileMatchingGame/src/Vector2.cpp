@@ -27,6 +27,11 @@ bool Vector2::operator==(const Vector2& vector1) const
 	return m_x == vector1.m_x && m_y == vector1.m_y;
 }
 
+Vector2 Vector2::operator-(const Vector2& vector) const
+{
+	return Vector2(m_x - vector.m_x, m_y - vector.m_y);
+}
+
 bool operator<(const Vector2& vector1, const Vector2& vector2) 
 {
 	if (vector2.m_y == vector1.m_y)

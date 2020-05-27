@@ -44,8 +44,8 @@ namespace Consts
 	constexpr int GRID_INIT_Y = WINDOW_H * 0.15f;
 
 	//grid final pos
-	constexpr int GRID_FINAL_X = GRID_INIT_X + NUM_PIECES_W * PIECE_W;
-	constexpr int GRID_BOTTOM_POS = NUM_PIECES_H * PIECE_H + GRID_INIT_Y;
+	constexpr int GRID_RIGHTMOST_X = GRID_INIT_X + NUM_PIECES_W * PIECE_W;
+	constexpr int GRID_BOTTOMMOST_Y = NUM_PIECES_H * PIECE_H + GRID_INIT_Y;
 	
 	// pair starting pos
 	constexpr int PAIR_INIT_X = GRID_INIT_X + (NUM_PIECES_W * 0.5f - 1)* PIECE_W;

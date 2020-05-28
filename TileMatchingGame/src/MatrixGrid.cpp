@@ -6,6 +6,7 @@
 #include "PairOfPieces.h"
 #include "Utils.h"
 #include "ColumnAvailability.h"
+#include "Group.h"
 
 MatrixGrid::MatrixGrid()
 	: m_columnAvailability(std::make_unique< ColumnAvailability>())
@@ -88,15 +89,20 @@ void MatrixGrid::Update(int msSinceLastUpdate)
 
 	static int animationDuration = 0;
 	bool isAnimationPlaying = animationDuration > 0;
-
+	
+	static std::vector<Group> groupsFound;
 	if (!isAnimationPlaying)
 	{
 		if (bothPiecesSettled)
 		{
-			bool foundGroup = FindGroupsInGrid();
-			if(!foundGroup) m_isDoneProcessingGroups = true;
-			else animationDuration = 1000;
-
+			groupsFound = FindGroupsInGrid();
+			if(groupsFound.size() > 0) 
+				for(auto& group : groupsFound) 
+				{
+					animationDuration = 1000;
+					group.PlayDestructionAnimation();
+				}
+			 else m_isDoneProcessingGroups = true;
 			bothPiecesSettled = false;
 		}
 		else if(!bothPiecesSettled)
@@ -111,21 +117,30 @@ void MatrixGrid::Update(int msSinceLastUpdate)
 		{
 			m_isDoneProcessingGroups = true;
 			animationDuration == 0;
+			for(auto& group : groupsFound)
+				DeleteGroupFromGrid(group); //already implemented!
+			SettleSuspendedPieces();
+			groupsFound.clear();
 		}
 	}
 }
 
-bool MatrixGrid::FindGroupsInGrid()
+// this return type is ok because of copy elision, which will construct the returning vector on the variable that is supposed to store the vector
+std::vector<Group> MatrixGrid::FindGroupsInGrid()
 {
-	bool foundAtLeastOneGroup = false;
+	std::set<Vector2> allPositionsInAGroup; // used to avoid processing pieces that are already part of a group
+	std::vector<Group> groupsFound;
+	PieceColor lastColor = PieceColor::notDefined;
+
 	for (auto i = 0; i < m_grid.size(); i++)
 	{
 		for (auto j = 0; j < m_grid.at(i).size(); j++)
 		{
 			Vector2 initialPos(i, j);
-			if (GetPieceInIndex(initialPos) != nullptr)
+			if (GetPieceInIndex(initialPos) != nullptr 
+				&& lastColor != GetPieceInIndex(initialPos)->GetColor() 
+				&& allPositionsInAGroup.find(initialPos) == allPositionsInAGroup.end())
 			{
-
 				std::set<Vector2> solution;
 				std::set<Vector2> seen;
 				std::deque<Vector2> toProcess;
@@ -140,6 +155,7 @@ bool MatrixGrid::FindGroupsInGrid()
 					Vector2 posBeingProcessed = toProcess.front();
 					if (GetPieceInIndex(posBeingProcessed)->GetColor() == currentColor)
 					{
+						allPositionsInAGroup.insert(posBeingProcessed);
 						solution.insert(posBeingProcessed);
 						std::vector<Vector2> adjacentPositions = GetAdjacentPositions(posBeingProcessed);
 						for (auto& adjacentPosition : adjacentPositions)
@@ -155,14 +171,13 @@ bool MatrixGrid::FindGroupsInGrid()
 				}
 				if (solution.size() >= Consts::MIN_NUMBER_OF_PIECES_TO_MAKE_GROUP)
 				{
-					DeleteGroupFromGrid(solution);
-					SettleSuspendedPieces();
-					foundAtLeastOneGroup = true;
+					groupsFound.emplace_back(solution);
 				}
+				lastColor = currentColor;
 			}
 		}
 	}
-	return foundAtLeastOneGroup;
+	return groupsFound;
 }
 
 void MatrixGrid::UpdatePiecesUntilSettled(bool& firstPieceHasSettled, bool& secondPieceHasSettled, bool& bothPiecesSettled, int msSinceLastUpdate)
@@ -233,15 +248,17 @@ void MatrixGrid::UpdateGridAndColumnAvailability()
 	m_columnAvailability->IncreaseColumnHeight(secondPiecePositionInGrid);
 }
 
-void MatrixGrid::DeleteGroupFromGrid(std::set<Vector2>& solution)
+void MatrixGrid::DeleteGroupFromGrid(Group& group)
 {
+	auto positionsOfPiecesInGroup = group.GetPiecePositions();
 	printf("----solution------\n\n");
-	for (auto& pos : solution)
+	for (auto& pos : positionsOfPiecesInGroup)
 	{
 		printf("[%d, %d] \n", pos.X(), pos.Y());
 	}
 	printf("----end-----------\n\n");
-	for (auto& position : solution)
+	
+	for (auto& position : positionsOfPiecesInGroup)
 	{
 		m_grid.at(position.X()).at(position.Y()).reset(nullptr);
 		m_columnAvailability->DecreaseColumnHeight(position);

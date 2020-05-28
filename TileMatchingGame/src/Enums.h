@@ -31,7 +31,8 @@ enum class PieceColor
 	brown,
 	red,
 	blue,
-	green
+	green,
+	notDefined
 };
 
 enum class ColumnHeightModifier

@@ -11,6 +11,7 @@
 class PairOfPieces;
 class ColumnAvailability;
 class PairPosition;
+class Group;
 
 class MatrixGrid : public IGridRepresentation
 {
@@ -30,11 +31,13 @@ public:
 private:
 	void InitGrid();
 
-	bool FindGroupsInGrid();
+	std::vector<Group> FindGroupsInGrid();
+	//bool FindGroupsInGrid();
 	void UpdatePiecesUntilSettled(bool& firstPieceHasSettled, bool& secondPieceHasSettled, bool& bothPiecesSettled, int msSinceLastUpdate);
 	void UpdateGridAndColumnAvailability();
 	
-	void DeleteGroupFromGrid(std::set<Vector2>& solution);
+	//void DeleteGroupFromGrid(std::set<Vector2>& solution);
+	void DeleteGroupFromGrid(Group& group);
 	void SettleSuspendedPieces();
 	std::vector<Vector2> GetAdjacentPositions(const Vector2& gridPosition) const;
 	const Piece* const GetPieceInIndex(const Vector2& gridIndex) const { return m_grid.at(gridIndex.X()).at(gridIndex.Y()).get(); }

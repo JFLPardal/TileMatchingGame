@@ -167,6 +167,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\ColumnAvailability.cpp" />
+    <ClCompile Include="src\Group.cpp" />
     <ClCompile Include="src\PairOfPieces.cpp" />
     <ClCompile Include="src\PairPosition.cpp" />
     <ClCompile Include="src\Rect.cpp" />
@@ -186,6 +187,7 @@
     <ClCompile Include="src\Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Group.h" />
     <ClInclude Include="src\PairPosition.h" />
     <ClInclude Include="src\ColumnAvailability.h" />
     <ClInclude Include="src\PairOfPieces.h" />

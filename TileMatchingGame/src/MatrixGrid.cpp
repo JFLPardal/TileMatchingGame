@@ -86,20 +86,38 @@ void MatrixGrid::Update(int msSinceLastUpdate)
 	static bool secondPieceHasSettled = false;
 	static bool bothPiecesSettled = false;
 
-	if (bothPiecesSettled)
+	static int animationDuration = 0;
+	bool isAnimationPlaying = animationDuration > 0;
+
+	if (!isAnimationPlaying)
 	{
-		m_isDoneProcessingGroups = FindGroupsInGrid();
-		if (m_isDoneProcessingGroups)
+		if (bothPiecesSettled)
+		{
+			bool foundGroup = FindGroupsInGrid();
+			if(!foundGroup) m_isDoneProcessingGroups = true;
+			else animationDuration = 1000;
+
 			bothPiecesSettled = false;
+		}
+		else if(!bothPiecesSettled)
+		{
+			UpdatePiecesUntilSettled(firstPieceHasSettled, secondPieceHasSettled, bothPiecesSettled, msSinceLastUpdate);
+		}
 	}
 	else
 	{
-		UpdatePiecesUntilSettled(firstPieceHasSettled, secondPieceHasSettled, bothPiecesSettled, msSinceLastUpdate);
+		animationDuration -= msSinceLastUpdate;
+		if (animationDuration <= 0)
+		{
+			m_isDoneProcessingGroups = true;
+			animationDuration == 0;
+		}
 	}
 }
 
 bool MatrixGrid::FindGroupsInGrid()
 {
+	bool foundAtLeastOneGroup = false;
 	for (auto i = 0; i < m_grid.size(); i++)
 	{
 		for (auto j = 0; j < m_grid.at(i).size(); j++)
@@ -139,11 +157,12 @@ bool MatrixGrid::FindGroupsInGrid()
 				{
 					DeleteGroupFromGrid(solution);
 					SettleSuspendedPieces();
+					foundAtLeastOneGroup = true;
 				}
 			}
 		}
 	}
-	return true;
+	return foundAtLeastOneGroup;
 }
 
 void MatrixGrid::UpdatePiecesUntilSettled(bool& firstPieceHasSettled, bool& secondPieceHasSettled, bool& bothPiecesSettled, int msSinceLastUpdate)

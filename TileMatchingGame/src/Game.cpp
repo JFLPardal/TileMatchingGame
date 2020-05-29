@@ -6,6 +6,7 @@
 #include "MatrixGrid.h"
 #include "Renderer.h"
 #include "PairOfPieces.h"
+#include "PointSystem.h"
 
 void EventTesting();
 
@@ -14,6 +15,7 @@ Game::Game()
 {
 	InitWindow();
 	InitRenderer();
+	InitPointSystem();
 	SpawnPairOfPieces();
 }
 
@@ -35,6 +37,11 @@ void Game::InitWindow()
 void Game::InitRenderer()
 {
 	m_renderer = std::make_unique<Renderer>(m_window.get());
+}
+
+void Game::InitPointSystem()
+{
+	m_pointSystem = std::make_unique<PointSystem>();
 }
 
 void Game::SpawnPairOfPieces()

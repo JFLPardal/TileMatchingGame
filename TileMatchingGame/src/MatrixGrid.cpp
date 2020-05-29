@@ -6,6 +6,7 @@
 #include "PairOfPieces.h"
 #include "Utils.h"
 #include "ColumnAvailability.h"
+#include "UserEvent.h"
 
 MatrixGrid::MatrixGrid()
 	: m_columnAvailability(std::make_unique< ColumnAvailability>())
@@ -227,6 +228,9 @@ void MatrixGrid::DeleteGroupFromGrid(std::set<Vector2>& solution)
 		m_grid.at(position.X()).at(position.Y()).reset(nullptr);
 		m_columnAvailability->DecreaseColumnHeight(position);
 	}
+
+	e_groupSize = solution.size();
+	UserEvent(UserEventType::groupDestroyed, &e_groupSize, nullptr);
 }
 
 void MatrixGrid::SettleSuspendedPieces()

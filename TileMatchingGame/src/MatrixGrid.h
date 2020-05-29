@@ -45,4 +45,6 @@ private:
 
 	std::array<std::array<std::unique_ptr<Piece>, Consts::NUM_PIECES_H>, Consts::NUM_PIECES_W> m_grid;
 	std::unique_ptr<ColumnAvailability> m_columnAvailability;
+
+	int e_groupSize = 0; // this needs to exist because of complications with the lifetime of data of user created events. A better solution must be found
 };

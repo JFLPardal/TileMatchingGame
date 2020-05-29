@@ -2,6 +2,7 @@
 
 enum class UserEventType : Sint32
 {
+	groupDestroyed,
 	testType
 };
 

@@ -12,5 +12,8 @@
 class UserEvent
 {
 public:
-	UserEvent(UserEventType userEvent, void* relevantInfo, void* moreRelevantInfo);
+	explicit UserEvent(UserEventType userEvent, void* relevantInfo = nullptr, void* moreRelevantInfo = nullptr);
+	UserEvent() = delete;
+	UserEvent(UserEvent&&) = delete;
+	UserEvent(const UserEvent&) = delete;
 };

@@ -20,26 +20,26 @@ void MatrixGrid::InitGrid()
 	for (auto& column : m_grid)
 		for (auto& piece : column)
 			piece = nullptr;
-	/*m_grid.at(3).at(15) = std::make_unique<Piece>();
-	m_grid.at(4).at(15) = std::make_unique<Piece>();
-	m_grid.at(3).at(14) = std::make_unique<Piece>();
-	m_grid.at(4).at(14) = std::make_unique<Piece>();
-	m_grid.at(3).at(13) = std::make_unique<Piece>();
-	m_grid.at(4).at(13) = std::make_unique<Piece>();
-	m_grid.at(3).at(12) = std::make_unique<Piece>();
-	m_grid.at(4).at(12) = std::make_unique<Piece>();
-	m_grid.at(3).at(11) = std::make_unique<Piece>();
-	m_grid.at(4).at(11) = std::make_unique<Piece>();
-	m_columnAvailability->IncreaseColumnHeight(Vector2(3,1));
-	m_columnAvailability->IncreaseColumnHeight(Vector2(3,1));
-	m_columnAvailability->IncreaseColumnHeight(Vector2(3,1));
-	m_columnAvailability->IncreaseColumnHeight(Vector2(3,1));
-	m_columnAvailability->IncreaseColumnHeight(Vector2(3,1));
-	m_columnAvailability->IncreaseColumnHeight(Vector2(4,1));
-	m_columnAvailability->IncreaseColumnHeight(Vector2(4,1));
-	m_columnAvailability->IncreaseColumnHeight(Vector2(4,1));
-	m_columnAvailability->IncreaseColumnHeight(Vector2(4,1));
-	m_columnAvailability->IncreaseColumnHeight(Vector2(4,1));*/
+	/*m_grid.at(0).at(16) = std::make_unique<Piece>();
+	m_grid.at(0).at(15) = std::make_unique<Piece>();
+	m_grid.at(0).at(14) = std::make_unique<Piece>();
+	m_grid.at(0).at(13) = std::make_unique<Piece>();
+	m_grid.at(0).at(12) = std::make_unique<Piece>();
+	m_grid.at(0).at(11) = std::make_unique<Piece>();
+	m_grid.at(0).at(10) = std::make_unique<Piece>();
+	m_grid.at(0).at(9) = std::make_unique<Piece>();
+	m_grid.at(0).at(8) = std::make_unique<Piece>();
+	m_grid.at(0).at(7) = std::make_unique<Piece>();
+	m_columnAvailability->IncreaseColumnHeight(Vector2(0,1));
+	m_columnAvailability->IncreaseColumnHeight(Vector2(0,1));
+	m_columnAvailability->IncreaseColumnHeight(Vector2(0,1));
+	m_columnAvailability->IncreaseColumnHeight(Vector2(0,1));
+	m_columnAvailability->IncreaseColumnHeight(Vector2(0,1));
+	m_columnAvailability->IncreaseColumnHeight(Vector2(0,1));
+	m_columnAvailability->IncreaseColumnHeight(Vector2(0,1));
+	m_columnAvailability->IncreaseColumnHeight(Vector2(0,1));
+	m_columnAvailability->IncreaseColumnHeight(Vector2(0,1));
+	m_columnAvailability->IncreaseColumnHeight(Vector2(0,1));*/
 }
 
 bool MatrixGrid::IsDoneProcessingGroups()
@@ -230,7 +230,7 @@ void MatrixGrid::DeleteGroupFromGrid(std::set<Vector2>& solution)
 	}
 
 	e_groupSize = solution.size();
-	UserEvent(UserEventType::groupDestroyed, &e_groupSize, nullptr);
+	UserEvent(UserEventType::groupDestroyed, &e_groupSize);
 }
 
 void MatrixGrid::SettleSuspendedPieces()
@@ -293,4 +293,4 @@ std::vector<Vector2> MatrixGrid::GetAdjacentPositions(const Vector2& gridPositio
 }
 
 // needed on the cpp because of the forward decl of Piece
-MatrixGrid::~MatrixGrid() = default;
+MatrixGrid::~MatrixGrid() { printf("destroyed matrix grid\n"); }// = default;

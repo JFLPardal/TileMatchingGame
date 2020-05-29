@@ -3,6 +3,7 @@
 
 #include "Utils.h"
 #include "Vector2.h"
+#include "UserEvent.h"
 
 void ColumnAvailability::InitColumnAvailability(unsigned int aColumnSize)
 {
@@ -34,5 +35,10 @@ void ColumnAvailability::UpdateColumnAvailability(const Vector2& columnToUpdate,
 
 bool ColumnAvailability::CheckIfPieceHasSettled(const Vector2& aPieceScreenPosition) const
 {
+	int yInGridIndex = ScreenToGridPositon(aPieceScreenPosition.Y(), CoordToConvert::y);
+	auto availableLine = AvailableLineForColumn(aPieceScreenPosition.X());
+	if (aPieceScreenPosition.Y() >= AvailableLineForColumn(aPieceScreenPosition.X()) && yInGridIndex == 0)
+		UserEvent levelFailed(UserEventType::levelFailed);
+
 	return aPieceScreenPosition.Y() >= AvailableLineForColumn(aPieceScreenPosition.X());
 }

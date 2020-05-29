@@ -1,5 +1,5 @@
 #pragma once
-
+#include "Enums.h"
 /*
 	Game will have the functionality to start and update the game
 	and it will be responsible for telling main when the 
@@ -28,9 +28,15 @@ private:
 	void InitWindow();
 	void InitRenderer();
 	void InitPointSystem();
+	void RegisterForLevelCompleteEvent();
 	void SpawnPairOfPieces();
 
-	bool m_isRunning = true;
+	void RestartGame(RestartCondition condition);
+	void GameLost(SDL_Event& event);
+
+	bool m_isRunning = true; 
+	bool m_reachedPointsToCompleteLevel = false;
+
 	std::unique_ptr<PointSystem> m_pointSystem{ nullptr };
 	std::unique_ptr<IGridRepresentation> m_grid{ nullptr };
 	std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)> m_window { nullptr, SDL_DestroyWindow };

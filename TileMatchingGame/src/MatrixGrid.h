@@ -40,7 +40,7 @@ private:
 	const Piece* const GetPieceInIndex(const Vector2& gridIndex) const { return m_grid.at(gridIndex.X()).at(gridIndex.Y()).get(); }
 	const Piece* const GetPieceInIndex(int x, int y) const { return GetPieceInIndex(Vector2(x,y)); }
 
-	bool m_isDoneProcessingGroups = false;
+	bool m_isDoneProcessingGroups = true;
 	std::unique_ptr<PairOfPieces> m_lastPairAddedToGrid{ nullptr };
 
 	std::array<std::array<std::unique_ptr<Piece>, Consts::NUM_PIECES_H>, Consts::NUM_PIECES_W> m_grid;

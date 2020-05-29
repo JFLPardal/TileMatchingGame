@@ -4,6 +4,10 @@ namespace Consts
 {
 	constexpr int MIN_NUMBER_OF_PIECES_TO_MAKE_GROUP = 4;
 	
+	// progression 
+	constexpr int POINTS_TO_CLEAR_1ST_LVL = 200;
+	constexpr int POINTS_TO_CLEAR_LVL_INC = 100;
+	
 	// pair and piece speed
 	constexpr float PAIR_SPEED_BOOST = 2.5f; // percentage that should be applied to the regular speed of a pair when the speed boost key is pressed
 	constexpr float PIECE_DEFAULT_SPEED = 0.2f;
@@ -38,7 +42,7 @@ namespace Consts
 
 	// number of pieces that the grid has
 	constexpr int NUM_PIECES_W = 8;
-	constexpr int NUM_PIECES_H = 16;
+	constexpr int NUM_PIECES_H = 16 + 1; // the extra line is used for the lose condition
 	
 	// pair move increment
 	constexpr int MOVE_INCREMENT = PIECE_W;
@@ -53,7 +57,7 @@ namespace Consts
 	
 	// pair starting pos
 	constexpr int PAIR_INIT_X = GRID_INIT_X + (NUM_PIECES_W * 0.5f - 1)* PIECE_W;
-	constexpr int PAIR_INIT_Y = GRID_INIT_Y;
+	constexpr int PAIR_INIT_Y = GRID_INIT_Y - PIECE_H;
 	
 	// framerate
 	constexpr int INTENDED_FPS = 60;

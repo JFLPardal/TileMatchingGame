@@ -42,14 +42,21 @@ void Renderer::Display()
 
 void Renderer::Draw(Rect* aTextureRect, int aScreenPosX, int aScreenPosY)
 {
-	SDL_Rect screenPosAndSize{ aScreenPosX, aScreenPosY, Consts::PIECE_W,Consts::PIECE_H };
+	SDL_Rect screenPosAndSize{ aScreenPosX, aScreenPosY, Consts::PIECE_W, Consts::PIECE_H };
 	SDL_Rect spriteSheetTexture = aTextureRect->GetAsSDLRect();
 	SDL_RenderCopy(m_renderer.get(), m_texture.get(), &spriteSheetTexture, &screenPosAndSize);
 }
 
-void Renderer::Draw(Rect* textureRect, const Vector2& screenPos)
+void Renderer::Draw(Rect* aTextureRect, const Vector2& aScreenPos)
 {
-	Draw(textureRect, screenPos.X(), screenPos.Y());
+	Draw(aTextureRect, aScreenPos.X(), aScreenPos.Y());
+}
+
+void Renderer::DrawUI(Rect* aTextureRect, const Vector2& aScreenPos, const Vector2& aDimensions)
+{
+	SDL_Rect screenPosAndSize{ aScreenPos.X(), aScreenPos.Y(), aDimensions.X(), aDimensions.Y() };
+	SDL_Rect spriteSheetTexture = aTextureRect->GetAsSDLRect();
+	SDL_RenderCopy(m_renderer.get(), m_texture.get(), &spriteSheetTexture, &screenPosAndSize);
 }
 
 void Renderer::InitRenderer(SDL_Window* const aWindow)

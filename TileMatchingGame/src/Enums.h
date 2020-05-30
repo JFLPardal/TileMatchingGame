@@ -4,7 +4,8 @@ enum class UserEventType : Sint32
 {
 	groupDestroyed,
 	levelCompleted,
-	levelFailed
+	levelFailed,
+	pointsUpdated
 };
 
 enum class RestartCondition
@@ -16,6 +17,12 @@ enum class RestartCondition
 enum class CoordToConvert
 {
 	x, 
+	y
+};
+
+enum class CoordToResize
+{
+	x,
 	y
 };
 

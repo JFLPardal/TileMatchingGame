@@ -11,6 +11,7 @@ class IGridRepresentation;
 class Renderer;
 class PairOfPieces;
 class PointSystem;
+class FillableUIBar;
 
 class Game
 {
@@ -28,6 +29,7 @@ private:
 	void InitWindow();
 	void InitRenderer();
 	void InitPointSystem();
+	void InitUI();
 	void RegisterForLevelCompleteEvent();
 	void SpawnPairOfPieces();
 
@@ -41,5 +43,6 @@ private:
 	std::unique_ptr<IGridRepresentation> m_grid{ nullptr };
 	std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)> m_window { nullptr, SDL_DestroyWindow };
 	std::unique_ptr<Renderer> m_renderer{ nullptr };
-	std::unique_ptr<PairOfPieces> m_currenPair{ nullptr };
+	std::unique_ptr<PairOfPieces> m_currenPair{ nullptr }; 
+	std::unique_ptr<FillableUIBar> m_levelProgressBar{ nullptr };
 };

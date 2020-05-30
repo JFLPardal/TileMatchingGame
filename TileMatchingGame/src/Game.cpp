@@ -7,6 +7,7 @@
 #include "Renderer.h"
 #include "PairOfPieces.h"
 #include "PointSystem.h"
+#include "FillableUIBar.h"
 
 Game::Game()
 	: m_grid(std::make_unique<MatrixGrid>())
@@ -14,6 +15,7 @@ Game::Game()
 	InitWindow();
 	InitRenderer();
 	InitPointSystem();
+	InitUI();
 	RegisterForLevelCompleteEvent();
 	EventHandler::SubscribeToEvent(UserEventType::levelFailed, 
 								std::function<void(SDL_Event&)>(std::bind(&Game::GameLost, this, std::placeholders::_1)));
@@ -44,6 +46,7 @@ void Game::InitPointSystem()
 	m_pointSystem = std::make_unique<PointSystem>();
 }
 
+
 void Game::RegisterForLevelCompleteEvent()
 {
 	EventHandler::SubscribeToEvent(UserEventType::levelCompleted, [&](SDL_Event&) {m_reachedPointsToCompleteLevel = true; });
@@ -58,6 +61,7 @@ void Game::SpawnPairOfPieces()
 
 void Game::RestartGame(RestartCondition aRestartCondition)
 {
+	Draw(); // this will guarantee that UI gets drawn before the game is reset
 	if (aRestartCondition == RestartCondition::levelCompleted)
 		printf("game won!\n");
 	else
@@ -79,6 +83,11 @@ void Game::RestartGame(RestartCondition aRestartCondition)
 void Game::GameLost(SDL_Event& event)
 {
 	RestartGame(RestartCondition::levelFailed);
+}
+
+void Game::InitUI()
+{
+	m_levelProgressBar = std::make_unique<FillableUIBar>(UserEventType::pointsUpdated, 200);
 }
 
 void Game::Update(Uint32 msSinceLastUpdate)
@@ -106,7 +115,8 @@ void Game::Update(Uint32 msSinceLastUpdate)
 
 void Game::Draw()
 {
-	m_renderer->ClearScreen();
+	m_renderer->ClearScreen(); 
+	m_levelProgressBar->Draw(m_renderer.get());
 	m_grid->Draw(m_renderer.get());
 	if(m_currenPair != nullptr) m_currenPair->Draw(m_renderer.get());
 	m_renderer->Display();

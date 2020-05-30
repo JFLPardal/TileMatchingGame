@@ -16,6 +16,7 @@ public:
 	void ClearScreen();
 	void Draw(Rect* textureRect, int screenPosX, int screenPosY);
 	void Draw(Rect* textureRect, const Vector2& screenPos);
+	void DrawUI(Rect* textureRect, const Vector2& screenPos, const Vector2& dimensions);
 	void Display();
 
 	Renderer(const Renderer&) = delete;

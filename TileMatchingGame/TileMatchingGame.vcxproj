@@ -167,6 +167,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\ColumnAvailability.cpp" />
+    <ClCompile Include="src\FillableUIBar.cpp" />
     <ClCompile Include="src\PairOfPieces.cpp" />
     <ClCompile Include="src\PairPosition.cpp" />
     <ClCompile Include="src\PointSystem.cpp" />
@@ -183,11 +184,13 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\Piece.cpp" />
+    <ClCompile Include="src\UIBar.cpp" />
     <ClCompile Include="src\UserEvent.cpp" />
     <ClCompile Include="src\Utils.cpp" />
     <ClCompile Include="src\Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\FillableUIBar.h" />
     <ClInclude Include="src\PairPosition.h" />
     <ClInclude Include="src\ColumnAvailability.h" />
     <ClInclude Include="src\PairOfPieces.h" />
@@ -204,6 +207,7 @@
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\Piece.h" />
     <ClInclude Include="src\TextureMapper.h" />
+    <ClInclude Include="src\UIBar.h" />
     <ClInclude Include="src\UserEvent.h" />
     <ClInclude Include="src\Vector2.h" />
     <ClInclude Include="src\Utils.h" />

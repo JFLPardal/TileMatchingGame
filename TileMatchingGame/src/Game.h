@@ -12,6 +12,7 @@ class Renderer;
 class PairOfPieces;
 class PointSystem;
 class FillableUIBar;
+class UIBar;
 
 class Game
 {
@@ -30,8 +31,11 @@ private:
 	void InitRenderer();
 	void InitPointSystem();
 	void InitUI();
-	void RegisterForLevelCompleteEvent();
+	void SubscribeToEvents();
 	void SpawnPairOfPieces();
+
+	void AddUIElement(SDL_Event& eventInfo);
+	void RemoveUIElement(SDL_Event& eventInfo);
 
 	void RestartGame(RestartCondition condition);
 	void GameLost(SDL_Event& event);
@@ -44,5 +48,6 @@ private:
 	std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)> m_window { nullptr, SDL_DestroyWindow };
 	std::unique_ptr<Renderer> m_renderer{ nullptr };
 	std::unique_ptr<PairOfPieces> m_currenPair{ nullptr }; 
-	std::unique_ptr<FillableUIBar> m_levelProgressBar{ nullptr };
+	std::unique_ptr<FillableUIBar> m_levelProgressBar{ nullptr }; // TODO delete
+	std::vector<UIBar*> m_UIElements;
 };

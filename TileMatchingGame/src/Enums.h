@@ -5,7 +5,9 @@ enum class UserEventType : Sint32
 	groupDestroyed,
 	levelCompleted,
 	levelFailed,
-	pointsUpdated
+	pointsUpdated,
+	UIBarCreated,
+	UIBarDestroyed
 };
 
 enum class RestartCondition

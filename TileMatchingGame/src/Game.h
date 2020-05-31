@@ -11,7 +11,7 @@ class IGridRepresentation;
 class Renderer;
 class PairOfPieces;
 class PointSystem;
-class UIBar;
+class UIElement;
 
 class Game
 {
@@ -46,5 +46,5 @@ private:
 	std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)> m_window { nullptr, SDL_DestroyWindow };
 	std::unique_ptr<Renderer> m_renderer{ nullptr };
 	std::unique_ptr<PairOfPieces> m_currenPair{ nullptr }; 
-	std::vector<UIBar*> m_UIElements;
+	std::vector<UIElement*> m_UIElements;
 };

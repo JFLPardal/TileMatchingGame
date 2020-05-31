@@ -2,12 +2,12 @@
 #include "Game.h"
 #include "Constants.h"
 
-#include "Events\EventHandler.h"
+#include "Events/EventHandler.h"
 #include "MatrixGrid.h"
 #include "Renderer.h"
 #include "PairOfPieces.h"
 #include "PointSystem.h"
-#include "UI/UIBar.h"
+#include "UI/UIElement.h"
 
 Game::Game()
 	: m_grid(std::make_unique<MatrixGrid>())
@@ -51,15 +51,16 @@ void Game::SpawnPairOfPieces()
 
 void Game::AddUIElement(SDL_Event& eventInfo)
 {
-	auto uiElement = static_cast<UIBar*>(eventInfo.user.data1);
+	auto uiElement = static_cast<UIElement*>(eventInfo.user.data1);
 	m_UIElements.emplace_back(uiElement);
+	printf("added uielement to Game refs\n");
 }
 
 void Game::RemoveUIElement(SDL_Event& eventInfo)
 {
-	auto UIElementToRemove = static_cast<UIBar*>(eventInfo.user.data1);
+	auto UIElementToRemove = static_cast<UIElement*>(eventInfo.user.data1);
 	auto iteratorToRemove = std::find_if(m_UIElements.begin(), m_UIElements.end(), 
-							[&UIElementToRemove](UIBar* m_UIElement) {return *m_UIElement == *UIElementToRemove; });
+							[&UIElementToRemove](UIElement* m_UIElement) {return *m_UIElement == *UIElementToRemove; });
 	if (iteratorToRemove != m_UIElements.end())
 		m_UIElements.erase(iteratorToRemove);
 }
@@ -79,6 +80,7 @@ void Game::RestartGame(RestartCondition aRestartCondition)
 	if (aRestartCondition == RestartCondition::levelCompleted)
 	{
 		m_reachedPointsToCompleteLevel = false;
+		m_UIElements.clear();
 		m_pointSystem->Reset();
 	}
 	else
@@ -98,10 +100,10 @@ void Game::SubscribeToEvents()
 	EventHandler::SubscribeToEvent(UserEventType::levelFailed,
 								std::function<void(SDL_Event&)>(std::bind(&Game::GameLost, this, std::placeholders::_1)));
 
-	EventHandler::SubscribeToEvent(UserEventType::UIBarCreated,
+	EventHandler::SubscribeToEvent(UserEventType::UIElementCreated,
 								std::function<void(SDL_Event&)>(std::bind(&Game::AddUIElement, this, std::placeholders::_1)));
 	
-	EventHandler::SubscribeToEvent(UserEventType::UIBarDestroyed,
+	EventHandler::SubscribeToEvent(UserEventType::UIElementDestroyed,
 								std::function<void(SDL_Event&)>(std::bind(&Game::RemoveUIElement, this, std::placeholders::_1)));
 }
 
@@ -133,7 +135,7 @@ void Game::Draw()
 	m_renderer->ClearScreen(); 
 	for (auto& uiElement : m_UIElements)
 	{
-		uiElement->Draw(m_renderer.get());
+		if(uiElement != nullptr) uiElement->Draw(m_renderer.get());
 	}
 	m_grid->Draw(m_renderer.get());
 	if(m_currenPair != nullptr) m_currenPair->Draw(m_renderer.get());

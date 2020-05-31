@@ -186,6 +186,7 @@
     <ClCompile Include="src\Piece.cpp" />
     <ClCompile Include="src\UI\UIBar.cpp" />
     <ClCompile Include="src\Events\UserEvent.cpp" />
+    <ClCompile Include="src\UI\UIElement.cpp" />
     <ClCompile Include="src\Utils.cpp" />
     <ClCompile Include="src\Vector2.cpp" />
   </ItemGroup>
@@ -209,6 +210,7 @@
     <ClInclude Include="src\TextureMapper.h" />
     <ClInclude Include="src\UI\UIBar.h" />
     <ClInclude Include="src\Events\UserEvent.h" />
+    <ClInclude Include="src\UI\UIElement.h" />
     <ClInclude Include="src\Vector2.h" />
     <ClInclude Include="src\Utils.h" />
   </ItemGroup>

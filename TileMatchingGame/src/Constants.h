@@ -5,7 +5,7 @@ namespace Consts
 	constexpr int MIN_NUMBER_OF_PIECES_TO_MAKE_GROUP = 4;
 	
 	// progression 
-	constexpr int POINTS_TO_CLEAR_1ST_LVL = 200;
+	constexpr int POINTS_TO_CLEAR_1ST_LVL = 20;
 	constexpr int POINTS_TO_CLEAR_LVL_INC = 100;
 	
 	// pair and piece speed

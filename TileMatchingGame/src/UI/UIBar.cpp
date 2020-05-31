@@ -4,10 +4,10 @@
 
 #include "Renderer.h"
 
-UIBar::UIBar()
-	: UIElement(Vector2(50, 50))
-	, m_textureRect(11 * Consts::TEX_TILE_W, 6 * Consts::TEX_TILE_H, Consts::TEX_TILE_W, Consts::TEX_TILE_H)
-	, m_originalDimensions(220, 40)
+UIBar::UIBar(const Vector2& positionOfTopLeftCorner, const Vector2& dimensions, const Vector2& textureCoords)
+	: UIElement(positionOfTopLeftCorner)
+	, m_originalDimensions(dimensions)
+	, m_textureRect(textureCoords.X() * Consts::TEX_TILE_W, textureCoords.Y()* Consts::TEX_TILE_H, Consts::TEX_TILE_W, Consts::TEX_TILE_H)
 {
 	m_currentDimensions = m_originalDimensions;
 }

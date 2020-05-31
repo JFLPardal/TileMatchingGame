@@ -7,17 +7,13 @@
 #include "Events\EventHandler.h"
 
 FillableUIBar::FillableUIBar(UserEventType aEventThatWillFillBar, unsigned int aBarMaxCapacity)
-	: m_foreground(std::make_unique<UIBar>())
+	: m_foreground(std::make_unique<UIBar>(Vector2(50, 50), Vector2(240, 40), Vector2(11, 6)))
+	, m_background(std::make_unique<UIBar>(Vector2(50, 50), Vector2(240, 40), Vector2(12, 6)))
 	, m_maxCapacity(aBarMaxCapacity)
 {
 	m_foreground->Resize(CoordToResize::x, 0); // bar starts empty
 	EventHandler::SubscribeToEvent(aEventThatWillFillBar,
 									std::function<void(SDL_Event&)>(std::bind(&FillableUIBar::FillMethod, this, std::placeholders::_1)));
-}
-
-void FillableUIBar::Draw(Renderer* aRenderer)
-{
-	m_foreground->Draw(aRenderer);
 }
 
 void FillableUIBar::FillMethod(SDL_Event& aEvent)

@@ -14,10 +14,10 @@ public:
 	FillableUIBar(UserEventType eventThatWillFillBar, unsigned int barMaxCapacity);
 	~FillableUIBar();
 
-	void Draw(Renderer* renderer);
 private:
 	void FillMethod(SDL_Event& event);
 
+	std::unique_ptr<UIBar> m_background;
 	std::unique_ptr<UIBar> m_foreground;
 	unsigned int m_maxCapacity = -7;
 	unsigned int m_currentCapacity = 0;

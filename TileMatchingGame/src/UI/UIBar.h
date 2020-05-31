@@ -11,7 +11,7 @@
 class UIBar : public UIElement
 {
 public:
-	UIBar();
+	UIBar(const Vector2& positionOfTopLeftCorner, const Vector2& dimensions, const Vector2& textureCoords);
 
 	void Draw(Renderer* renderer) override;
 	

@@ -1,7 +1,7 @@
 #include "pch.h"
 
 #include "Game.h"
-#include "EventHandler.h"
+#include "Events\EventHandler.h"
 #include "Enums.h"
 #include "Constants.h"
 

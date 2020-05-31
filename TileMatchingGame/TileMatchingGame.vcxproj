@@ -95,7 +95,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)externalLibraries\SDL2-2.0.12\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)externalLibraries\SDL2-2.0.12\include;$(SolutionDir)TileMatchingGame\src;</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -112,7 +112,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)externalLibraries\SDL2-2.0.12\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)externalLibraries\SDL2-2.0.12\include;$(SolutionDir)TileMatchingGame\src;</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -131,7 +131,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)externalLibraries\SDL2-2.0.12\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)externalLibraries\SDL2-2.0.12\include;$(SolutionDir)TileMatchingGame\src;</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -152,7 +152,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)externalLibraries\SDL2-2.0.12\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)externalLibraries\SDL2-2.0.12\include;$(SolutionDir)TileMatchingGame\src;</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -167,13 +167,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\ColumnAvailability.cpp" />
-    <ClCompile Include="src\FillableUIBar.cpp" />
+    <ClCompile Include="src\UI\FillableUIBar.cpp" />
     <ClCompile Include="src\PairOfPieces.cpp" />
     <ClCompile Include="src\PairPosition.cpp" />
     <ClCompile Include="src\PointSystem.cpp" />
     <ClCompile Include="src\Rect.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
-    <ClCompile Include="src\EventHandler.cpp" />
+    <ClCompile Include="src\Events\EventHandler.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MatrixGrid.cpp" />
@@ -184,13 +184,13 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\Piece.cpp" />
-    <ClCompile Include="src\UIBar.cpp" />
-    <ClCompile Include="src\UserEvent.cpp" />
+    <ClCompile Include="src\UI\UIBar.cpp" />
+    <ClCompile Include="src\Events\UserEvent.cpp" />
     <ClCompile Include="src\Utils.cpp" />
     <ClCompile Include="src\Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\FillableUIBar.h" />
+    <ClInclude Include="src\UI\FillableUIBar.h" />
     <ClInclude Include="src\PairPosition.h" />
     <ClInclude Include="src\ColumnAvailability.h" />
     <ClInclude Include="src\PairOfPieces.h" />
@@ -199,16 +199,16 @@
     <ClInclude Include="src\Renderer.h" />
     <ClInclude Include="src\Constants.h" />
     <ClInclude Include="src\Enums.h" />
-    <ClInclude Include="src\EventCallback.h" />
-    <ClInclude Include="src\EventHandler.h" />
+    <ClInclude Include="src\Events\EventCallback.h" />
+    <ClInclude Include="src\Events\EventHandler.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\IGridRepresentation.h" />
     <ClInclude Include="src\MatrixGrid.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\Piece.h" />
     <ClInclude Include="src\TextureMapper.h" />
-    <ClInclude Include="src\UIBar.h" />
-    <ClInclude Include="src\UserEvent.h" />
+    <ClInclude Include="src\UI\UIBar.h" />
+    <ClInclude Include="src\Events\UserEvent.h" />
     <ClInclude Include="src\Vector2.h" />
     <ClInclude Include="src\Utils.h" />
   </ItemGroup>

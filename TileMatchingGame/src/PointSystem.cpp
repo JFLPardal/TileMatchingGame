@@ -1,21 +1,27 @@
 #include "pch.h"
 #include "PointSystem.h"
-
-#include "EventHandler.h"
-#include "UserEvent.h"
 #include "Enums.h"
-#include "FillableUIBar.h"
+
+#include "UI\FillableUIBar.h"
+#include "Events\EventHandler.h"
+#include "Events\UserEvent.h"
 
 PointSystem::PointSystem()
 {
 	EventHandler::SubscribeToEvent(UserEventType::groupDestroyed, 
 					std::function<void(SDL_Event&)>(std::bind(&PointSystem::AddPoints, this, std::placeholders::_1)));
-	//InitUI();
+	Init();
 }
 
-void PointSystem::ResetPoints()
+void PointSystem::Init()
+{
+	Reset();
+}
+
+void PointSystem::Reset()
 {
 	m_currentPoints = 0;
+	m_levelProgressBar = std::make_unique<FillableUIBar>(UserEventType::pointsUpdated, m_pointsToClearLevel);
 }
 
 void PointSystem::AddPoints(SDL_Event& eventInfo)
@@ -32,9 +38,6 @@ void PointSystem::AddPoints(SDL_Event& eventInfo)
 		m_pointsToClearLevel += Consts::POINTS_TO_CLEAR_LVL_INC;
 	}
 }
-/*
-void PointSystem::InitUI()
-{
-	m_levelProgressBar = std::make_unique<FillableUIBar>(UserEventType::pointsUpdated, m_pointsToClearLevel);
-}
-*/
+
+// needed on the cpp because of the forward decl of FillableUI
+PointSystem::~PointSystem() = default;

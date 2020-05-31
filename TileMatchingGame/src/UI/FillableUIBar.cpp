@@ -4,7 +4,7 @@
 
 #include "Renderer.h"
 #include "UIBar.h"
-#include "EventHandler.h"
+#include "Events\EventHandler.h"
 
 FillableUIBar::FillableUIBar(UserEventType aEventThatWillFillBar, unsigned int aBarMaxCapacity)
 	: m_foreground(std::make_unique<UIBar>())

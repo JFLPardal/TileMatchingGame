@@ -3,7 +3,7 @@
 #include "Constants.h"
 
 #include "Renderer.h"
-#include "UserEvent.h"
+#include "Events\UserEvent.h"
 
 unsigned int UIBar::m_nextID = 0;
 
@@ -38,5 +38,4 @@ bool UIBar::operator==(const UIBar& barToCompareTo)
 UIBar::~UIBar()
 {
 	UserEvent destroyedUIBar(UserEventType::UIBarDestroyed, this);
-	printf("destroyed uibar\n");
 }

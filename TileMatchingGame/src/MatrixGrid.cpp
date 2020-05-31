@@ -6,7 +6,7 @@
 #include "PairOfPieces.h"
 #include "Utils.h"
 #include "ColumnAvailability.h"
-#include "UserEvent.h"
+#include "Events\UserEvent.h"
 
 MatrixGrid::MatrixGrid()
 	: m_columnAvailability(std::make_unique< ColumnAvailability>())

@@ -27,7 +27,7 @@ auto Renderer::LoadTexture(const std::string& aTexturePath)
 Renderer::Renderer(SDL_Window* const aWindow)
 {
 	InitRenderer(aWindow);
-	m_texture = LoadTexture("test_tilesheet.png");
+	m_texture = LoadTexture("assets\\tilesheet.png");
 }
 
 void Renderer::ClearScreen()

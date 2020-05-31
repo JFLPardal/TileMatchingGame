@@ -7,22 +7,21 @@
 	to clear a level.
 */
 
-class IGridRepresentation;
 class FillableUIBar;
 
 class PointSystem 
 {
 public:
 	PointSystem();
-	~PointSystem() { printf("point system destroyed\n"); }
+	~PointSystem();
 
-	void ResetPoints();
+	void Reset();
 private:
 	void AddPoints(SDL_Event& eventInfo);
-	//void InitUI();
+	void Init();
 
 	unsigned int m_pointsToClearLevel = Consts::POINTS_TO_CLEAR_1ST_LVL;
 	unsigned int m_currentPoints = 0;
 	unsigned int m_lastPointsAdded = 0; // needed for the UserEventType::PointsUpdated
-	//std::unique_ptr<FillableUIBar> m_levelProgressBar{ nullptr };
+	std::unique_ptr<FillableUIBar> m_levelProgressBar{ nullptr };
 };

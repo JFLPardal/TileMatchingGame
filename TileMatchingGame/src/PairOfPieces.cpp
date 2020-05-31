@@ -3,7 +3,7 @@
 
 #include "Piece.h"
 #include "Renderer.h"
-#include "EventHandler.h"
+#include "Events\EventHandler.h"
 #include "PairPosition.h"
 #include "ColumnAvailability.h"
 

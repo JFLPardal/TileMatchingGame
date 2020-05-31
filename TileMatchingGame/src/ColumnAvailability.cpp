@@ -3,7 +3,7 @@
 
 #include "Utils.h"
 #include "Vector2.h"
-#include "UserEvent.h"
+#include "Events\UserEvent.h"
 
 void ColumnAvailability::InitColumnAvailability(unsigned int aColumnSize)
 {

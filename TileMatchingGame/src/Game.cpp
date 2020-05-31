@@ -2,13 +2,12 @@
 #include "Game.h"
 #include "Constants.h"
 
-#include "EventHandler.h"
+#include "Events\EventHandler.h"
 #include "MatrixGrid.h"
 #include "Renderer.h"
 #include "PairOfPieces.h"
 #include "PointSystem.h"
-#include "FillableUIBar.h"
-#include "UIBar.h"
+#include "UI/UIBar.h"
 
 Game::Game()
 	: m_grid(std::make_unique<MatrixGrid>())
@@ -16,7 +15,6 @@ Game::Game()
 	InitWindow();
 	InitRenderer();
 	InitPointSystem();
-	InitUI();
 	SubscribeToEvents();
 }
 
@@ -55,17 +53,15 @@ void Game::AddUIElement(SDL_Event& eventInfo)
 {
 	auto uiElement = static_cast<UIBar*>(eventInfo.user.data1);
 	m_UIElements.emplace_back(uiElement);
-	printf("added UIElement\n");
 }
 
 void Game::RemoveUIElement(SDL_Event& eventInfo)
 {
-	auto UIElementToRemove = *static_cast<UIBar*>(eventInfo.user.data1);
+	auto UIElementToRemove = static_cast<UIBar*>(eventInfo.user.data1);
 	auto iteratorToRemove = std::find_if(m_UIElements.begin(), m_UIElements.end(), 
-							[&UIElementToRemove](UIBar* m_UIElement) {return *m_UIElement == UIElementToRemove; });
+							[&UIElementToRemove](UIBar* m_UIElement) {return *m_UIElement == *UIElementToRemove; });
 	if (iteratorToRemove != m_UIElements.end())
 		m_UIElements.erase(iteratorToRemove);
-	printf("removed UIElement\n");
 }
 
 void Game::RestartGame(RestartCondition aRestartCondition)
@@ -78,13 +74,12 @@ void Game::RestartGame(RestartCondition aRestartCondition)
 
 	SDL_Delay(2000);
 	m_grid = std::make_unique<MatrixGrid>();
-	m_levelProgressBar = std::make_unique<FillableUIBar>(UserEventType::pointsUpdated, 200);
 	m_currenPair = nullptr;
 
 	if (aRestartCondition == RestartCondition::levelCompleted)
 	{
 		m_reachedPointsToCompleteLevel = false;
-		m_pointSystem->ResetPoints();
+		m_pointSystem->Reset();
 	}
 	else
 		InitPointSystem();
@@ -93,11 +88,6 @@ void Game::RestartGame(RestartCondition aRestartCondition)
 void Game::GameLost(SDL_Event& event)
 {
 	RestartGame(RestartCondition::levelFailed);
-}
-
-void Game::InitUI()
-{
-	m_levelProgressBar = std::make_unique<FillableUIBar>(UserEventType::pointsUpdated, 200);
 }
 
 void Game::SubscribeToEvents()
@@ -141,7 +131,6 @@ void Game::Update(Uint32 msSinceLastUpdate)
 void Game::Draw()
 {
 	m_renderer->ClearScreen(); 
-	//m_levelProgressBar->Draw(m_renderer.get());
 	for (auto& uiElement : m_UIElements)
 	{
 		uiElement->Draw(m_renderer.get());

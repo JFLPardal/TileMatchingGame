@@ -21,9 +21,6 @@
     <ClCompile Include="src\pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\EventHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -57,13 +54,16 @@
     <ClCompile Include="src\PointSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\UserEvent.cpp">
+    <ClCompile Include="src\UI\FillableUIBar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\FillableUIBar.cpp">
+    <ClCompile Include="src\UI\UIBar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\UIBar.cpp">
+    <ClCompile Include="src\Events\EventHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Events\UserEvent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -71,13 +71,7 @@
     <ClInclude Include="src\pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\EventHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Enums.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\EventCallback.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Constants.h">
@@ -122,13 +116,19 @@
     <ClInclude Include="src\PointSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\UserEvent.h">
+    <ClInclude Include="src\UI\FillableUIBar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\FillableUIBar.h">
+    <ClInclude Include="src\UI\UIBar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\UIBar.h">
+    <ClInclude Include="src\Events\EventCallback.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Events\EventHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Events\UserEvent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

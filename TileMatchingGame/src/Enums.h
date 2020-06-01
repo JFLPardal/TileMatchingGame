@@ -2,12 +2,15 @@
 
 enum class UserEventType : Sint32
 {
+	notDefined,
 	groupDestroyed,
-	levelCompleted,
-	levelFailed,
+	ranOutOfGridSpace,
 	pointsUpdated,
+	pointsForLevelReached,
 	UIElementCreated,
-	UIElementDestroyed
+	UIElementDestroyed,
+	newFrame,
+	timeRanOut
 };
 
 enum class RestartCondition

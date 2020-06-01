@@ -38,7 +38,7 @@ bool ColumnAvailability::CheckIfPieceHasSettled(const Vector2& aPieceScreenPosit
 	int yInGridIndex = ScreenToGridPositon(aPieceScreenPosition.Y(), CoordToConvert::y);
 	auto availableLine = AvailableLineForColumn(aPieceScreenPosition.X());
 	if (aPieceScreenPosition.Y() >= AvailableLineForColumn(aPieceScreenPosition.X()) && yInGridIndex == 0)
-		UserEvent levelFailed(UserEventType::levelFailed);
+		UserEvent ranOutOfGridSpace(UserEventType::ranOutOfGridSpace);
 
 	return aPieceScreenPosition.Y() >= AvailableLineForColumn(aPieceScreenPosition.X());
 }

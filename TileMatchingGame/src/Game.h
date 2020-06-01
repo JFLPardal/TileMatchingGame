@@ -12,6 +12,7 @@ class Renderer;
 class PairOfPieces;
 class PointSystem;
 class UIElement;
+class GameMode;
 
 class Game
 {
@@ -36,10 +37,9 @@ private:
 	void RemoveUIElement(SDL_Event& eventInfo);
 
 	void RestartGame(RestartCondition condition);
-	void GameLost(SDL_Event& event);
 
 	bool m_isRunning = true; 
-	bool m_reachedPointsToCompleteLevel = false;
+	Uint32 m_msSinceLastUpdate = 0;
 
 	std::unique_ptr<PointSystem> m_pointSystem{ nullptr };
 	std::unique_ptr<IGridRepresentation> m_grid{ nullptr };
@@ -47,4 +47,5 @@ private:
 	std::unique_ptr<Renderer> m_renderer{ nullptr };
 	std::unique_ptr<PairOfPieces> m_currenPair{ nullptr }; 
 	std::vector<UIElement*> m_UIElements;
+	std::unique_ptr<GameMode> m_gameMode{ nullptr };
 };

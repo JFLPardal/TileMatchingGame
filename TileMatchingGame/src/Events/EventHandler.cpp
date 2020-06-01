@@ -16,8 +16,11 @@ void EventHandler::SubscribeToEventImpl(SDL_EventType aEventType, std::function<
 
 void EventHandler::SubscribeToEventImpl(UserEventType aEventType, std::function<void(SDL_Event&)> aCallbackFunction)
 {
-	printf("subscribed to user type event\n");
-	m_TriggerUserEvent.SubscribeToEvent(aEventType, aCallbackFunction);
+	if (aEventType != UserEventType::notDefined)
+	{
+		printf("subscribed to user type event\n");
+		m_TriggerUserEvent.SubscribeToEvent(aEventType, aCallbackFunction);
+	}
 }
 
 void EventHandler::ProcessEventsImpl()

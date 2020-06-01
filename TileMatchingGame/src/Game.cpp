@@ -3,14 +3,17 @@
 #include "Constants.h"
 
 #include "Events/EventHandler.h"
+#include "Events/UserEvent.h"
 #include "MatrixGrid.h"
 #include "Renderer.h"
 #include "PairOfPieces.h"
 #include "PointSystem.h"
 #include "UI/UIElement.h"
+#include "GameMode.h"
 
 Game::Game()
 	: m_grid(std::make_unique<MatrixGrid>())
+	, m_gameMode(std::make_unique<GameMode>())
 {
 	InitWindow();
 	InitRenderer();
@@ -76,30 +79,16 @@ void Game::RestartGame(RestartCondition aRestartCondition)
 	SDL_Delay(2000);
 	m_grid = std::make_unique<MatrixGrid>();
 	m_currenPair = nullptr;
+	m_UIElements.clear();
 
 	if (aRestartCondition == RestartCondition::levelCompleted)
-	{
-		m_reachedPointsToCompleteLevel = false;
-		m_UIElements.clear();
 		m_pointSystem->Reset();
-	}
 	else
 		InitPointSystem();
 }
 
-void Game::GameLost(SDL_Event& event)
-{
-	RestartGame(RestartCondition::levelFailed);
-}
-
 void Game::SubscribeToEvents()
 {
-	EventHandler::SubscribeToEvent(UserEventType::levelCompleted, 
-								[&](SDL_Event&) {m_reachedPointsToCompleteLevel = true; });
-
-	EventHandler::SubscribeToEvent(UserEventType::levelFailed,
-								std::function<void(SDL_Event&)>(std::bind(&Game::GameLost, this, std::placeholders::_1)));
-
 	EventHandler::SubscribeToEvent(UserEventType::UIElementCreated,
 								std::function<void(SDL_Event&)>(std::bind(&Game::AddUIElement, this, std::placeholders::_1)));
 	
@@ -109,7 +98,10 @@ void Game::SubscribeToEvents()
 
 void Game::Update(Uint32 msSinceLastUpdate)
 {
-	if (!m_reachedPointsToCompleteLevel)
+	m_msSinceLastUpdate = msSinceLastUpdate;
+	UserEvent frameStarted(UserEventType::newFrame, &m_msSinceLastUpdate);
+	
+	if (!m_gameMode->LevelWon() && !m_gameMode->GameLost())
 	{
 		if (m_currenPair == nullptr && m_grid->IsDoneProcessingGroups())
 			SpawnPairOfPieces();
@@ -126,8 +118,16 @@ void Game::Update(Uint32 msSinceLastUpdate)
 			}
 		}
 	}
-	else
+	else if (m_gameMode->LevelWon())
+	{
 		RestartGame(RestartCondition::levelCompleted);
+		m_gameMode->Reset();
+	}
+	else if (m_gameMode->GameLost()) 
+	{
+		RestartGame(RestartCondition::levelFailed);
+		m_gameMode->Reset();
+	}
 }
 
 void Game::Draw()

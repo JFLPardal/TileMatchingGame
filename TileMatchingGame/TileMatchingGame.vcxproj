@@ -166,6 +166,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\GameMode.cpp" />
     <ClCompile Include="src\ColumnAvailability.cpp" />
     <ClCompile Include="src\UI\FillableUIBar.cpp" />
     <ClCompile Include="src\PairOfPieces.cpp" />
@@ -191,6 +192,7 @@
     <ClCompile Include="src\Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\GameMode.h" />
     <ClInclude Include="src\UI\FillableUIBar.h" />
     <ClInclude Include="src\PairPosition.h" />
     <ClInclude Include="src\ColumnAvailability.h" />

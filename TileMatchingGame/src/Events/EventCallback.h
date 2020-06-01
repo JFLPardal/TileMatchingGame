@@ -34,11 +34,11 @@ inline void EventCallback<T>::TriggerEvent(SDL_Event& aEventType)
 {
 	T eventType = static_cast<T>(aEventType.user.code);
 	std::for_each(m_eventToCallback.at(eventType).get()->begin(),
-		m_eventToCallback.at(eventType).get()->end(),
-		[&aEventType](std::function<void(SDL_Event&)>& functionToCall)
-		{
-			functionToCall(aEventType);
-		}
+				m_eventToCallback.at(eventType).get()->end(),
+				[&aEventType](std::function<void(SDL_Event&)>& functionToCall)
+				{
+					functionToCall(aEventType);
+				}
 	);
 }
 

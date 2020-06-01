@@ -3,12 +3,12 @@
 
 UserEvent::UserEvent(UserEventType userEvent, void* relevantInfo, void* moreRelevantInfo)
 {
-	SDL_Event groupDestroyed;
+	SDL_Event eventToTrigger;
 
-	groupDestroyed.type = SDL_USEREVENT;
-	groupDestroyed.user.code = static_cast<Sint32>(userEvent);
-	if(relevantInfo != nullptr) groupDestroyed.user.data1 = relevantInfo;
-	if(moreRelevantInfo != nullptr) groupDestroyed.user.data2 = moreRelevantInfo;
+	eventToTrigger.type = SDL_USEREVENT;
+	eventToTrigger.user.code = static_cast<Sint32>(userEvent);
+	if(relevantInfo != nullptr) eventToTrigger.user.data1 = relevantInfo;
+	if(moreRelevantInfo != nullptr) eventToTrigger.user.data2 = moreRelevantInfo;
 	
-	SDL_PushEvent(&groupDestroyed);
+	SDL_PushEvent(&eventToTrigger);
 }

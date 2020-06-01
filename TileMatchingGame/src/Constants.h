@@ -5,8 +5,8 @@ namespace Consts
 	constexpr int MIN_NUMBER_OF_PIECES_TO_MAKE_GROUP = 4;
 	
 	// progression 
-	constexpr int POINTS_TO_CLEAR_1ST_LVL = 200;
-	constexpr int POINTS_TO_CLEAR_LVL_INC = 100;
+	constexpr int POINTS_TO_CLEAR_1ST_LVL = 20;
+	constexpr int POINTS_TO_CLEAR_LVL_INC = 60;
 	
 	// pair and piece speed
 	constexpr float PAIR_SPEED_BOOST = 2.5f; // percentage that should be applied to the regular speed of a pair when the speed boost key is pressed

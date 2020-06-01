@@ -24,4 +24,5 @@ private:
 	unsigned int m_currentPoints = 0;
 	unsigned int m_lastPointsAdded = 0; // needed for the UserEventType::PointsUpdated
 	std::unique_ptr<FillableUIBar> m_levelProgressBar{ nullptr };
+	std::unique_ptr<FillableUIBar> m_timeProgressBar{ nullptr };
 };

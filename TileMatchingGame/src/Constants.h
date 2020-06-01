@@ -2,12 +2,32 @@
 
 namespace Consts
 {
+	// window properties
+	constexpr char WINDOW_NAME[] = "Task 4 - Joao Pardal";
+	constexpr int WINDOW_W = 768;
+	constexpr int WINDOW_H = 1024;
+
+	// game over text
+	const std::string LEVEL_COMPLETED_TEXT = "Level Completed!";
+	const std::string GAME_LOST_TEXT = "Game Lost";
+	
+	// text properties
+	constexpr char FONT_PATH[] = "assets\\CircleOfDust.ttf";
+	constexpr SDL_Color TEXT_COLOR{255, 215, 0, 200};
+
+	// text position and dimensions
+	constexpr int TEXT_INITIAL_X = Consts::WINDOW_W * .5f - 100;
+	constexpr int TEXT_INITIAL_Y = Consts::WINDOW_H * .3f;
+	constexpr int TEXT_W = 200;
+	constexpr int TEXT_H = 100;
+
 	constexpr int MIN_NUMBER_OF_PIECES_TO_MAKE_GROUP = 4;
 	
-	// progression 
+	// progression and game over
 	constexpr int POINTS_TO_CLEAR_1ST_LVL = 20;
-	constexpr int POINTS_TO_CLEAR_LVL_INC = 60;
-	
+	constexpr int POINTS_TO_CLEAR_LVL_INC = 60; 
+	constexpr int MS_TO_LOSE_GAME = 30 * 1000; 
+
 	// pair and piece speed
 	constexpr float PAIR_SPEED_BOOST = 2.5f; // percentage that should be applied to the regular speed of a pair when the speed boost key is pressed
 	constexpr float PIECE_DEFAULT_SPEED = 0.2f;
@@ -34,11 +54,6 @@ namespace Consts
 	// these values avoid division at runtime when converting from screenPosition to gridIndex
 	constexpr float STOG_W = 1 / static_cast<float>(PIECE_W);
 	constexpr float STOG_H = 1 / static_cast<float>(PIECE_H);
-
-	// window properties
-	constexpr char WINDOW_NAME[] = "Task 4 - Joao Pardal";
-	constexpr int WINDOW_W = 768;
-	constexpr int WINDOW_H = 1024;
 
 	// number of pieces that the grid has
 	constexpr int NUM_PIECES_W = 8;

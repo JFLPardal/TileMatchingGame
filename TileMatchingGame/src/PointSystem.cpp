@@ -22,7 +22,7 @@ void PointSystem::Reset()
 {
 	m_currentPoints = 0;
 	m_levelProgressBar = std::make_unique<FillableUIBar>(UserEventType::pointsUpdated, m_pointsToClearLevel, Vector2(50,50), UserEventType::pointsForLevelReached);
-	m_timeProgressBar = std::make_unique<FillableUIBar>(UserEventType::newFrame, 39000, Vector2(50, 100), UserEventType::timeRanOut);
+	m_timeProgressBar = std::make_unique<FillableUIBar>(UserEventType::newFrame, Consts::MS_TO_LOSE_GAME, Vector2(50, 100), UserEventType::timeRanOut);
 }
 
 void PointSystem::AddPoints(SDL_Event& eventInfo)

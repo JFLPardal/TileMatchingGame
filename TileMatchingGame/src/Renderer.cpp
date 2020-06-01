@@ -5,6 +5,8 @@
 #include "Rect.h"
 #include "Vector2.h"
 
+#include "Text.h"
+
 auto Renderer::LoadTexture(const std::string& aTexturePath)
 {
 	std::unique_ptr<SDL_Texture, decltype(&SDL_DestroyTexture)> texture(nullptr, SDL_DestroyTexture);
@@ -23,8 +25,8 @@ auto Renderer::LoadTexture(const std::string& aTexturePath)
 	return texture;
 }
 
-
 Renderer::Renderer(SDL_Window* const aWindow)
+	:m_text(std::make_unique<Text>())
 {
 	InitRenderer(aWindow);
 	m_texture = LoadTexture("assets\\tilesheet.png");
@@ -59,6 +61,14 @@ void Renderer::DrawUI(Rect* aTextureRect, const Vector2& aScreenPos, const Vecto
 	SDL_RenderCopy(m_renderer.get(), m_texture.get(), &spriteSheetTexture, &screenPosAndSize);
 }
 
+void Renderer::DrawText(const std::string& aTextToDisplay)
+{
+	SDL_Texture* textTexture = m_text->GetTextureForString(m_renderer.get(), aTextToDisplay);
+	SDL_Rect textRect{ Consts::TEXT_INITIAL_X, Consts::TEXT_INITIAL_Y,
+					   Consts::TEXT_W, Consts::TEXT_H};
+	SDL_RenderCopy(m_renderer.get(),textTexture , NULL, &textRect);
+}
+
 void Renderer::InitRenderer(SDL_Window* const aWindow)
 {
 	m_renderer.reset(SDL_CreateRenderer(aWindow, -1, SDL_RENDERER_ACCELERATED));
@@ -69,3 +79,5 @@ void Renderer::InitRenderer(SDL_Window* const aWindow)
 	else
 		printf("renderer was not created %s\n", SDL_GetError());
 }
+
+Renderer::~Renderer() = default;

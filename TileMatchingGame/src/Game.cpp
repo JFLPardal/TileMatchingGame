@@ -70,13 +70,13 @@ void Game::RemoveUIElement(SDL_Event& eventInfo)
 
 void Game::RestartGame(RestartCondition aRestartCondition)
 {
-	Draw(); // this will guarantee that UI gets drawn before the game is reset
 	if (aRestartCondition == RestartCondition::levelCompleted)
-		printf("game won!\n");
+		m_textToDisplay = Consts::LEVEL_COMPLETED_TEXT;
 	else
-		printf("game lost\n");
-
+		m_textToDisplay = Consts::GAME_LOST_TEXT;
+	Draw(); // this will guarantee that UI gets drawn before the game is reset
 	SDL_Delay(2000);
+
 	m_grid = std::make_unique<MatrixGrid>();
 	m_currenPair = nullptr;
 	m_UIElements.clear();
@@ -85,6 +85,7 @@ void Game::RestartGame(RestartCondition aRestartCondition)
 		m_pointSystem->Reset();
 	else
 		InitPointSystem();
+	m_textToDisplay.clear();
 }
 
 void Game::SubscribeToEvents()
@@ -139,6 +140,7 @@ void Game::Draw()
 	}
 	m_grid->Draw(m_renderer.get());
 	if(m_currenPair != nullptr) m_currenPair->Draw(m_renderer.get());
+	if(!m_textToDisplay.empty()) m_renderer->DrawText(m_textToDisplay);
 	m_renderer->Display();
 }
 

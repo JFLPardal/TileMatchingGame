@@ -23,7 +23,7 @@ void FillableUIBar::FillMethod(SDL_Event& aEvent)
 	int fillIncrement = *static_cast<int*>(aEvent.user.data1);
 	m_currentCapacity = std::min(m_currentCapacity + fillIncrement, m_maxCapacity);
 	float currentCapacityAsPercentage = static_cast<float>(m_currentCapacity) / m_maxCapacity;
-	//printf("% : %f \n", currentCapacityAsPercentage);
+
 	m_foreground->Resize(CoordToResize::x, currentCapacityAsPercentage);
 	if ((currentCapacityAsPercentage * 100) >= 100)
 	{

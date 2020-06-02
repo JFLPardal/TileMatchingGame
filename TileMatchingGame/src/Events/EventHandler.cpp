@@ -32,15 +32,9 @@ void EventHandler::ProcessEventsImpl()
 		{
 			m_TriggerUserEvent.TriggerEvent(eventToProcess);
 		}
-		else if (eventToProcess.type == SDL_QUIT)
-		{
-			SDL_Quit(); // TODO change this to call QuitGame on Game
-		}
-		else if (eventToProcess.type == SDL_KEYDOWN)
-		{
-			m_TriggerEvent.TriggerEvent(eventToProcess);
-		}
-		else if (eventToProcess.type == SDL_MOUSEBUTTONDOWN)
+		else if (eventToProcess.type == SDL_QUIT 
+			  || eventToProcess.type == SDL_KEYDOWN
+			  || eventToProcess.type == SDL_MOUSEBUTTONDOWN)
 		{
 			m_TriggerEvent.TriggerEvent(eventToProcess);
 		}

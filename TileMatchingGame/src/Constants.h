@@ -21,6 +21,14 @@ namespace Consts
 	constexpr int TEXT_W = 200;
 	constexpr int TEXT_H = 100;
 
+	// UI bar dimensions
+	constexpr int UI_BAR_W = 300;
+	constexpr int UI_BAR_H = 40;
+
+	// UI bar texture coords (regarding the 'tilesheet.png' texture)
+	constexpr int UI_BAR_BACKGROUND_X = 11;
+	constexpr int UI_BAR_BACKGROUND_Y = 6;
+
 	constexpr int MIN_NUMBER_OF_PIECES_TO_MAKE_GROUP = 4;
 	
 	// progression and game over

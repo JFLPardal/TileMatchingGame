@@ -22,11 +22,12 @@ KeyboardInputManager::KeyboardInputManager()
 { 
 	EventHandler::SubscribeToEvent(SDL_KEYDOWN, 
 				std::function<void(SDL_Event&)>(std::bind(&KeyboardInputManager::KeyPressed, this, std::placeholders::_1)));
+
 	EventHandler::SubscribeToEvent(SDL_MOUSEBUTTONDOWN, 
 				std::function<void(SDL_Event&)>(std::bind(&KeyboardInputManager::MousePressed, this, std::placeholders::_1)));
 
-	EventHandler::SubscribeToEvent(UserEventType::pairOfPiecesDestroyed, [&](SDL_Event&) {m_PairOfPiecesIsValid = false; });
-	EventHandler::SubscribeToEvent(UserEventType::newPairOfPiecesActive, [&](SDL_Event&) {m_PairOfPiecesIsValid = true; });
+	EventHandler::SubscribeToEvent(UserEventType::pairOfPiecesDestroyed, [this](SDL_Event&) {m_PairOfPiecesIsValid = false; });
+	EventHandler::SubscribeToEvent(UserEventType::newPairOfPiecesActive, [this](SDL_Event&) {m_PairOfPiecesIsValid = true; });
 }
 
 void KeyboardInputManager::KeyPressed(SDL_Event& aEventInfo)

@@ -12,7 +12,7 @@ class UIBar;
 class FillableUIBar
 {
 public:
-	FillableUIBar(UserEventType eventThatWillFillBar, unsigned int barMaxCapacity, const Vector2& positionOnScreen, UserEventType eventToTriggerWhenBarIsFull = UserEventType::notDefined);
+	FillableUIBar(UserEventType eventThatWillFillBar, unsigned int barMaxCapacity, const Vector2& positionOnScreen, const Vector2& textureCoordForFillBar, UserEventType eventToTriggerWhenBarIsFull = UserEventType::notDefined);
 	~FillableUIBar();
 
 private:

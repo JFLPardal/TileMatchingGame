@@ -7,9 +7,9 @@
 #include "Events/EventHandler.h"
 #include "Events/UserEvent.h"
 
-FillableUIBar::FillableUIBar(UserEventType aEventThatWillFillBar, unsigned int aBarMaxCapacity, const Vector2& aPosition, UserEventType aEventToTriggerWhenBarIsFull)
-	: m_foreground(std::make_unique<UIBar>(aPosition, Vector2(240, 40), Vector2(11, 6)))
-	, m_background(std::make_unique<UIBar>(aPosition, Vector2(240, 40), Vector2(12, 6)))
+FillableUIBar::FillableUIBar(UserEventType aEventThatWillFillBar, unsigned int aBarMaxCapacity, const Vector2& aPosition, const Vector2& textureCoordForFillBar, UserEventType aEventToTriggerWhenBarIsFull)
+	: m_foreground(std::make_unique<UIBar>(aPosition, Vector2(Consts::UI_BAR_W, Consts::UI_BAR_H), textureCoordForFillBar))
+	, m_background(std::make_unique<UIBar>(aPosition, Vector2(Consts::UI_BAR_W, Consts::UI_BAR_H), Vector2(Consts::UI_BAR_BACKGROUND_X, Consts::UI_BAR_BACKGROUND_Y)))
 	, m_maxCapacity(aBarMaxCapacity)
 	, m_eventToTriggerWhenFull(aEventToTriggerWhenBarIsFull)
 {

@@ -12,7 +12,8 @@ class Renderer;
 class PairOfPieces;
 class PointSystem;
 class UIElement;
-class GameMode;
+class GameMode; 
+class QueueOfNextPairs;
 
 class Game
 {
@@ -49,4 +50,5 @@ private:
 	std::unique_ptr<PairOfPieces> m_currenPair{ nullptr }; 
 	std::vector<UIElement*> m_UIElements;
 	std::unique_ptr<GameMode> m_gameMode{ nullptr };
+	std::unique_ptr<QueueOfNextPairs> m_queueOfNextPairs{ nullptr };
 };

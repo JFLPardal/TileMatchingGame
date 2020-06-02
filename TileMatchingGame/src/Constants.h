@@ -74,6 +74,13 @@ namespace Consts
 	constexpr int PAIR_INIT_X = GRID_INIT_X + (NUM_PIECES_W * 0.5f - 1)* PIECE_W;
 	constexpr int PAIR_INIT_Y = GRID_INIT_Y - PIECE_H;
 	
+	// next pairs to spawn 
+	constexpr int NEXT_PAIR_TO_SPAWN_INIT_X = .6f * WINDOW_W;
+	constexpr int NEXT_PAIR_TO_SPAWN_INIT_Y = .05f * WINDOW_H;
+	constexpr int NUM_PAIRS_TO_SHOW = 1;	// needed a some non trivial work to put more than 1 pair at the same time being displayed in different positions on the screen without compromising the integraty of 'PairOfPieces' class. 
+											// This number can be changed and it will break nothing, but the pair being shown on screen is not the next pair,
+											// it's the (NUM_PAIRS_TO_SHOW-1)-th pair after the next one
+
 	// framerate
 	constexpr int INTENDED_FPS = 60;
 	constexpr Uint32 INTENDED_FRAME_DURATION = 1000 / INTENDED_FPS;

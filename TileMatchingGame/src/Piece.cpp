@@ -9,7 +9,7 @@
 
 Piece::Piece()
 {
-	m_screenPosition = Vector2(Consts::PAIR_INIT_X, Consts::PAIR_INIT_Y);
+	m_screenPosition = Vector2(Consts::NEXT_PAIR_TO_SPAWN_INIT_X, Consts::NEXT_PAIR_TO_SPAWN_INIT_Y);
 	AssignColorAndTexture();
 }
 

@@ -14,13 +14,6 @@ PairOfPieces::PairOfPieces(const ColumnAvailability* columnAvailability)
 
 	m_pair.at(1)->SetAsSecondInPair();
 	m_pairPosition = PairPosition(*m_pair.at(0), *m_pair.at(1));
-
-	EventHandler::SubscribeToEvent(SDL_KEYDOWN, 
-							std::function<void(SDL_Event&)>(std::bind(&PairOfPieces::MovePairToTheSide, this, std::placeholders::_1)));
-
-	EventHandler::SubscribeToEvent(SDL_MOUSEBUTTONDOWN,
-							std::function<void(SDL_Event&)>(std::bind(&PairOfPieces::RotatePair, this, std::placeholders::_1)));
-
 	m_columnAvailability = columnAvailability;
 }
 
@@ -72,6 +65,19 @@ std::unique_ptr<Piece> PairOfPieces::AddFirstPieceToBoard()
 std::unique_ptr<Piece> PairOfPieces::AddSecondPieceToBoard()
 {
 	return std::move(m_pair.at(1));
+}
+
+void PairOfPieces::SetActive()
+{
+	for (auto& piece : m_pair)
+		piece->MoveTo(Vector2(Consts::PAIR_INIT_X, Consts::PAIR_INIT_Y));
+	m_pair.at(1)->Move(MoveDirection::right);
+
+	EventHandler::SubscribeToEvent(SDL_KEYDOWN,
+		std::function<void(SDL_Event&)>(std::bind(&PairOfPieces::MovePairToTheSide, this, std::placeholders::_1)));
+
+	EventHandler::SubscribeToEvent(SDL_MOUSEBUTTONDOWN,
+		std::function<void(SDL_Event&)>(std::bind(&PairOfPieces::RotatePair, this, std::placeholders::_1)));
 }
 
 void PairOfPieces::MovePairToTheSide(SDL_Event& aEvent)

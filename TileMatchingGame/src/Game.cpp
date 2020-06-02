@@ -10,10 +10,12 @@
 #include "PointSystem.h"
 #include "UI/UIElement.h"
 #include "GameMode.h"
+#include "QueueOfNextPairs.h"
 
 Game::Game()
 	: m_grid(std::make_unique<MatrixGrid>())
 	, m_gameMode(std::make_unique<GameMode>())
+	, m_queueOfNextPairs(std::make_unique<QueueOfNextPairs>(m_grid->GetColumnAvailability()))
 {
 	InitWindow();
 	InitRenderer();
@@ -48,8 +50,8 @@ void Game::InitPointSystem()
 
 void Game::SpawnPairOfPieces()
 {
-	// TODO change this to get a pair in a more sophisticated way
-	m_currenPair = std::make_unique<PairOfPieces>(m_grid->GetColumnAvailability());
+	m_currenPair = m_queueOfNextPairs->GetPairToBeSpawned(m_grid->GetColumnAvailability());
+	m_currenPair->SetActive();
 }
 
 void Game::AddUIElement(SDL_Event& eventInfo)
@@ -138,6 +140,7 @@ void Game::Draw()
 	{
 		if(uiElement != nullptr) uiElement->Draw(m_renderer.get());
 	}
+	m_queueOfNextPairs->Draw(m_renderer.get());
 	m_grid->Draw(m_renderer.get());
 	if(m_currenPair != nullptr) m_currenPair->Draw(m_renderer.get());
 	if(!m_textToDisplay.empty()) m_renderer->DrawText(m_textToDisplay);

@@ -32,6 +32,7 @@ public:
 	std::unique_ptr<Piece> AddFirstPieceToBoard();
 	std::unique_ptr<Piece> AddSecondPieceToBoard();
 
+	void SetActive();
 	void DisableInput() { m_inputEnabled = false; }
 private:
 	void MovePairToTheSide(SDL_Event& event);

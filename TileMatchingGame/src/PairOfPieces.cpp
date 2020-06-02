@@ -79,7 +79,7 @@ void PairOfPieces::SetActive()
 	EventHandler::SubscribeToEvent(UserEventType::movePairWithKeyboard,
 		std::function<void(SDL_Event&)>(std::bind(&PairOfPieces::MovePairToTheSide, this, std::placeholders::_1)));
 
-	EventHandler::SubscribeToEvent(SDL_MOUSEBUTTONDOWN,
+	EventHandler::SubscribeToEvent(UserEventType::rotatePairWithMouse,
 		std::function<void(SDL_Event&)>(std::bind(&PairOfPieces::RotatePair, this, std::placeholders::_1)));
 }
 
@@ -109,7 +109,7 @@ void PairOfPieces::RotatePair(SDL_Event& event)
 	bool secondPieceIsToTheRight = deltaPairPosition.X() > 0;
 	bool secondPieceIsBelow		 = deltaPairPosition.Y() > 0;
 
-	bool rotateClockwise = event.button.button == SDL_BUTTON_LEFT;
+	bool rotateClockwise = *static_cast<Uint8*>(event.user.data1) == SDL_BUTTON_LEFT;
 
 	const auto& firstPiece = m_pair.at(0).get();
 	const auto& secondPiece = m_pair.at(1).get();

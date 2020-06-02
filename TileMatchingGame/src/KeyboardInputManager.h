@@ -16,7 +16,9 @@ private:
 	KeyboardInputManager();
 	static KeyboardInputManager& Instance();
 	void KeyPressed(SDL_Event& eventInfo);
+	void MousePressed(SDL_Event& eventInfo);
 
 	static bool m_PairOfPiecesIsValid; 
 	Sint32 m_lastKeyPressed = 0;
+	Uint8 m_lastMouseButtonPressed = 0;
 };

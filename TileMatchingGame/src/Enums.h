@@ -13,7 +13,8 @@ enum class UserEventType : Sint32
 	timeRanOut,
 	pairOfPiecesDestroyed,
 	newPairOfPiecesActive,
-	movePairWithKeyboard
+	movePairWithKeyboard,
+	rotatePairWithMouse
 };
 
 enum class RestartCondition

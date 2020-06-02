@@ -3,7 +3,8 @@
 
 #include "Piece.h"
 #include "Renderer.h"
-#include "Events\EventHandler.h"
+#include "Events/EventHandler.h"
+#include "Events/UserEvent.h"
 #include "PairPosition.h"
 #include "ColumnAvailability.h"
 
@@ -73,7 +74,9 @@ void PairOfPieces::SetActive()
 		piece->MoveTo(Vector2(Consts::PAIR_INIT_X, Consts::PAIR_INIT_Y));
 	m_pair.at(1)->Move(MoveDirection::right);
 
-	EventHandler::SubscribeToEvent(SDL_KEYDOWN,
+	UserEvent pairCreated(UserEventType::newPairOfPiecesActive, this);
+
+	EventHandler::SubscribeToEvent(UserEventType::movePairWithKeyboard,
 		std::function<void(SDL_Event&)>(std::bind(&PairOfPieces::MovePairToTheSide, this, std::placeholders::_1)));
 
 	EventHandler::SubscribeToEvent(SDL_MOUSEBUTTONDOWN,
@@ -84,7 +87,7 @@ void PairOfPieces::MovePairToTheSide(SDL_Event& aEvent)
 {
 	if (m_inputEnabled)
 	{
-		auto keyPressed = aEvent.key.keysym.sym;
+		auto keyPressed = *static_cast<Sint32*>(aEvent.user.data1);
 		if (keyPressed == SDL_KeyCode::SDLK_a)
 		{
 			if (CanMoveLeft())
@@ -212,4 +215,7 @@ void PairOfPieces::CheckForSpeedBoost()
 }
 
 // needed on the cpp because of the forward decl of Piece
-PairOfPieces::~PairOfPieces() = default;
+PairOfPieces::~PairOfPieces()
+{
+	UserEvent pairDestroyed(UserEventType::pairOfPiecesDestroyed, this);
+}

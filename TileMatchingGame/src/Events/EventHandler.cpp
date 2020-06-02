@@ -38,16 +38,12 @@ void EventHandler::ProcessEventsImpl()
 		}
 		else if (eventToProcess.type == SDL_KEYDOWN)
 		{
-			if (eventToProcess.key.keysym.sym == SDLK_a || eventToProcess.key.keysym.sym == SDLK_d)
-			{
-				m_TriggerEvent.TriggerEvent(eventToProcess);
-			}
+			m_TriggerEvent.TriggerEvent(eventToProcess);
 		}
 		else if (eventToProcess.type == SDL_MOUSEBUTTONDOWN)
 		{
 			m_TriggerEvent.TriggerEvent(eventToProcess);
 		}
-		//m_TriggerEvent.TriggerEvent(eventToProcess);
 	}
 }
 

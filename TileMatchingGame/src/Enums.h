@@ -10,7 +10,10 @@ enum class UserEventType : Sint32
 	UIElementCreated,
 	UIElementDestroyed,
 	newFrame,
-	timeRanOut
+	timeRanOut,
+	pairOfPiecesDestroyed,
+	newPairOfPiecesActive,
+	movePairWithKeyboard
 };
 
 enum class RestartCondition

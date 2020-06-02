@@ -168,6 +168,7 @@
   <ItemGroup>
     <ClCompile Include="src\GameMode.cpp" />
     <ClCompile Include="src\ColumnAvailability.cpp" />
+    <ClCompile Include="src\KeyboardInputManager.cpp" />
     <ClCompile Include="src\QueueOfNextPairs.cpp" />
     <ClCompile Include="src\UI\FillableUIBar.cpp" />
     <ClCompile Include="src\PairOfPieces.cpp" />
@@ -194,6 +195,7 @@
     <ClCompile Include="src\Text.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\KeyboardInputManager.h" />
     <ClInclude Include="src\GameMode.h" />
     <ClInclude Include="src\QueueOfNextPairs.h" />
     <ClInclude Include="src\UI\FillableUIBar.h" />

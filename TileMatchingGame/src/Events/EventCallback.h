@@ -38,8 +38,6 @@ inline void EventCallback<T>::TriggerEvent(EventData& aEventType)
 				m_eventToCallback.at(eventType).get()->end(),
 				[&aEventType, &eventType](CallbackFunctionSignature& functionToCall)
 				{
-					if(eventType != UserEventType::newFrame)
-						printf("triggered user\n");
 					functionToCall(aEventType);
 				}
 	);
@@ -53,7 +51,6 @@ inline void EventCallback<DefaultEventType>::TriggerEvent(EventData& aEventType)
 					m_eventToCallback.at(eventType).get()->end(),
 					[&aEventType](CallbackFunctionSignature& functionToCall)
 					{
-						printf("triggered default\n");
 						functionToCall(aEventType);
 					}
 		);

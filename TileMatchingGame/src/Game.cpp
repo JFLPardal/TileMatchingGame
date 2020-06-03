@@ -58,14 +58,14 @@ void Game::SpawnPairOfPieces()
 
 void Game::AddUIElement(IEventData& eventInfo)
 {
-	auto uiElement = static_cast<UIElement*>(eventInfo.GetUserEventData1());
+	auto uiElement = static_cast<UIElement*>(eventInfo.GetEventData1());
 	m_UIElements.emplace_back(uiElement);
 	printf("added uielement to Game refs\n");
 }
 
 void Game::RemoveUIElement(IEventData& eventInfo)
 {
-	auto UIElementToRemove = static_cast<UIElement*>(eventInfo.GetUserEventData1());
+	auto UIElementToRemove = static_cast<UIElement*>(eventInfo.GetEventData1());
 	auto iteratorToRemove = std::find_if(m_UIElements.begin(), m_UIElements.end(), 
 							[&UIElementToRemove](UIElement* m_UIElement) {return *m_UIElement == *UIElementToRemove; });
 	if (iteratorToRemove != m_UIElements.end())

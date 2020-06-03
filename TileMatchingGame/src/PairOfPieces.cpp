@@ -85,7 +85,7 @@ void PairOfPieces::MovePairToTheSide(IEventData& aEvent)
 {
 	if (m_inputEnabled)
 	{
-		auto keyPressed = *static_cast<Uint8*>(aEvent.GetUserEventData1());
+		auto keyPressed = *static_cast<Uint8*>(aEvent.GetEventData1());
 		if (keyPressed == static_cast<Uint8>(KeyboardKey::a))
 		{
 			if (CanMoveLeft())
@@ -107,7 +107,7 @@ void PairOfPieces::RotatePair(IEventData& event)
 	bool secondPieceIsToTheRight = deltaPairPosition.X() > 0;
 	bool secondPieceIsBelow		 = deltaPairPosition.Y() > 0;
 
-	bool rotateClockwise = *static_cast<Uint8*>(event.GetUserEventData1()) == static_cast<int>(MouseButton::left);
+	bool rotateClockwise = *static_cast<Uint8*>(event.GetEventData1()) == static_cast<int>(MouseButton::left);
 
 	const auto& firstPiece = m_pair.at(0).get();
 	const auto& secondPiece = m_pair.at(1).get();

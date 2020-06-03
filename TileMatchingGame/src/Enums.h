@@ -11,6 +11,7 @@ enum class UserEventType : Sint32
 	UIElementDestroyed,
 	newFrame,
 	timeRanOut,
+	boostPairSpeed,
 	pairOfPiecesDestroyed,
 	newPairOfPiecesActive,
 	movePairWithKeyboard,

@@ -17,7 +17,7 @@ public:
 
 	Uint32 GetType() const;
 	Sint32 GetUserEvent() const;
-	void* GetUserEventData1() override;
+	void* GetEventData1() override;
 	void* GetUserEventData2() override;
 
 	Uint8 KeyPressed() override;

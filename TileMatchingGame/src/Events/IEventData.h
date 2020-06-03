@@ -9,7 +9,7 @@
 class IEventData
 {
 public:
-	virtual void* GetUserEventData1() = 0;
+	virtual void* GetEventData1() = 0;
 	virtual void* GetUserEventData2() = 0;
 	
 	virtual Uint8 KeyPressed() = 0;

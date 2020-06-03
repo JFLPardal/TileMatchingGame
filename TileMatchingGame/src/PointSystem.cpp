@@ -27,7 +27,7 @@ void PointSystem::Reset()
 
 void PointSystem::AddPoints(IEventData& eventInfo)
 {
-	int numberOfDeletedPieces = *static_cast<int*>(eventInfo.GetUserEventData1());
+	int numberOfDeletedPieces = *static_cast<int*>(eventInfo.GetEventData1());
 	m_lastPointsAdded = numberOfDeletedPieces * 10;
 	m_currentPoints += m_lastPointsAdded;
 	UserEvent pointsUpdated(UserEventType::pointsUpdated, &m_lastPointsAdded);

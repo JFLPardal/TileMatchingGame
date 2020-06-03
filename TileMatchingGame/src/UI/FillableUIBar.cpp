@@ -20,7 +20,7 @@ FillableUIBar::FillableUIBar(UserEventType aEventThatWillFillBar, unsigned int a
 
 void FillableUIBar::FillMethod(IEventData& aEvent)
 {
-	int fillIncrement = *static_cast<int*>(aEvent.GetUserEventData1());
+	int fillIncrement = *static_cast<int*>(aEvent.GetEventData1());
 	m_currentCapacity = std::min(m_currentCapacity + fillIncrement, m_maxCapacity);
 	float currentCapacityAsPercentage = static_cast<float>(m_currentCapacity) / m_maxCapacity;
 

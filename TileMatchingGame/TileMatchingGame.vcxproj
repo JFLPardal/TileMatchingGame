@@ -169,6 +169,7 @@
     <ClCompile Include="src\Events\EventData.cpp" />
     <ClCompile Include="src\GameMode.cpp" />
     <ClCompile Include="src\ColumnAvailability.cpp" />
+    <ClCompile Include="src\GridDataStructure.cpp" />
     <ClCompile Include="src\KeyboardInputManager.cpp" />
     <ClCompile Include="src\QueueOfNextPairs.cpp" />
     <ClCompile Include="src\UI\FillableUIBar.cpp" />
@@ -199,6 +200,7 @@
     <ClInclude Include="src\Alias.h" />
     <ClInclude Include="src\Events\EventData.h" />
     <ClInclude Include="src\Events\IEventData.h" />
+    <ClInclude Include="src\GridDataStructure.h" />
     <ClInclude Include="src\KeyboardInputManager.h" />
     <ClInclude Include="src\GameMode.h" />
     <ClInclude Include="src\QueueOfNextPairs.h" />

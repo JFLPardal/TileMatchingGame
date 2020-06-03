@@ -7,6 +7,11 @@ namespace Consts
 	constexpr int WINDOW_W = 768;
 	constexpr int WINDOW_H = 1024;
 
+	// progression and game over
+	constexpr int POINTS_TO_CLEAR_1ST_LVL = 120;
+	constexpr int POINTS_TO_CLEAR_LVL_INC = 60;
+	constexpr int MS_TO_LOSE_GAME = 60 * 1000;
+
 	// game over text
 	const std::string LEVEL_COMPLETED_TEXT	= "Level Completed!";
 	const std::string GAME_LOST_TEXT		= "Game Lost";
@@ -34,11 +39,6 @@ namespace Consts
 	constexpr int UI_BAR_BACKGROUND_Y = 6;
 
 	constexpr int MIN_NUMBER_OF_PIECES_TO_MAKE_GROUP = 4;
-	
-	// progression and game over
-	constexpr int POINTS_TO_CLEAR_1ST_LVL	= 20;
-	constexpr int POINTS_TO_CLEAR_LVL_INC	= 60; 
-	constexpr int MS_TO_LOSE_GAME			= 50 * 1000; 
 
 	// pair and piece speed
 	constexpr float PAIR_SPEED_BOOST	= 2.5f; // percentage that should be applied to the regular speed of a pair when the speed boost key is pressed

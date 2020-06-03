@@ -18,7 +18,7 @@ Sint32 EventData::GetUserEvent() const
 	return m_event.user.code;
 }
 
-void* EventData::GetUserEventData1()
+void* EventData::GetEventData1()
 {
 	return m_event.user.data1;
 }

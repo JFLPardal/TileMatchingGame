@@ -6,7 +6,7 @@
 	program should close
 */
 
-struct SDL_Window;
+//struct SDL_Window;
 class IGridRepresentation;
 class Renderer;
 class PairOfPieces;
@@ -15,6 +15,8 @@ class UIElement;
 class GameMode; 
 class QueueOfNextPairs;
 class IEventData;
+class Window;
+class UIManager;
 
 class Game
 {
@@ -29,28 +31,24 @@ public:
 	Game(const Game&) = delete;
 	Game& operator=(const Game&) = delete;
 private:
-	void InitWindow();
-	void InitRenderer();
 	void InitPointSystem();
+	void InitGrid();
 	void SubscribeToEvents();
 	void SpawnPairOfPieces();
-
-	void AddUIElement(IEventData& eventInfo);
-	void RemoveUIElement(IEventData& eventInfo);
 
 	void RestartGame(RestartCondition condition);
 
 	bool m_isRunning = true; 
-	Uint32 m_msSinceLastUpdate = 0;
+	Uint32 m_msSinceLastUpdate = 0;	// event related
 	std::string m_textToDisplay = "";
 	int m_currentLevel = 1;
 
 	std::unique_ptr<PointSystem> m_pointSystem{ nullptr };
 	std::unique_ptr<IGridRepresentation> m_grid{ nullptr };
-	std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)> m_window { nullptr, SDL_DestroyWindow };
+	std::unique_ptr<Window> m_window{ nullptr };
 	std::unique_ptr<Renderer> m_renderer{ nullptr };
 	std::unique_ptr<PairOfPieces> m_currenPair{ nullptr }; 
-	std::vector<UIElement*> m_UIElements;
+	std::unique_ptr<UIManager> m_UIManager{ nullptr };
 	std::unique_ptr<GameMode> m_gameMode{ nullptr };
 	std::unique_ptr<QueueOfNextPairs> m_queueOfNextPairs{ nullptr };
 };

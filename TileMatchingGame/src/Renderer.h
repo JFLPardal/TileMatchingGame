@@ -8,11 +8,12 @@ class IGridRepresentation;
 class Rect;
 class Vector2;
 class Text;
+class Window;
 
 class Renderer
 {
 public:
-	Renderer(SDL_Window* const window);
+	Renderer(Window* const window);
 	~Renderer();
 
 	void ClearScreen();

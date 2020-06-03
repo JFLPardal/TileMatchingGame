@@ -172,6 +172,7 @@
     <ClCompile Include="src\GridDataStructure.cpp" />
     <ClCompile Include="src\KeyboardInputManager.cpp" />
     <ClCompile Include="src\QueueOfNextPairs.cpp" />
+    <ClCompile Include="src\UIManager.cpp" />
     <ClCompile Include="src\UI\FillableUIBar.cpp" />
     <ClCompile Include="src\PairOfPieces.cpp" />
     <ClCompile Include="src\PairPosition.cpp" />
@@ -195,6 +196,7 @@
     <ClCompile Include="src\Utils.cpp" />
     <ClCompile Include="src\Vector2.cpp" />
     <ClCompile Include="src\Text.cpp" />
+    <ClCompile Include="src\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Alias.h" />
@@ -204,6 +206,7 @@
     <ClInclude Include="src\KeyboardInputManager.h" />
     <ClInclude Include="src\GameMode.h" />
     <ClInclude Include="src\QueueOfNextPairs.h" />
+    <ClInclude Include="src\UIManager.h" />
     <ClInclude Include="src\UI\FillableUIBar.h" />
     <ClInclude Include="src\PairPosition.h" />
     <ClInclude Include="src\ColumnAvailability.h" />
@@ -227,6 +230,7 @@
     <ClInclude Include="src\Vector2.h" />
     <ClInclude Include="src\Utils.h" />
     <ClInclude Include="src\Text.h" />
+    <ClInclude Include="src\Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

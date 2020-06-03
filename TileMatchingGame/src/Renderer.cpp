@@ -4,8 +4,8 @@
 
 #include "Rect.h"
 #include "Vector2.h"
-
 #include "Text.h"
+#include "Window.h"
 
 auto Renderer::LoadTexture(const std::string& aTexturePath)
 {
@@ -25,9 +25,9 @@ auto Renderer::LoadTexture(const std::string& aTexturePath)
 	return texture;
 }
 
-Renderer::Renderer(SDL_Window* const aWindow)
+Renderer::Renderer(Window* const aWindow)
 {
-	InitRenderer(aWindow);
+	InitRenderer(aWindow->GetSDLWindow());
 	m_text = std::make_unique<Text>(m_renderer.get());
 	m_texture = LoadTexture("assets\\tilesheet.png");
 	m_background = LoadTexture("assets\\background.png");

@@ -99,12 +99,8 @@ void Game::RestartGame(RestartCondition aRestartCondition)
 void Game::SubscribeToEvents()
 {
 	EventHandler::SubscribeToEvent(SDL_QUIT, [this](SDL_Event){m_isRunning = false; });
-
-	EventHandler::SubscribeToEvent(UserEventType::UIElementCreated,
-								std::function<void(SDL_Event&)>(std::bind(&Game::AddUIElement, this, std::placeholders::_1)));
-	
-	EventHandler::SubscribeToEvent(UserEventType::UIElementDestroyed,
-								std::function<void(SDL_Event&)>(std::bind(&Game::RemoveUIElement, this, std::placeholders::_1)));
+	EventHandler::SubscribeToEvent(UserEventType::UIElementCreated, EVENT_CALLBACK(Game::AddUIElement));
+	EventHandler::SubscribeToEvent(UserEventType::UIElementDestroyed, EVENT_CALLBACK(Game::RemoveUIElement));
 }
 
 void Game::Update(Uint32 msSinceLastUpdate)

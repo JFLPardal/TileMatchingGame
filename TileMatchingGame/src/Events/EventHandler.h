@@ -1,6 +1,7 @@
 #pragma once
 #include "Enums.h"
 #include "EventCallback.h"
+#include "Alias.h"
 
 /*
 	EventHandler is responsible for storing the callbacks for each type 
@@ -11,11 +12,13 @@
 	those callbacks are triggered.
 */
 
+#define EVENT_CALLBACK(functionToCallback) CallbackFunctionSignature(std::bind(&functionToCallback, this, std::placeholders::_1))
+
 class EventHandler
 {
 public:
-	static void SubscribeToEvent(SDL_EventType EventType, std::function<void(SDL_Event&)> callbackFunction);
-	static void SubscribeToEvent(UserEventType userEventType, std::function<void(SDL_Event&)> callbackFunction);
+	static void SubscribeToEvent(SDL_EventType EventType, CallbackFunctionSignature callbackFunction);
+	static void SubscribeToEvent(UserEventType userEventType, CallbackFunctionSignature callbackFunction);
 	static void ProcessEvents();
 
 	EventHandler(const EventHandler&) = delete;
@@ -24,8 +27,8 @@ private:
 	EventHandler() {};
 	static EventHandler& Get();
 
-	void SubscribeToEventImpl(SDL_EventType EventType, std::function<void(SDL_Event&)> callbackFunction);
-	void SubscribeToEventImpl(UserEventType userEventType, std::function<void(SDL_Event&)> callbackFunction);
+	void SubscribeToEventImpl(SDL_EventType EventType, CallbackFunctionSignature callbackFunction);
+	void SubscribeToEventImpl(UserEventType userEventType, CallbackFunctionSignature callbackFunction);
 	void ProcessEventsImpl();
 
 	EventCallback<UserEventType> m_TriggerUserEvent;

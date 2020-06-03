@@ -76,11 +76,8 @@ void PairOfPieces::SetActive()
 
 	UserEvent pairCreated(UserEventType::newPairOfPiecesActive, this);
 
-	EventHandler::SubscribeToEvent(UserEventType::movePairWithKeyboard,
-		std::function<void(SDL_Event&)>(std::bind(&PairOfPieces::MovePairToTheSide, this, std::placeholders::_1)));
-
-	EventHandler::SubscribeToEvent(UserEventType::rotatePairWithMouse,
-		std::function<void(SDL_Event&)>(std::bind(&PairOfPieces::RotatePair, this, std::placeholders::_1)));
+	EventHandler::SubscribeToEvent(UserEventType::movePairWithKeyboard, EVENT_CALLBACK(PairOfPieces::MovePairToTheSide));
+	EventHandler::SubscribeToEvent(UserEventType::rotatePairWithMouse, EVENT_CALLBACK(PairOfPieces::RotatePair));
 }
 
 void PairOfPieces::MovePairToTheSide(SDL_Event& aEvent)

@@ -166,6 +166,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Events\EventData.cpp" />
     <ClCompile Include="src\GameMode.cpp" />
     <ClCompile Include="src\ColumnAvailability.cpp" />
     <ClCompile Include="src\KeyboardInputManager.cpp" />
@@ -195,6 +196,8 @@
     <ClCompile Include="src\Text.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Alias.h" />
+    <ClInclude Include="src\Events\EventData.h" />
     <ClInclude Include="src\KeyboardInputManager.h" />
     <ClInclude Include="src\GameMode.h" />
     <ClInclude Include="src\QueueOfNextPairs.h" />

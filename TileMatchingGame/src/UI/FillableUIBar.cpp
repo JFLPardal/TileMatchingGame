@@ -14,8 +14,7 @@ FillableUIBar::FillableUIBar(UserEventType aEventThatWillFillBar, unsigned int a
 	, m_eventToTriggerWhenFull(aEventToTriggerWhenBarIsFull)
 {
 	m_foreground->Resize(CoordToResize::x, 0); // bar starts empty
-	EventHandler::SubscribeToEvent(aEventThatWillFillBar,
-									std::function<void(SDL_Event&)>(std::bind(&FillableUIBar::FillMethod, this, std::placeholders::_1)));
+	EventHandler::SubscribeToEvent(aEventThatWillFillBar, EVENT_CALLBACK(FillableUIBar::FillMethod));
 }
 
 void FillableUIBar::FillMethod(SDL_Event& aEvent)

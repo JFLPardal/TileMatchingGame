@@ -20,12 +20,8 @@ KeyboardInputManager& KeyboardInputManager::Instance()
 
 KeyboardInputManager::KeyboardInputManager()
 { 
-	EventHandler::SubscribeToEvent(SDL_KEYDOWN, 
-				std::function<void(SDL_Event&)>(std::bind(&KeyboardInputManager::KeyPressed, this, std::placeholders::_1)));
-
-	EventHandler::SubscribeToEvent(SDL_MOUSEBUTTONDOWN, 
-				std::function<void(SDL_Event&)>(std::bind(&KeyboardInputManager::MousePressed, this, std::placeholders::_1)));
-
+	EventHandler::SubscribeToEvent(SDL_KEYDOWN, EVENT_CALLBACK(KeyboardInputManager::KeyPressed));
+	EventHandler::SubscribeToEvent(SDL_MOUSEBUTTONDOWN, EVENT_CALLBACK(KeyboardInputManager::MousePressed));
 	EventHandler::SubscribeToEvent(UserEventType::pairOfPiecesDestroyed, [this](SDL_Event&) {m_PairOfPiecesIsValid = false; });
 	EventHandler::SubscribeToEvent(UserEventType::newPairOfPiecesActive, [this](SDL_Event&) {m_PairOfPiecesIsValid = true; });
 }

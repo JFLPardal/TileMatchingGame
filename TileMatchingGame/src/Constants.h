@@ -2,7 +2,7 @@
 
 namespace Consts
 {
-	// window properties
+	// window properties	WARNING: window's dimension should not be changed as background is made for these exact measures
 	constexpr char WINDOW_NAME[] = "Task 4 - Joao Pardal";
 	constexpr int WINDOW_W = 768;
 	constexpr int WINDOW_H = 1024;

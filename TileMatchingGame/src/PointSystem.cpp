@@ -8,8 +8,7 @@
 
 PointSystem::PointSystem()
 {
-	EventHandler::SubscribeToEvent(UserEventType::groupDestroyed, 
-					std::function<void(SDL_Event&)>(std::bind(&PointSystem::AddPoints, this, std::placeholders::_1)));
+	EventHandler::SubscribeToEvent(UserEventType::groupDestroyed, EVENT_CALLBACK(PointSystem::AddPoints));
 	Init();
 }
 

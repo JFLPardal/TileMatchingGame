@@ -5,12 +5,9 @@
 
 GameMode::GameMode()
 {
-	EventHandler::SubscribeToEvent(UserEventType::pointsForLevelReached,
-								std::function<void(SDL_Event&)>(std::bind(&GameMode::WinLevel, this, std::placeholders::_1)));
-	EventHandler::SubscribeToEvent(UserEventType::timeRanOut, 
-								std::function<void(SDL_Event&)>(std::bind(&GameMode::LoseGame, this, std::placeholders::_1)));
-	EventHandler::SubscribeToEvent(UserEventType::ranOutOfGridSpace,
-								std::function<void(SDL_Event&)>(std::bind(&GameMode::LoseGame, this, std::placeholders::_1)));
+	EventHandler::SubscribeToEvent(UserEventType::pointsForLevelReached, EVENT_CALLBACK(GameMode::WinLevel));
+	EventHandler::SubscribeToEvent(UserEventType::timeRanOut, EVENT_CALLBACK(GameMode::LoseGame));
+	EventHandler::SubscribeToEvent(UserEventType::ranOutOfGridSpace, EVENT_CALLBACK(GameMode::LoseGame));
 }
 
 void GameMode::Reset()

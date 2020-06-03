@@ -1,4 +1,5 @@
 #pragma once
+#include "EventData.h"
 #include "Alias.h"
 /*
 	EventCallback hides the implementation of how
@@ -11,7 +12,7 @@ class EventCallback
 {
 public:
 	void SubscribeToEvent(T eventType, CallbackFunctionSignature callbackFunction);
-	void TriggerEvent(SDL_Event& eventType);
+	void TriggerEvent(EventData& eventType);
 private:
 	std::map<T, std::unique_ptr<std::vector<CallbackFunctionSignature>>> m_eventToCallback;
 };
@@ -30,26 +31,29 @@ void EventCallback<T>::SubscribeToEvent(T aEventType, CallbackFunctionSignature 
 }
 
 template<typename T>
-inline void EventCallback<T>::TriggerEvent(SDL_Event& aEventType)
+inline void EventCallback<T>::TriggerEvent(EventData& aEventType)
 {
-	T eventType = static_cast<T>(aEventType.user.code);
+	T eventType = static_cast<T>(aEventType.GetUserEvent());
 	std::for_each(m_eventToCallback.at(eventType).get()->begin(),
 				m_eventToCallback.at(eventType).get()->end(),
-				[&aEventType](CallbackFunctionSignature& functionToCall)
+				[&aEventType, &eventType](CallbackFunctionSignature& functionToCall)
 				{
+					if(eventType != UserEventType::newFrame)
+						printf("triggered user\n");
 					functionToCall(aEventType);
 				}
 	);
 }
 
 template<>
-inline void EventCallback<SDL_EventType>::TriggerEvent(SDL_Event& aEventType)
+inline void EventCallback<DefaultEventType>::TriggerEvent(EventData& aEventType)
 {
-		SDL_EventType eventType = static_cast<SDL_EventType>(aEventType.type);
+		DefaultEventType eventType = static_cast<DefaultEventType>(aEventType.GetType());
 		std::for_each(m_eventToCallback.at(eventType).get()->begin(),
 					m_eventToCallback.at(eventType).get()->end(),
 					[&aEventType](CallbackFunctionSignature& functionToCall)
 					{
+						printf("triggered default\n");
 						functionToCall(aEventType);
 					}
 		);

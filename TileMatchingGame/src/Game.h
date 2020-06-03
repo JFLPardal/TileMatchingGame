@@ -14,6 +14,7 @@ class PointSystem;
 class UIElement;
 class GameMode; 
 class QueueOfNextPairs;
+class IEventData;
 
 class Game
 {
@@ -34,8 +35,8 @@ private:
 	void SubscribeToEvents();
 	void SpawnPairOfPieces();
 
-	void AddUIElement(SDL_Event& eventInfo);
-	void RemoveUIElement(SDL_Event& eventInfo);
+	void AddUIElement(IEventData& eventInfo);
+	void RemoveUIElement(IEventData& eventInfo);
 
 	void RestartGame(RestartCondition condition);
 

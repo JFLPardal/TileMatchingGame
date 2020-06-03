@@ -11,6 +11,8 @@
 #include "UI/UIElement.h"
 #include "GameMode.h"
 #include "QueueOfNextPairs.h"
+#include "Events/IEventData.h"
+#include "Utils.h"
 
 Game::Game()
 	: m_grid(std::make_unique<MatrixGrid>())
@@ -54,16 +56,16 @@ void Game::SpawnPairOfPieces()
 	m_currenPair->SetActive();
 }
 
-void Game::AddUIElement(SDL_Event& eventInfo)
+void Game::AddUIElement(IEventData& eventInfo)
 {
-	auto uiElement = static_cast<UIElement*>(eventInfo.user.data1);
+	auto uiElement = static_cast<UIElement*>(eventInfo.GetUserEventData1());
 	m_UIElements.emplace_back(uiElement);
 	printf("added uielement to Game refs\n");
 }
 
-void Game::RemoveUIElement(SDL_Event& eventInfo)
+void Game::RemoveUIElement(IEventData& eventInfo)
 {
-	auto UIElementToRemove = static_cast<UIElement*>(eventInfo.user.data1);
+	auto UIElementToRemove = static_cast<UIElement*>(eventInfo.GetUserEventData1());
 	auto iteratorToRemove = std::find_if(m_UIElements.begin(), m_UIElements.end(), 
 							[&UIElementToRemove](UIElement* m_UIElement) {return *m_UIElement == *UIElementToRemove; });
 	if (iteratorToRemove != m_UIElements.end())
@@ -77,7 +79,7 @@ void Game::RestartGame(RestartCondition aRestartCondition)
 	else
 		m_textToDisplay = Consts::GAME_LOST_TEXT;
 	Draw(); // this will guarantee that UI gets drawn before the game is reset
-	SDL_Delay(2000);
+	Delay(2000);
 
 	m_grid = std::make_unique<MatrixGrid>();
 	m_currenPair = nullptr;
@@ -98,7 +100,7 @@ void Game::RestartGame(RestartCondition aRestartCondition)
 
 void Game::SubscribeToEvents()
 {
-	EventHandler::SubscribeToEvent(SDL_QUIT, [this](SDL_Event){m_isRunning = false; });
+	EventHandler::SubscribeToEvent(DefaultEventType::quit, [this](IEventData&){m_isRunning = false; });
 	EventHandler::SubscribeToEvent(UserEventType::UIElementCreated, EVENT_CALLBACK(Game::AddUIElement));
 	EventHandler::SubscribeToEvent(UserEventType::UIElementDestroyed, EVENT_CALLBACK(Game::RemoveUIElement));
 }

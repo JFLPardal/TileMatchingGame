@@ -8,6 +8,7 @@
 
 class Renderer;
 class UIBar;
+class IEventData;
 
 class FillableUIBar
 {
@@ -16,7 +17,7 @@ public:
 	~FillableUIBar();
 
 private:
-	void FillMethod(SDL_Event& event);
+	void FillMethod(IEventData& event);
 
 	UserEventType m_eventToTriggerWhenFull = UserEventType::notDefined;
 	std::unique_ptr<UIBar> m_background;

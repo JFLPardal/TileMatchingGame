@@ -4,6 +4,7 @@
 
 #include "Events/EventHandler.h"
 #include "Events/UserEvent.h"
+#include "Events/IEventData.h"
 
 bool KeyboardInputManager::m_PairOfPiecesIsValid = false;
 
@@ -20,16 +21,16 @@ KeyboardInputManager& KeyboardInputManager::Instance()
 
 KeyboardInputManager::KeyboardInputManager()
 { 
-	EventHandler::SubscribeToEvent(SDL_KEYDOWN, EVENT_CALLBACK(KeyboardInputManager::KeyPressed));
-	EventHandler::SubscribeToEvent(SDL_MOUSEBUTTONDOWN, EVENT_CALLBACK(KeyboardInputManager::MousePressed));
-	EventHandler::SubscribeToEvent(UserEventType::pairOfPiecesDestroyed, [this](SDL_Event&) {m_PairOfPiecesIsValid = false; });
-	EventHandler::SubscribeToEvent(UserEventType::newPairOfPiecesActive, [this](SDL_Event&) {m_PairOfPiecesIsValid = true; });
+	EventHandler::SubscribeToEvent(DefaultEventType::keyDown, EVENT_CALLBACK(KeyboardInputManager::KeyPressed));
+	EventHandler::SubscribeToEvent(DefaultEventType::mouseButtonDown, EVENT_CALLBACK(KeyboardInputManager::MousePressed));
+	EventHandler::SubscribeToEvent(UserEventType::pairOfPiecesDestroyed, [this](IEventData&) {m_PairOfPiecesIsValid = false; });
+	EventHandler::SubscribeToEvent(UserEventType::newPairOfPiecesActive, [this](IEventData&) {m_PairOfPiecesIsValid = true; });
 }
 
-void KeyboardInputManager::KeyPressed(SDL_Event& aEventInfo)
+void KeyboardInputManager::KeyPressed(IEventData& aEventInfo)
 {
-	m_lastKeyPressed = aEventInfo.key.keysym.sym;
-	if (m_lastKeyPressed == SDLK_a || m_lastKeyPressed == SDLK_d)
+	m_lastKeyPressed = aEventInfo.KeyPressed();
+	if (m_lastKeyPressed == static_cast<Uint8>(KeyboardKey::a) || m_lastKeyPressed == static_cast<Uint8>(KeyboardKey::d))
 	{
 		if (m_PairOfPiecesIsValid)
 		{
@@ -38,10 +39,10 @@ void KeyboardInputManager::KeyPressed(SDL_Event& aEventInfo)
 	}
 }
 
-void KeyboardInputManager::MousePressed(SDL_Event& aEventInfo)
+void KeyboardInputManager::MousePressed(IEventData& aEventInfo)
 {
-	m_lastMouseButtonPressed = aEventInfo.button.button;
-	if (m_lastMouseButtonPressed == SDL_BUTTON_LEFT || m_lastMouseButtonPressed == SDL_BUTTON_RIGHT)
+	m_lastMouseButtonPressed = aEventInfo.MouseButtonPressed();
+	if (m_lastMouseButtonPressed == static_cast<int>(MouseButton::left) || m_lastMouseButtonPressed == static_cast<int>(MouseButton::right))
 	{
 		if (m_PairOfPiecesIsValid)
 		{

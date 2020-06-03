@@ -1,3 +1,3 @@
 #pragma once
 
-typedef std::function<void(SDL_Event&)> CallbackFunctionSignature;
+typedef std::function<void(IEventData&)> CallbackFunctionSignature;

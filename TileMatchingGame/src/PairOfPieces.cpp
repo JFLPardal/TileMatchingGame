@@ -7,6 +7,7 @@
 #include "Events/UserEvent.h"
 #include "PairPosition.h"
 #include "ColumnAvailability.h"
+#include "Events/IEventData.h"
 
 PairOfPieces::PairOfPieces(const ColumnAvailability* columnAvailability)
 {
@@ -80,18 +81,18 @@ void PairOfPieces::SetActive()
 	EventHandler::SubscribeToEvent(UserEventType::rotatePairWithMouse, EVENT_CALLBACK(PairOfPieces::RotatePair));
 }
 
-void PairOfPieces::MovePairToTheSide(SDL_Event& aEvent)
+void PairOfPieces::MovePairToTheSide(IEventData& aEvent)
 {
 	if (m_inputEnabled)
 	{
-		auto keyPressed = *static_cast<Sint32*>(aEvent.user.data1);
-		if (keyPressed == SDL_KeyCode::SDLK_a)
+		auto keyPressed = *static_cast<Uint8*>(aEvent.GetUserEventData1());
+		if (keyPressed == static_cast<Uint8>(KeyboardKey::a))
 		{
 			if (CanMoveLeft())
 				for (auto& piece : m_pair)
 					piece->Move(MoveDirection::left);
 		}
-		else if (keyPressed == SDL_KeyCode::SDLK_d)
+		else if (keyPressed == static_cast<Uint8>(KeyboardKey::d))
 		{
 			if(CanMoveRight())
 				for (auto& piece : m_pair)
@@ -100,13 +101,13 @@ void PairOfPieces::MovePairToTheSide(SDL_Event& aEvent)
 	}
 }
 
-void PairOfPieces::RotatePair(SDL_Event& event)
+void PairOfPieces::RotatePair(IEventData& event)
 {
 	const auto deltaPairPosition = m_pairPosition.SecondPiecePos() - m_pairPosition.FirstPiecePos();
 	bool secondPieceIsToTheRight = deltaPairPosition.X() > 0;
 	bool secondPieceIsBelow		 = deltaPairPosition.Y() > 0;
 
-	bool rotateClockwise = *static_cast<Uint8*>(event.user.data1) == SDL_BUTTON_LEFT;
+	bool rotateClockwise = *static_cast<Uint8*>(event.GetUserEventData1()) == static_cast<int>(MouseButton::left);
 
 	const auto& firstPiece = m_pair.at(0).get();
 	const auto& secondPiece = m_pair.at(1).get();

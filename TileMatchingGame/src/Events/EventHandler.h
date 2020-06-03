@@ -17,7 +17,7 @@
 class EventHandler
 {
 public:
-	static void SubscribeToEvent(SDL_EventType EventType, CallbackFunctionSignature callbackFunction);
+	static void SubscribeToEvent(DefaultEventType EventType, CallbackFunctionSignature callbackFunction);
 	static void SubscribeToEvent(UserEventType userEventType, CallbackFunctionSignature callbackFunction);
 	static void ProcessEvents();
 
@@ -27,10 +27,10 @@ private:
 	EventHandler() {};
 	static EventHandler& Get();
 
-	void SubscribeToEventImpl(SDL_EventType EventType, CallbackFunctionSignature callbackFunction);
+	void SubscribeToEventImpl(DefaultEventType EventType, CallbackFunctionSignature callbackFunction);
 	void SubscribeToEventImpl(UserEventType userEventType, CallbackFunctionSignature callbackFunction);
 	void ProcessEventsImpl();
 
 	EventCallback<UserEventType> m_TriggerUserEvent;
-	EventCallback<SDL_EventType> m_TriggerEvent;
+	EventCallback<DefaultEventType> m_TriggerEvent;
 };

@@ -12,6 +12,7 @@
 class Piece;
 class Renderer; 
 class ColumnAvailability;
+class IEventData;
 
 class PairOfPieces
 {
@@ -35,8 +36,8 @@ public:
 	void SetActive();
 	void DisableInput() { m_inputEnabled = false; }
 private:
-	void MovePairToTheSide(SDL_Event& event);
-	void RotatePair(SDL_Event& event);
+	void MovePairToTheSide(IEventData& event);
+	void RotatePair(IEventData& event);
 
 	bool CanMoveLeft() const;
 	bool CanMoveToColumnToTheSide(const Vector2& leftMostPiece, MoveDirection newColumn) const;

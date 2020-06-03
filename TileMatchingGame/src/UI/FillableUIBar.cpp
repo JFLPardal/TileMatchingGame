@@ -6,6 +6,7 @@
 #include "UIBar.h"
 #include "Events/EventHandler.h"
 #include "Events/UserEvent.h"
+#include "Events/IEventData.h"
 
 FillableUIBar::FillableUIBar(UserEventType aEventThatWillFillBar, unsigned int aBarMaxCapacity, const Vector2& aPosition, const Vector2& textureCoordForFillBar, UserEventType aEventToTriggerWhenBarIsFull)
 	: m_foreground(std::make_unique<UIBar>(aPosition, Vector2(Consts::UI_BAR_W, Consts::UI_BAR_H), textureCoordForFillBar))
@@ -17,9 +18,9 @@ FillableUIBar::FillableUIBar(UserEventType aEventThatWillFillBar, unsigned int a
 	EventHandler::SubscribeToEvent(aEventThatWillFillBar, EVENT_CALLBACK(FillableUIBar::FillMethod));
 }
 
-void FillableUIBar::FillMethod(SDL_Event& aEvent)
+void FillableUIBar::FillMethod(IEventData& aEvent)
 {
-	int fillIncrement = *static_cast<int*>(aEvent.user.data1);
+	int fillIncrement = *static_cast<int*>(aEvent.GetUserEventData1());
 	m_currentCapacity = std::min(m_currentCapacity + fillIncrement, m_maxCapacity);
 	float currentCapacityAsPercentage = static_cast<float>(m_currentCapacity) / m_maxCapacity;
 

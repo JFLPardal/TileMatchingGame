@@ -2,9 +2,10 @@
 #include "PointSystem.h"
 #include "Enums.h"
 
-#include "UI\FillableUIBar.h"
-#include "Events\EventHandler.h"
-#include "Events\UserEvent.h"
+#include "UI/FillableUIBar.h"
+#include "Events/EventHandler.h"
+#include "Events/UserEvent.h"
+#include "Events/IEventData.h"
 
 PointSystem::PointSystem()
 {
@@ -24,9 +25,9 @@ void PointSystem::Reset()
 	m_timeProgressBar = std::make_unique<FillableUIBar>(UserEventType::newFrame, Consts::MS_TO_LOSE_GAME, Vector2(50, 100), Vector2(12, 6), UserEventType::timeRanOut);
 }
 
-void PointSystem::AddPoints(SDL_Event& eventInfo)
+void PointSystem::AddPoints(IEventData& eventInfo)
 {
-	int numberOfDeletedPieces = *static_cast<int*>(eventInfo.user.data1);
+	int numberOfDeletedPieces = *static_cast<int*>(eventInfo.GetUserEventData1());
 	m_lastPointsAdded = numberOfDeletedPieces * 10;
 	m_currentPoints += m_lastPointsAdded;
 	UserEvent pointsUpdated(UserEventType::pointsUpdated, &m_lastPointsAdded);

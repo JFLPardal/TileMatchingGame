@@ -8,6 +8,7 @@
 */
 
 class FillableUIBar;
+class IEventData;
 
 class PointSystem 
 {
@@ -17,7 +18,7 @@ public:
 
 	void Reset();
 private:
-	void AddPoints(SDL_Event& eventInfo);
+	void AddPoints(IEventData& eventInfo);
 	void Init();
 
 	unsigned int m_pointsToClearLevel = Consts::POINTS_TO_CLEAR_1ST_LVL;

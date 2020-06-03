@@ -5,6 +5,8 @@
 	lose condition of the game
 */
 
+class IEventData;
+
 class GameMode
 {
 public:
@@ -15,9 +17,6 @@ public:
 
 	void Reset();
 private:
-	void LoseGame(SDL_Event& eventInfo);
-	void WinLevel(SDL_Event& eventInfo);
-
 	bool m_WinConditionIsSatisfied = false;
 	bool m_LoseConditionIsSatisfied = false;
 };

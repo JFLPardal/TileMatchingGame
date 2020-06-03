@@ -5,6 +5,8 @@
 	that the event can be triggered
 */
 
+class IEventData;
+
 class KeyboardInputManager
 {
 public:
@@ -15,10 +17,10 @@ public:
 private:
 	KeyboardInputManager();
 	static KeyboardInputManager& Instance();
-	void KeyPressed(SDL_Event& eventInfo);
-	void MousePressed(SDL_Event& eventInfo);
+	void KeyPressed(IEventData& eventInfo);
+	void MousePressed(IEventData& eventInfo);
 
 	static bool m_PairOfPiecesIsValid; 
-	Sint32 m_lastKeyPressed = 0;
+	Uint8 m_lastKeyPressed = 0;
 	Uint8 m_lastMouseButtonPressed = 0;
 };

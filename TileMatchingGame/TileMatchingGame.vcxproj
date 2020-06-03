@@ -198,6 +198,7 @@
   <ItemGroup>
     <ClInclude Include="src\Alias.h" />
     <ClInclude Include="src\Events\EventData.h" />
+    <ClInclude Include="src\Events\IEventData.h" />
     <ClInclude Include="src\KeyboardInputManager.h" />
     <ClInclude Include="src\GameMode.h" />
     <ClInclude Include="src\QueueOfNextPairs.h" />

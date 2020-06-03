@@ -8,18 +8,22 @@ namespace Consts
 	constexpr int WINDOW_H = 1024;
 
 	// game over text
-	const std::string LEVEL_COMPLETED_TEXT = "Level Completed!";
-	const std::string GAME_LOST_TEXT = "Game Lost";
+	const std::string LEVEL_COMPLETED_TEXT	= "Level Completed!";
+	const std::string GAME_LOST_TEXT		= "Game Lost";
+	const std::string CURRENT_LEVEL_TEXT	= "Current Level: ";
 	
 	// text properties
-	constexpr char FONT_PATH[] = "assets\\CircleOfDust.ttf";
-	constexpr SDL_Color TEXT_COLOR{255, 215, 0, 200};
+	constexpr char FONT_PATH[]		= "assets\\Amatic.ttf";
+	constexpr int TEXT_POINTS_SMALL = 20;
+	constexpr int TEXT_POINTS_BIG	= 128;
+	constexpr SDL_Color TEXT_COLOR_DEFAULT{0, 209, 209}; 
+	constexpr SDL_Color TEXT_COLOR_GAME_LOST{209, 0, 0}; 
 
 	// text position and dimensions
-	constexpr int TEXT_INITIAL_X = Consts::WINDOW_W * .5f - 100;
-	constexpr int TEXT_INITIAL_Y = Consts::WINDOW_H * .3f;
-	constexpr int TEXT_W = 200;
+	constexpr int TEXT_W = WINDOW_W * .7f;
 	constexpr int TEXT_H = 100;
+	constexpr int TEXT_INITIAL_X = Consts::WINDOW_W * .5f - TEXT_W * .5f;
+	constexpr int TEXT_INITIAL_Y = Consts::WINDOW_H * .4f;
 
 	// UI bar dimensions
 	constexpr int UI_BAR_W = 300;
@@ -32,12 +36,12 @@ namespace Consts
 	constexpr int MIN_NUMBER_OF_PIECES_TO_MAKE_GROUP = 4;
 	
 	// progression and game over
-	constexpr int POINTS_TO_CLEAR_1ST_LVL = 20;
-	constexpr int POINTS_TO_CLEAR_LVL_INC = 60; 
-	constexpr int MS_TO_LOSE_GAME = 30 * 1000; 
+	constexpr int POINTS_TO_CLEAR_1ST_LVL	= 20;
+	constexpr int POINTS_TO_CLEAR_LVL_INC	= 60; 
+	constexpr int MS_TO_LOSE_GAME			= 50 * 1000; 
 
 	// pair and piece speed
-	constexpr float PAIR_SPEED_BOOST = 2.5f; // percentage that should be applied to the regular speed of a pair when the speed boost key is pressed
+	constexpr float PAIR_SPEED_BOOST	= 2.5f; // percentage that should be applied to the regular speed of a pair when the speed boost key is pressed
 	constexpr float PIECE_DEFAULT_SPEED = 0.2f;
 
 	// piece dimensions
@@ -49,15 +53,15 @@ namespace Consts
 	constexpr int TEX_TILE_H = 64;
 
 	// texture coordenates for each piece color
-	constexpr int NUM_PIECE_COLORS = 4;
-	constexpr int TEX_BROWN_W = 64;
-	constexpr int TEX_BROWN_H = 0;
-	constexpr int TEX_RED_W = 128;
-	constexpr int TEX_RED_H = 0;
-	constexpr int TEX_BLUE_W = 192;
-	constexpr int TEX_BLUE_H = 0;
-	constexpr int TEX_GREEN_W = 256;
-	constexpr int TEX_GREEN_H = 0;
+	constexpr int NUM_PIECE_COLORS	= 4;
+	constexpr int TEX_BROWN_W		= 64;
+	constexpr int TEX_BROWN_H		= 0;
+	constexpr int TEX_RED_W			= 128;
+	constexpr int TEX_RED_H			= 0;
+	constexpr int TEX_BLUE_W		= 192;
+	constexpr int TEX_BLUE_H		= 0;
+	constexpr int TEX_GREEN_W		= 256;
+	constexpr int TEX_GREEN_H		= 0;
 
 	// these values avoid division at runtime when converting from screenPosition to gridIndex
 	constexpr float STOG_W = 1 / static_cast<float>(PIECE_W);
@@ -75,7 +79,7 @@ namespace Consts
 	constexpr int GRID_INIT_Y = WINDOW_H * 0.15f;
 
 	//grid final pos
-	constexpr int GRID_RIGHTMOST_X = GRID_INIT_X + NUM_PIECES_W * PIECE_W;
+	constexpr int GRID_RIGHTMOST_X	= GRID_INIT_X + NUM_PIECES_W * PIECE_W;
 	constexpr int GRID_BOTTOMMOST_Y = NUM_PIECES_H * PIECE_H + GRID_INIT_Y;
 	
 	// pair starting pos

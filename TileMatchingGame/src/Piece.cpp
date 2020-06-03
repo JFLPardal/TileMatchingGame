@@ -28,7 +28,7 @@ void Piece::Update(int aMsSinceLastUpdate)
 
 void Piece::Draw(Renderer* aRenderer)
 {
-	aRenderer->Draw(GetTextureRect(), m_screenPosition);
+	aRenderer->DrawPiece(GetTextureRect(), m_screenPosition);
 }
 
 void Piece::Move(MoveDirection directionToMove)

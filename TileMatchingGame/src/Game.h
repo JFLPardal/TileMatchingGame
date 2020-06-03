@@ -42,6 +42,7 @@ private:
 	bool m_isRunning = true; 
 	Uint32 m_msSinceLastUpdate = 0;
 	std::string m_textToDisplay = "";
+	int m_currentLevel = 1;
 
 	std::unique_ptr<PointSystem> m_pointSystem{ nullptr };
 	std::unique_ptr<IGridRepresentation> m_grid{ nullptr };

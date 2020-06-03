@@ -84,9 +84,15 @@ void Game::RestartGame(RestartCondition aRestartCondition)
 	m_UIElements.clear();
 
 	if (aRestartCondition == RestartCondition::levelCompleted)
+	{
 		m_pointSystem->Reset();
-	else
+		m_currentLevel++;
+	}
+	else if(aRestartCondition == RestartCondition::levelFailed)
+	{
+		m_currentLevel = 1;
 		InitPointSystem();
+	}
 	m_textToDisplay.clear();
 }
 
@@ -138,14 +144,19 @@ void Game::Update(Uint32 msSinceLastUpdate)
 void Game::Draw()
 {
 	m_renderer->ClearScreen(); 
+	m_renderer->DrawBackground();
 	for (auto& uiElement : m_UIElements)
 	{
 		if(uiElement != nullptr) uiElement->Draw(m_renderer.get());
 	}
 	m_queueOfNextPairs->Draw(m_renderer.get());
 	m_grid->Draw(m_renderer.get());
-	if(m_currenPair != nullptr) m_currenPair->Draw(m_renderer.get());
-	if(!m_textToDisplay.empty()) m_renderer->DrawText(m_textToDisplay);
+	if (m_currenPair != nullptr) m_currenPair->Draw(m_renderer.get());
+	// text
+	if (!m_textToDisplay.empty()) m_renderer->DrawText(m_textToDisplay, Vector2(Consts::TEXT_INITIAL_X, Consts::TEXT_INITIAL_Y), Vector2(Consts::TEXT_W, Consts::TEXT_H));
+	m_renderer->DrawText(Consts::CURRENT_LEVEL_TEXT, Vector2(50,0), Vector2(120, 50));
+	m_renderer->DrawText(std::to_string(m_currentLevel), Vector2(165,5), Vector2(20, 40));	
+	
 	m_renderer->Display();
 }
 

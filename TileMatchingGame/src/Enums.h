@@ -63,3 +63,9 @@ enum class ColumnHeightModifier
 	increase,
 	decrease
 };
+
+enum class FontSize
+{
+	small,
+	big
+};

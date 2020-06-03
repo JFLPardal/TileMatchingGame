@@ -72,7 +72,7 @@ void MatrixGrid::Draw(Renderer* aRenderer) const
 		{
 			if (GetPieceInIndex(x,y) != nullptr)
 			{
-				aRenderer->Draw(GetPieceInIndex(x, y)->GetTextureRect(),
+				aRenderer->DrawPiece(GetPieceInIndex(x, y)->GetTextureRect(),
 					m_visualStartingPoint.X() + x * Consts::PIECE_W,
 					m_visualStartingPoint.Y() + y * Consts::PIECE_H);
 			}

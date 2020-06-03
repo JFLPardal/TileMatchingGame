@@ -26,10 +26,11 @@ auto Renderer::LoadTexture(const std::string& aTexturePath)
 }
 
 Renderer::Renderer(SDL_Window* const aWindow)
-	:m_text(std::make_unique<Text>())
 {
 	InitRenderer(aWindow);
+	m_text = std::make_unique<Text>(m_renderer.get());
 	m_texture = LoadTexture("assets\\tilesheet.png");
+	m_background = LoadTexture("assets\\background.png");
 }
 
 void Renderer::ClearScreen()
@@ -37,21 +38,26 @@ void Renderer::ClearScreen()
 	SDL_RenderClear(m_renderer.get());
 }
 
+void Renderer::DrawBackground()
+{
+	SDL_RenderCopy(m_renderer.get(), m_background.get(), NULL, NULL);
+}
+
 void Renderer::Display()
 {
 	SDL_RenderPresent(m_renderer.get());
 }
 
-void Renderer::Draw(Rect* aTextureRect, int aScreenPosX, int aScreenPosY)
+void Renderer::DrawPiece(Rect* aTextureRect, int aScreenPosX, int aScreenPosY)
 {
 	SDL_Rect screenPosAndSize{ aScreenPosX, aScreenPosY, Consts::PIECE_W, Consts::PIECE_H };
 	SDL_Rect spriteSheetTexture = aTextureRect->GetAsSDLRect();
 	SDL_RenderCopy(m_renderer.get(), m_texture.get(), &spriteSheetTexture, &screenPosAndSize);
 }
 
-void Renderer::Draw(Rect* aTextureRect, const Vector2& aScreenPos)
+void Renderer::DrawPiece(Rect* aTextureRect, const Vector2& aScreenPos)
 {
-	Draw(aTextureRect, aScreenPos.X(), aScreenPos.Y());
+	DrawPiece(aTextureRect, aScreenPos.X(), aScreenPos.Y());
 }
 
 void Renderer::DrawUI(Rect* aTextureRect, const Vector2& aScreenPos, const Vector2& aDimensions)
@@ -61,11 +67,11 @@ void Renderer::DrawUI(Rect* aTextureRect, const Vector2& aScreenPos, const Vecto
 	SDL_RenderCopy(m_renderer.get(), m_texture.get(), &spriteSheetTexture, &screenPosAndSize);
 }
 
-void Renderer::DrawText(const std::string& aTextToDisplay)
+void Renderer::DrawText(const std::string& aTextToDisplay, const Vector2& aScreenPos, const Vector2& aDimension)
 {
 	SDL_Texture* textTexture = m_text->GetTextureForString(m_renderer.get(), aTextToDisplay);
-	SDL_Rect textRect{ Consts::TEXT_INITIAL_X, Consts::TEXT_INITIAL_Y,
-					   Consts::TEXT_W, Consts::TEXT_H};
+	SDL_Rect textRect{ aScreenPos.X(), aScreenPos.Y(),
+					   aDimension.X(), aDimension.Y() };
 	SDL_RenderCopy(m_renderer.get(),textTexture , NULL, &textRect);
 }
 

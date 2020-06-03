@@ -21,5 +21,6 @@
 #include <algorithm>
 #include <cmath>
 #include <stdlib.h>
+#include <string>
 #include <time.h>
 #include <cassert>

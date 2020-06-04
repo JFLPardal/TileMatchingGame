@@ -24,3 +24,8 @@ int ScreenToGridPositon(int aValue, CoordToConvert aCoordToConvert)
 		break;
 	}
 }
+
+void Delay(Uint32 msToDelay)
+{
+	SDL_Delay(msToDelay);
+}

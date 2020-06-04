@@ -12,6 +12,7 @@
 class Piece;
 class Renderer; 
 class ColumnAvailability;
+class IEventData;
 
 class PairOfPieces
 {
@@ -20,22 +21,23 @@ public:
 	~PairOfPieces();
 
 	void Update(Uint32 msSinceLastUpdate, PairAcessPiece pieceToUpdate = PairAcessPiece::both);
-	void CheckForSpeedBoost();
 	void Draw(Renderer* renderer);
 
 	const PairPosition& GetScreenPos() const;
 	const Vector2& GetFirstPiecePos() const;
 	const Vector2& GetSecondPiecePos() const;
-	// a pair is vertical if the pieces are on top of each other
+	// a pair is vertical if the pieces are on top of each other rather then side by side
 	bool IsVertical() const { return m_isVertical; }
 
 	std::unique_ptr<Piece> AddFirstPieceToBoard();
 	std::unique_ptr<Piece> AddSecondPieceToBoard();
 
+	void SetActive();
 	void DisableInput() { m_inputEnabled = false; }
 private:
-	void MovePairToTheSide(SDL_Event& event);
-	void RotatePair(SDL_Event& event);
+	void MovePairToTheSide(IEventData& event);
+	void RotatePair(IEventData& event);
+	void CheckForSpeedBoost();
 
 	bool CanMoveLeft() const;
 	bool CanMoveToColumnToTheSide(const Vector2& leftMostPiece, MoveDirection newColumn) const;

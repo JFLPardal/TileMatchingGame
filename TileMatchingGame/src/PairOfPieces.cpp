@@ -2,10 +2,12 @@
 #include "PairOfPieces.h"
 
 #include "Piece.h"
-#include "Renderer.h"
-#include "EventHandler.h"
+#include "Wrappers/Renderer.h"
+#include "Events/EventHandler.h"
+#include "Events/UserEvent.h"
 #include "PairPosition.h"
 #include "ColumnAvailability.h"
+#include "Events/IEventData.h"
 
 PairOfPieces::PairOfPieces(const ColumnAvailability* columnAvailability)
 {
@@ -14,13 +16,6 @@ PairOfPieces::PairOfPieces(const ColumnAvailability* columnAvailability)
 
 	m_pair.at(1)->SetAsSecondInPair();
 	m_pairPosition = PairPosition(*m_pair.at(0), *m_pair.at(1));
-
-	EventHandler::SubscribeToEvent(SDL_KEYDOWN, 
-							std::function<void(SDL_Event&)>(std::bind(&PairOfPieces::MovePairToTheSide, this, std::placeholders::_1)));
-
-	EventHandler::SubscribeToEvent(SDL_MOUSEBUTTONDOWN,
-							std::function<void(SDL_Event&)>(std::bind(&PairOfPieces::RotatePair, this, std::placeholders::_1)));
-
 	m_columnAvailability = columnAvailability;
 }
 
@@ -74,18 +69,30 @@ std::unique_ptr<Piece> PairOfPieces::AddSecondPieceToBoard()
 	return std::move(m_pair.at(1));
 }
 
-void PairOfPieces::MovePairToTheSide(SDL_Event& aEvent)
+void PairOfPieces::SetActive()
+{
+	for (auto& piece : m_pair)
+		piece->MoveTo(Vector2(Consts::PAIR_INIT_X, Consts::PAIR_INIT_Y));
+	m_pair.at(1)->Move(MoveDirection::right);
+
+	UserEvent pairCreated(UserEventType::newPairOfPiecesActive, this);
+
+	EventHandler::SubscribeToEvent(UserEventType::movePairWithKeyboard, EVENT_CALLBACK(PairOfPieces::MovePairToTheSide));
+	EventHandler::SubscribeToEvent(UserEventType::rotatePairWithMouse, EVENT_CALLBACK(PairOfPieces::RotatePair));
+}
+
+void PairOfPieces::MovePairToTheSide(IEventData& aEvent)
 {
 	if (m_inputEnabled)
 	{
-		auto keyPressed = aEvent.key.keysym.sym;
-		if (keyPressed == SDL_KeyCode::SDLK_a)
+		auto keyPressed = *static_cast<Uint8*>(aEvent.GetEventData1());
+		if (keyPressed == static_cast<Uint8>(KeyboardKey::a))
 		{
 			if (CanMoveLeft())
 				for (auto& piece : m_pair)
 					piece->Move(MoveDirection::left);
 		}
-		else if (keyPressed == SDL_KeyCode::SDLK_d)
+		else if (keyPressed == static_cast<Uint8>(KeyboardKey::d))
 		{
 			if(CanMoveRight())
 				for (auto& piece : m_pair)
@@ -94,13 +101,13 @@ void PairOfPieces::MovePairToTheSide(SDL_Event& aEvent)
 	}
 }
 
-void PairOfPieces::RotatePair(SDL_Event& event)
+void PairOfPieces::RotatePair(IEventData& event)
 {
 	const auto deltaPairPosition = m_pairPosition.SecondPiecePos() - m_pairPosition.FirstPiecePos();
 	bool secondPieceIsToTheRight = deltaPairPosition.X() > 0;
 	bool secondPieceIsBelow		 = deltaPairPosition.Y() > 0;
 
-	bool rotateClockwise = event.button.button == SDL_BUTTON_LEFT;
+	bool rotateClockwise = *static_cast<Uint8*>(event.GetEventData1()) == static_cast<int>(MouseButton::left);
 
 	const auto& firstPiece = m_pair.at(0).get();
 	const auto& secondPiece = m_pair.at(1).get();
@@ -206,4 +213,7 @@ void PairOfPieces::CheckForSpeedBoost()
 }
 
 // needed on the cpp because of the forward decl of Piece
-PairOfPieces::~PairOfPieces() = default;
+PairOfPieces::~PairOfPieces()
+{
+	UserEvent pairDestroyed(UserEventType::pairOfPiecesDestroyed, this);
+}

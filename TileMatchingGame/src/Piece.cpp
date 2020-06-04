@@ -3,13 +3,13 @@
 #include "Constants.h"
 #include "Utils.h"
 
-#include "Rect.h"
-#include "Renderer.h"
+#include "Wrappers/Rect.h"
+#include "Wrappers/Renderer.h"
 #include "TextureMapper.h"
 
 Piece::Piece()
 {
-	m_screenPosition = Vector2(Consts::PAIR_INIT_X, Consts::PAIR_INIT_Y);
+	m_screenPosition = Vector2(Consts::NEXT_PAIR_TO_SPAWN_INIT_X, Consts::NEXT_PAIR_TO_SPAWN_INIT_Y);
 	AssignColorAndTexture();
 }
 
@@ -28,7 +28,7 @@ void Piece::Update(int aMsSinceLastUpdate)
 
 void Piece::Draw(Renderer* aRenderer)
 {
-	aRenderer->Draw(GetTextureRect(), m_screenPosition);
+	aRenderer->DrawPiece(GetTextureRect(), m_screenPosition);
 }
 
 void Piece::Move(MoveDirection directionToMove)

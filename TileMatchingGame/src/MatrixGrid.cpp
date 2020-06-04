@@ -2,44 +2,18 @@
 #include "MatrixGrid.h"
 
 #include "Piece.h"
-#include "Renderer.h"
+#include "Wrappers/Renderer.h"
 #include "PairOfPieces.h"
 #include "Utils.h"
 #include "ColumnAvailability.h"
-#include "Group.h"
+#include "GridDataStructure.h"
 
 MatrixGrid::MatrixGrid()
-	: m_columnAvailability(std::make_unique< ColumnAvailability>())
+	: m_grid(std::make_unique<GridDataStructure>())
+	, m_columnAvailability(std::make_unique<ColumnAvailability>())
 {
-	m_columnAvailability->InitColumnAvailability(m_grid.at(0).size() - 1);
-	InitGrid();
-}
-
-void MatrixGrid::InitGrid()
-{
-	for (auto& column : m_grid)
-		for (auto& piece : column)
-			piece = nullptr;
-	/*m_grid.at(3).at(15) = std::make_unique<Piece>();
-	m_grid.at(4).at(15) = std::make_unique<Piece>();
-	m_grid.at(3).at(14) = std::make_unique<Piece>();
-	m_grid.at(4).at(14) = std::make_unique<Piece>();
-	m_grid.at(3).at(13) = std::make_unique<Piece>();
-	m_grid.at(4).at(13) = std::make_unique<Piece>();
-	m_grid.at(3).at(12) = std::make_unique<Piece>();
-	m_grid.at(4).at(12) = std::make_unique<Piece>();
-	m_grid.at(3).at(11) = std::make_unique<Piece>();
-	m_grid.at(4).at(11) = std::make_unique<Piece>();
-	m_columnAvailability->IncreaseColumnHeight(Vector2(3,1));
-	m_columnAvailability->IncreaseColumnHeight(Vector2(3,1));
-	m_columnAvailability->IncreaseColumnHeight(Vector2(3,1));
-	m_columnAvailability->IncreaseColumnHeight(Vector2(3,1));
-	m_columnAvailability->IncreaseColumnHeight(Vector2(3,1));
-	m_columnAvailability->IncreaseColumnHeight(Vector2(4,1));
-	m_columnAvailability->IncreaseColumnHeight(Vector2(4,1));
-	m_columnAvailability->IncreaseColumnHeight(Vector2(4,1));
-	m_columnAvailability->IncreaseColumnHeight(Vector2(4,1));
-	m_columnAvailability->IncreaseColumnHeight(Vector2(4,1));*/
+	m_columnAvailability->InitColumnAvailability(m_grid->GetColumnSize() - 1);
+	m_grid->Init();
 }
 
 bool MatrixGrid::IsDoneProcessingGroups()
@@ -66,18 +40,7 @@ void MatrixGrid::TransferPairOwnershipToGrid(std::unique_ptr<PairOfPieces> piece
 
 void MatrixGrid::Draw(Renderer* aRenderer) const
 {
-	for (auto x = 0; x < m_grid.size(); x++)
-	{
-		for (auto y = 0; y < m_grid.at(x).size(); y++)
-		{
-			if (GetPieceInIndex(x,y) != nullptr)
-			{
-				aRenderer->Draw(GetPieceInIndex(x, y)->GetTextureRect(),
-					m_visualStartingPoint.X() + x * Consts::PIECE_W,
-					m_visualStartingPoint.Y() + y * Consts::PIECE_H);
-			}
-		}
-	}
+	m_grid->Draw(aRenderer, m_visualStartingPoint);
 	if (m_lastPairAddedToGrid != nullptr) m_lastPairAddedToGrid->Draw(aRenderer);
 }
 
@@ -87,97 +50,16 @@ void MatrixGrid::Update(int msSinceLastUpdate)
 	static bool secondPieceHasSettled = false;
 	static bool bothPiecesSettled = false;
 
-	static int animationDuration = 0;
-	bool isAnimationPlaying = animationDuration > 0;
-	
-	static std::vector<Group> groupsFound;
-	if (!isAnimationPlaying)
-	{
-		if (bothPiecesSettled)
-		{
-			groupsFound = FindGroupsInGrid();
-			if(groupsFound.size() > 0) 
-				for(auto& group : groupsFound) 
-				{
-					animationDuration = 1000;
-					group.PlayDestructionAnimation();
-				}
-			 else m_isDoneProcessingGroups = true;
-			bothPiecesSettled = false;
-		}
-		else if(!bothPiecesSettled)
-		{
-			UpdatePiecesUntilSettled(firstPieceHasSettled, secondPieceHasSettled, bothPiecesSettled, msSinceLastUpdate);
-		}
-	}
-	else
-	{
-		animationDuration -= msSinceLastUpdate;
-		if (animationDuration <= 0)
-		{
-			m_isDoneProcessingGroups = true;
-			animationDuration == 0;
-			for(auto& group : groupsFound)
-				DeleteGroupFromGrid(group); //already implemented!
-			SettleSuspendedPieces();
-			groupsFound.clear();
-		}
-	}
-}
-
-// this return type is ok because of copy elision, which will construct the returning vector on the variable that is supposed to store the vector
-std::vector<Group> MatrixGrid::FindGroupsInGrid()
-{
-	std::set<Vector2> allPositionsInAGroup; // used to avoid processing pieces that are already part of a group
-	std::vector<Group> groupsFound;
-	PieceColor lastColor = PieceColor::notDefined;
-
-	for (auto i = 0; i < m_grid.size(); i++)
-	{
-		for (auto j = 0; j < m_grid.at(i).size(); j++)
-		{
-			Vector2 initialPos(i, j);
-			if (GetPieceInIndex(initialPos) != nullptr 
-				&& lastColor != GetPieceInIndex(initialPos)->GetColor() 
-				&& allPositionsInAGroup.find(initialPos) == allPositionsInAGroup.end())
-			{
-				std::set<Vector2> solution;
-				std::set<Vector2> seen;
-				std::deque<Vector2> toProcess;
-
-				PieceColor currentColor = GetPieceInIndex(initialPos)->GetColor();
-
-				toProcess.insert(toProcess.end(), initialPos);
-				seen.insert(initialPos);
-
-				while (!toProcess.empty())
-				{
-					Vector2 posBeingProcessed = toProcess.front();
-					if (GetPieceInIndex(posBeingProcessed)->GetColor() == currentColor)
-					{
-						allPositionsInAGroup.insert(posBeingProcessed);
-						solution.insert(posBeingProcessed);
-						std::vector<Vector2> adjacentPositions = GetAdjacentPositions(posBeingProcessed);
-						for (auto& adjacentPosition : adjacentPositions)
-						{
-							if (seen.find(adjacentPosition) == seen.end())
-							{
-								toProcess.insert(toProcess.end(), adjacentPosition);
-								seen.insert(adjacentPosition);
-							}
-						}
-					}
-					toProcess.pop_front();
-				}
-				if (solution.size() >= Consts::MIN_NUMBER_OF_PIECES_TO_MAKE_GROUP)
-				{
-					groupsFound.emplace_back(solution);
-				}
-				lastColor = currentColor;
-			}
-		}
-	}
-	return groupsFound;
+  if (bothPiecesSettled)
+  {
+    m_grid->FindGroupsInGrid(m_columnAvailability.get());
+    m_isDoneProcessingGroups = true;
+    bothPiecesSettled = false;
+  }
+  else
+  {
+    UpdatePiecesUntilSettled(firstPieceHasSettled, secondPieceHasSettled, bothPiecesSettled, msSinceLastUpdate);
+  }
 }
 
 void MatrixGrid::UpdatePiecesUntilSettled(bool& firstPieceHasSettled, bool& secondPieceHasSettled, bool& bothPiecesSettled, int msSinceLastUpdate)
@@ -239,89 +121,12 @@ void MatrixGrid::UpdateGridAndColumnAvailability()
 	const auto firstPiecePositionInGrid  = ScreenToGridPosition(m_lastPairAddedToGrid->GetFirstPiecePos());
 	const auto secondPiecePositionInGrid = ScreenToGridPosition(m_lastPairAddedToGrid->GetSecondPiecePos());
 
-	// add pieces the grid
-	m_grid.at(firstPiecePositionInGrid.X()).at(firstPiecePositionInGrid.Y())   = m_lastPairAddedToGrid->AddFirstPieceToBoard();
-	m_grid.at(secondPiecePositionInGrid.X()).at(secondPiecePositionInGrid.Y()) = m_lastPairAddedToGrid->AddSecondPieceToBoard();
+	m_grid->AddPieceToGrid(m_lastPairAddedToGrid->AddFirstPieceToBoard(), firstPiecePositionInGrid);
+	m_grid->AddPieceToGrid(m_lastPairAddedToGrid->AddSecondPieceToBoard(), secondPiecePositionInGrid);
 	
 	// updated column availability
 	m_columnAvailability->IncreaseColumnHeight(firstPiecePositionInGrid);
 	m_columnAvailability->IncreaseColumnHeight(secondPiecePositionInGrid);
-}
-
-void MatrixGrid::DeleteGroupFromGrid(Group& group)
-{
-	auto positionsOfPiecesInGroup = group.GetPiecePositions();
-	printf("----solution------\n\n");
-	for (auto& pos : positionsOfPiecesInGroup)
-	{
-		printf("[%d, %d] \n", pos.X(), pos.Y());
-	}
-	printf("----end-----------\n\n");
-	
-	for (auto& position : positionsOfPiecesInGroup)
-	{
-		m_grid.at(position.X()).at(position.Y()).reset(nullptr);
-		m_columnAvailability->DecreaseColumnHeight(position);
-	}
-}
-
-void MatrixGrid::SettleSuspendedPieces()
-{
-	for(auto x = 0; x < m_grid.size(); x++)
-		for (int y = m_grid.at(x).size() - 2; y >= 0; y--) // processing will be done bottom up, -2 because there is no need to check the bottommost line
-		{
-			if (GetPieceInIndex(x, y) != nullptr)
-			{
-				int yBelow = y + 1;
-				while (yBelow < Consts::NUM_PIECES_H 
-					   && GetPieceInIndex(x, yBelow) == nullptr)
-				{
-					m_grid.at(x).at(yBelow).reset(m_grid.at(x).at(yBelow - 1).release());
-					yBelow++;
-				}
-			}
-		}
-}
-
-std::vector<Vector2> MatrixGrid::GetAdjacentPositions(const Vector2& gridPosition) const
-{
-	std::vector<Vector2> adjacentPositions;
-
-	// process piece to the right
-	Vector2 positionToTheRight(gridPosition);
-	positionToTheRight.UpdateX(1);
-	bool positionToTheRightIsValid = positionToTheRight.X() < Consts::NUM_PIECES_W
-									 && GetPieceInIndex(positionToTheRight) != nullptr;
-
-	if (positionToTheRightIsValid)
-		adjacentPositions.insert(adjacentPositions.end(), positionToTheRight);
-
-	// process piece to the left
-	Vector2 positionToTheLeft(gridPosition);
-	positionToTheLeft.UpdateX(-1);
-	bool positionToTheLeftIsValid = positionToTheLeft.X() >= 0
-									&& GetPieceInIndex(positionToTheLeft) != nullptr;
-
-	if (positionToTheLeftIsValid)
-		adjacentPositions.insert(adjacentPositions.end(), positionToTheLeft);
-
-	// process piece above
-	Vector2 positionAbove(gridPosition);
-	positionAbove.UpdateY(-1);
-	bool positionAboveIsValid = positionAbove.Y() >= 0
-								&& GetPieceInIndex(positionAbove) != nullptr;
-	if (positionAboveIsValid)
-		adjacentPositions.insert(adjacentPositions.end(), positionAbove);
-
-	// process piece below
-	Vector2 positionBelow(gridPosition);
-	positionBelow.UpdateY(1);
-	bool positionBelowIsValid = positionBelow.Y() < Consts::NUM_PIECES_H
-								&& GetPieceInIndex(positionBelow) != nullptr;
-	if (positionBelowIsValid)
-		adjacentPositions.insert(adjacentPositions.end(), positionBelow);
-
-	return adjacentPositions;
 }
 
 // needed on the cpp because of the forward decl of Piece

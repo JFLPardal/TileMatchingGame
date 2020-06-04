@@ -31,17 +31,17 @@ Tile Matching Game inspired by [Puyo Puyo](https://www.youtube.com/watch?v=YJjRJ
 ### 3rd iteration: estimated 4 days (last day: 28th of May)
 * [ ] change sprite of pieces that have neighbours of the same color (lessons 10 and 13)
 * [ ] make a group flash from full color to high transparency before deleting it (or fade it out) (lessons 10 and 13)
-* [ ] attribute points for deleted groups (#pieces * 10)
-* [ ] win condition (check if current points are higher than needed points)
-* [ ] bar that shows the progress of the player towards the completion of the level
-* [ ] restart game
-* [ ] if the player won, the game should restart with higher needed points for win
-* [ ] lose condition (if pair placed would be outside of the grid)
+* [x] attribute points for deleted groups (#pieces * 10)
+* [x] win condition (check if current points are higher than needed points)
+* [x] bar that shows the progress of the player towards the completion of the level
+* [x] restart game
+* [x] if the player won, the game should restart with higher needed points for win
+* [x] lose condition (if pair placed would be outside of the grid)
 * [ ] combos affect points (new formula for points should be #pieces * 10 * combo)
 
 ### 4th iteration: estimated 4 days (last day: 1st of June)
-* [ ] show what the next pair will be
-* [ ] display victory and lose text (lessons 16)
+* [x] show what the next pair will be
+* [x] display victory and lose text (lessons 16)
 * [ ] use particles when a group is destroyed (lesson 38)
 * [ ] sounds for group, pair spawned, pair placed (lesson 21)
 * [ ] make menu with start game and exit buttons

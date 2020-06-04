@@ -3,6 +3,7 @@
 // external libraries
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_ttf.h>
 
 // STL containers
 #include <memory>
@@ -20,4 +21,6 @@
 #include <algorithm>
 #include <cmath>
 #include <stdlib.h>
+#include <string>
 #include <time.h>
+#include <cassert>

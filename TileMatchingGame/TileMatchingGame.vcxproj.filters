@@ -30,25 +30,10 @@
     <ClCompile Include="src\Piece.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Rect.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Vector2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\PairOfPieces.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ColumnAvailability.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Utils.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\PairPosition.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\PointSystem.cpp">
@@ -72,9 +57,6 @@
     <ClCompile Include="src\GameMode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Text.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\QueueOfNextPairs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -84,13 +66,31 @@
     <ClCompile Include="src\Events\EventData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\GridDataStructure.cpp">
+    <ClCompile Include="src\Wrappers\Rect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Window.cpp">
+    <ClCompile Include="src\Wrappers\Renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\UIManager.cpp">
+    <ClCompile Include="src\Wrappers\Window.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DataAbstractions\GridDataStructure.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DataAbstractions\UIManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DataAbstractions\Vector2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DataAbstractions\ColumnAvailability.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DataAbstractions\PairPosition.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Wrappers\TextManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -116,28 +116,10 @@
     <ClInclude Include="src\Piece.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Renderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Rect.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Vector2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\PairOfPieces.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Utils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ColumnAvailability.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\PairPosition.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\TextureMapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\PointSystem.h">
@@ -164,9 +146,6 @@
     <ClInclude Include="src\GameMode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Text.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\QueueOfNextPairs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -182,13 +161,34 @@
     <ClInclude Include="src\Events\IEventData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\GridDataStructure.h">
+    <ClInclude Include="src\Wrappers\Renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Window.h">
+    <ClInclude Include="src\Wrappers\Rect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\UIManager.h">
+    <ClInclude Include="src\Wrappers\Window.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DataAbstractions\GridDataStructure.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DataAbstractions\UIManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DataAbstractions\Vector2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DataAbstractions\ColumnAvailability.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DataAbstractions\PairPosition.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Wrappers\TextManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TextureMapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

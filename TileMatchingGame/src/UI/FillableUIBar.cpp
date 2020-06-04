@@ -2,7 +2,7 @@
 #include "FillableUIBar.h"
 #include "Constants.h"
 
-#include "Renderer.h"
+#include "Wrappers/Renderer.h"
 #include "UIBar.h"
 #include "Events/EventHandler.h"
 #include "Events/UserEvent.h"

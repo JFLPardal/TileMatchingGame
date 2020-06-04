@@ -17,7 +17,6 @@ UIElement::UIElement(const Vector2& position)
 UIElement::~UIElement()
 {
 	UserEvent destroyedUIElement(UserEventType::UIElementDestroyed, this);
-	printf("uielement dtor \n");
 }
 
 bool UIElement::operator==(const UIElement& barToCompareTo) const

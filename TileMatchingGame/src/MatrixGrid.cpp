@@ -2,7 +2,7 @@
 #include "MatrixGrid.h"
 
 #include "Piece.h"
-#include "Renderer.h"
+#include "Wrappers/Renderer.h"
 #include "PairOfPieces.h"
 #include "Utils.h"
 #include "ColumnAvailability.h"
@@ -130,4 +130,4 @@ void MatrixGrid::UpdateGridAndColumnAvailability()
 }
 
 // needed on the cpp because of the forward decl of Piece
-MatrixGrid::~MatrixGrid() { printf("destroyed matrix grid\n"); }// = default;
+MatrixGrid::~MatrixGrid() = default;

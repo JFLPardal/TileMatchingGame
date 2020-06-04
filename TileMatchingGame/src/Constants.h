@@ -17,8 +17,17 @@ namespace Consts
 	const std::string GAME_LOST_TEXT		= "Game Lost";
 	const std::string CURRENT_LEVEL_TEXT	= "Current Level: ";
 	
+#ifdef _DEBUG
+	constexpr char FONT_PATH[]			= "assets\\Amatic.ttf";
+	constexpr char BACKGROUND_PATH[]	= "assets\\background.png";
+	constexpr char TILESHEET_PATH[]		= "assets\\tilesheet.png";
+#else
+	constexpr char FONT_PATH[]			= "..\\..\\..\\TileMatchingGame\\assets\\Amatic.ttf";
+	constexpr char BACKGROUND_PATH[]	= "..\\..\\..\\TileMatchingGame\\assets\\background.png";
+	constexpr char TILESHEET_PATH[]		= "..\\..\\..\\TileMatchingGame\\assets\\tilesheet.png";
+#endif
+
 	// text properties
-	constexpr char FONT_PATH[]		= "assets\\Amatic.ttf";
 	constexpr int TEXT_POINTS_SMALL = 20;
 	constexpr int TEXT_POINTS_BIG	= 128;
 	constexpr SDL_Color TEXT_COLOR_DEFAULT{0, 209, 209}; 

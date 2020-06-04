@@ -5,14 +5,14 @@
 #include "Events/EventHandler.h"
 #include "Events/UserEvent.h"
 #include "MatrixGrid.h"
-#include "Renderer.h"
+#include "Wrappers/Renderer.h"
 #include "PairOfPieces.h"
 #include "PointSystem.h"
 #include "GameMode.h"
 #include "QueueOfNextPairs.h"
 #include "Events/IEventData.h"
 #include "Utils.h"
-#include "Window.h"
+#include "Wrappers/Window.h"
 #include "UIManager.h"
 
 Game::Game()

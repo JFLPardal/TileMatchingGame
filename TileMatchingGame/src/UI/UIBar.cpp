@@ -2,7 +2,7 @@
 #include "UIBar.h"
 #include "Constants.h"
 
-#include "Renderer.h"
+#include "Wrappers/Renderer.h"
 
 UIBar::UIBar(const Vector2& positionOfTopLeftCorner, const Vector2& dimensions, const Vector2& textureCoords)
 	: UIElement(positionOfTopLeftCorner)

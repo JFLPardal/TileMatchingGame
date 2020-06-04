@@ -2,7 +2,7 @@
 #include "PairOfPieces.h"
 
 #include "Piece.h"
-#include "Renderer.h"
+#include "Wrappers/Renderer.h"
 #include "Events/EventHandler.h"
 #include "Events/UserEvent.h"
 #include "PairPosition.h"

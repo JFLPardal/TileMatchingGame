@@ -3,7 +3,7 @@
 
 #include "ColumnAvailability.h"
 #include "PairOfPieces.h"
-#include "Renderer.h"
+#include "Wrappers/Renderer.h"
 
 QueueOfNextPairs::QueueOfNextPairs(const ColumnAvailability* const aColumnAvailability)
 	:m_columnAvailability(aColumnAvailability)

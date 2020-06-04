@@ -11,7 +11,6 @@ EventHandler& EventHandler::Get()
 
 void EventHandler::SubscribeToEventImpl(DefaultEventType aEventType, CallbackFunctionSignature aCallbackFunction)
 {
-	printf("subscribed to regular event\n");
 	m_TriggerEvent.SubscribeToEvent(aEventType, aCallbackFunction);
 }
 
@@ -19,7 +18,6 @@ void EventHandler::SubscribeToEventImpl(UserEventType aEventType, CallbackFuncti
 {
 	if (aEventType != UserEventType::notDefined)
 	{
-		printf("subscribed to user type event\n");
 		m_TriggerUserEvent.SubscribeToEvent(aEventType, aCallbackFunction);
 	}
 }

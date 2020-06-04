@@ -3,8 +3,8 @@
 #include "Constants.h"
 #include "Utils.h"
 
-#include "Rect.h"
-#include "Renderer.h"
+#include "Wrappers/Rect.h"
+#include "Wrappers/Renderer.h"
 #include "TextureMapper.h"
 
 Piece::Piece()

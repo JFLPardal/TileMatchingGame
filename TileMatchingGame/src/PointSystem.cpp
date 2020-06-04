@@ -32,7 +32,6 @@ void PointSystem::AddPoints(IEventData& eventInfo)
 	m_currentPoints += m_lastPointsAdded;
 	UserEvent pointsUpdated(UserEventType::pointsUpdated, &m_lastPointsAdded);
 
-	printf("total points: %d\n", m_currentPoints);
 	if (m_currentPoints >= m_pointsToClearLevel)
 	{
 		m_pointsToClearLevel += Consts::POINTS_TO_CLEAR_LVL_INC;

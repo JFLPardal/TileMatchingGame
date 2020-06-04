@@ -17,9 +17,9 @@ Tile Matching Game inspired by [Puyo Puyo](https://www.youtube.com/watch?v=YJjRJ
 * [x] pieces are visually in the right grid position
 * [x] pairs are being spawned when another pair is placed
 * [x] pairs stack
+* [x] pairs can split
 * [x] player can move pairs with keyboard (lessons 4 and 18)
 * [x] movement of pair is restricted by board boundaries
-* [x] pairs can split
 
 ### 2nd iteration: 3 estimated days (last day: 24th of May)
 * [x] 4 different pieces

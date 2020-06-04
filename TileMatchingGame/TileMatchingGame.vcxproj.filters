@@ -93,6 +93,9 @@
     <ClCompile Include="src\Wrappers\TextManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Group.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\pch.h">
@@ -189,6 +192,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\TextureMapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Group.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

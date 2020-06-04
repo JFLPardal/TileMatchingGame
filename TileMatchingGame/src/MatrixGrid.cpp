@@ -50,16 +50,16 @@ void MatrixGrid::Update(int msSinceLastUpdate)
 	static bool secondPieceHasSettled = false;
 	static bool bothPiecesSettled = false;
 
-	if (bothPiecesSettled)
-	{
-		m_grid->FindGroupsInGrid(m_columnAvailability.get());
-		m_isDoneProcessingGroups = true;
-		bothPiecesSettled = false;
-	}
-	else
-	{
-		UpdatePiecesUntilSettled(firstPieceHasSettled, secondPieceHasSettled, bothPiecesSettled, msSinceLastUpdate);
-	}
+  if (bothPiecesSettled)
+  {
+    m_grid->FindGroupsInGrid(m_columnAvailability.get());
+    m_isDoneProcessingGroups = true;
+    bothPiecesSettled = false;
+  }
+  else
+  {
+    UpdatePiecesUntilSettled(firstPieceHasSettled, secondPieceHasSettled, bothPiecesSettled, msSinceLastUpdate);
+  }
 }
 
 void MatrixGrid::UpdatePiecesUntilSettled(bool& firstPieceHasSettled, bool& secondPieceHasSettled, bool& bothPiecesSettled, int msSinceLastUpdate)
